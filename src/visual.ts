@@ -26,6 +26,15 @@
 
 module powerbi.extensibility.visual {
     "use strict";
+
+    /**
+     * Transforms the data inside a data view into a form that's necessary to work with
+     * @param dataView
+     */
+    function transformData(dataView) {
+        return dataView.table.rows;
+    }
+
     export class Visual implements IVisual {
         private target: HTMLElement;
         private updateCount: number;
@@ -39,8 +48,10 @@ module powerbi.extensibility.visual {
 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
-            console.log('Visual update', options);
-            this.target.innerHTML = `<p>Update count: <em>${(this.updateCount++)}</em></p>`;
+            let points = transformData(options.dataViews[0]);
+            points.forEach(function (point) {
+                console.log(point);
+            });
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
