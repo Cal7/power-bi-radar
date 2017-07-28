@@ -1,13 +1,13 @@
 {
   "visual": {
     "name": "radar",
-    "displayName": "radar",
+    "displayName": "Radar",
     "guid": "radarCFE3A42CE23743BD8E313C30A2483BCA",
     "visualClassName": "Visual",
     "version": "1.0.0",
     "description": "",
     "supportUrl": "",
-    "gitHubUrl": ""
+    "gitHubUrl": "https://github.com/Cal7/power-bi-radar"
   },
   "apiVersion": "1.7.0",
   "author": {
