@@ -1,7 +1,8 @@
 {
   "name": "visual",
   "dependencies": {
-    "d3": "^4.10.0",
+    "@types/d3": "3.x",
+    "d3": "3.x",
     "powerbi-visuals-utils-dataviewutils": "1.2.0"
   }
 }
