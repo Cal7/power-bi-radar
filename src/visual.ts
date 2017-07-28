@@ -39,18 +39,21 @@ module powerbi.extensibility.visual {
         private target: HTMLElement;
         private updateCount: number;
         private settings: VisualSettings;
+        private svg: d3.Selection<SVGElement>;
 
         constructor(options: VisualConstructorOptions) {
             console.log('Visual constructor', options);
             this.target = options.element;
+            this.svg = d3.select(this.target).append('svg');
             this.updateCount = 0;
         }
 
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             let points = transformData(options.dataViews[0]);
-            points.forEach(function (point) {
-                console.log(point);
+            this.svg.attr({
+                width: options.viewport.width,
+                height: options.viewport.height
             });
         }
 
