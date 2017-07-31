@@ -28,16 +28,16 @@ module powerbi.extensibility.visual {
     "use strict";
 
     class Radar {
-        private _sectors: { [name: string]: Sector };
+        private _sectors: Sector[];
         get sectors() {
             return this._sectors;
         }
         public addSector(sector: Sector) {
-            this.sectors[sector.name] = sector;
+            this.sectors.push(sector);
         }
 
         constructor() {
-            this._sectors = {};
+            this._sectors = [];
         }
     }
 
@@ -153,6 +153,7 @@ module powerbi.extensibility.visual {
             }
         });
 
+        let sectors = {};
         data.forEach(function (v, i) {
             let name = v[0];
             let sectorName = v[1];
@@ -160,12 +161,15 @@ module powerbi.extensibility.visual {
             let description = v[3];
             let isNew = v[4];
 
-            //Create the sector if it does not exist already
-            if (!radar.sectors[sectorName]) {
-                radar.addSector(new Sector(sectorName));
+            if (!sectors[sectorName]) {
+                sectors[sectorName] = new Sector(sectorName);
             }
-            radar.sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
+            sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
         });
+
+        for (let index in sectors) {
+            radar.addSector(sectors[index]);
+        }
         
         return radar;
     }
