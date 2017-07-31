@@ -40,6 +40,12 @@ module powerbi.extensibility.visual {
             this._sectors = [];
         }
 
+        get blips() {
+            return this.sectors.reduce(function (blips, sector) {
+                return blips.concat(sector.blips);
+            }, []);
+        }
+
         private calculateSectorAngles() {
             return 360 / this.sectors.length;
         }
