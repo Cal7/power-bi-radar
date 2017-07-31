@@ -186,6 +186,7 @@ module powerbi.extensibility.visual {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
             let radar = transformData(options.dataViews[0].table.rows);
+            console.log(radar);
 
             let width = options.viewport.width;
             let height = options.viewport.height;
