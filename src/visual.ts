@@ -27,6 +27,115 @@
 module powerbi.extensibility.visual {
     "use strict";
 
+    class Radar {
+        private _sectors: { [name: string]: Sector };
+        get sectors() {
+            return this._sectors;
+        }
+        public addSector(sector: Sector) {
+            this.sectors[sector.name] = sector;
+        }
+
+        constructor() {
+            this._sectors = {};
+        }
+    }
+
+    class Sector {
+        private _name: string;
+        get name() {
+            return this._name;
+        }
+        set name(name: string) {
+            this._name = name;
+        }
+
+        private _startAngle: number;
+        get startAngle() {
+            return this._startAngle;
+        }
+        set startAngle(angle: number) {
+            this._startAngle = angle;
+        }
+
+        private _blips: Blip[];
+        get blips() {
+            return this._blips;
+        }
+        public addBlip(blip: Blip) {
+            this.blips.push(blip);
+        }
+
+        constructor(name: string) {
+            this.name = name;
+            this._blips = [];
+        }
+    }
+
+    class Blip {
+        private _name: string;
+        get name() {
+            return this._name;
+        }
+        set name(name: string) {
+            this._name = name;
+        }
+
+        private _ring: Ring;
+        get ring() {
+            return this._ring;
+        }
+        set ring(ring: Ring) {
+            this._ring = ring;
+        }
+
+        private _isNew: boolean;
+        get isNew() {
+            return this._isNew;
+        }
+        set isNew(isNew: boolean) {
+            this._isNew = isNew;
+        }
+
+        private _description: string;
+        get description() {
+            return this._description;
+        }
+        set description(description: string) {
+            this._description = description;
+        }
+
+        constructor(name: string, ring: Ring, isNew: boolean, description: string) {
+            this.name = name;
+            this.ring = ring;
+            this.isNew = isNew;
+            this.description = description;
+        }
+    }
+
+    class Ring {
+        private _name: string;
+        get name() {
+            return this._name;
+        }
+        set name(name: string) {
+            this._name = name;
+        }
+
+        private _order: number;
+        get order() {
+            return this._order;
+        }
+        set order(order: number) {
+            this._order = order;
+        }
+
+        constructor(name: string, order: number) {
+            this.name = name;
+            this.order = order;
+        }
+    }
+
     /**
      * Transforms the data inside a data view into a form that's necessary to work with
      * @param dataView
