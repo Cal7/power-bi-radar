@@ -39,6 +39,17 @@ module powerbi.extensibility.visual {
         constructor() {
             this._sectors = [];
         }
+
+        private calculateSectorAngles() {
+            return 360 / this.sectors.length;
+        }
+        public setSectorStartAngles() {
+            let angle = this.calculateSectorAngles();
+
+            this.sectors.forEach(function (sector, index) {
+                sector.startAngle = index * angle;
+            });
+        }
     }
 
     class Sector {
@@ -170,7 +181,9 @@ module powerbi.extensibility.visual {
         for (let index in sectors) {
             radar.addSector(sectors[index]);
         }
-        
+
+        radar.setSectorStartAngles();
+
         return radar;
     }
 
