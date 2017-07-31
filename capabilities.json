@@ -6,6 +6,11 @@
       "kind": "Grouping"
     },
     {
+      "displayName": "Description",
+      "name": "description",
+      "kind": "Grouping"
+    },
+    {
       "displayName": "Quadrant",
       "name": "quadrant",
       "kind": "Grouping"
@@ -13,6 +18,11 @@
     {
       "displayName": "Ring",
       "name": "ring",
+      "kind": "Grouping"
+    },
+    {
+      "displayName": "Is new?",
+      "name": "isNew",
       "kind": "Grouping"
     }
   ],
@@ -28,12 +38,22 @@
             },
             {
               "for": {
+                "in": "description"
+              }
+            },
+            {
+              "for": {
                 "in": "quadrant"
               }
             },
             {
               "for": {
                 "in": "ring"
+              }
+            },
+            {
+              "for": {
+                "in": "isNew"
               }
             }
           ]
