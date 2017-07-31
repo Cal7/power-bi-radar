@@ -145,6 +145,13 @@ module powerbi.extensibility.visual {
 
         //ringMap will hold all the rings, indexed by their name
         let ringMap = {};
+        data.forEach(function (value, index) {
+            let ringName = value[2];
+
+            if (!ringMap[ringName]) {
+                ringMap[ringName] = new Ring(ringName, 1);
+            }
+        });
 
         data.forEach(function (v, i) {
             let name = v[0];
@@ -152,10 +159,6 @@ module powerbi.extensibility.visual {
             let ringName = v[2];
             let description = v[3];
             let isNew = v[4];
-
-            if (!ringMap[ringName]) {
-                ringMap[ringName] = new Ring(ringName, 1);
-            }
 
             //Create the sector if it does not exist already
             if (!radar.sectors[sectorName]) {
