@@ -140,9 +140,7 @@ module powerbi.extensibility.visual {
      * Transforms the data inside a data view into a form that's necessary to work with
      * @param dataView
      */
-    function transformData(dataView) {
-        let data = dataView.table.rows;
-
+    function transformData(data) {
         let radar = new Radar();
 
         //ringMap holds all the rings, indexed by their name
@@ -184,7 +182,8 @@ module powerbi.extensibility.visual {
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            let radar = transformData(options.dataViews[0]);
+            let radar = transformData(options.dataViews[0].table.rows);
+            console.log(radar);
 
             let width = options.viewport.width;
             let height = options.viewport.height;
