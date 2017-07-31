@@ -43,11 +43,12 @@ module powerbi.extensibility.visual {
         private calculateSectorAngles() {
             return 360 / this.sectors.length;
         }
-        public setSectorStartAngles() {
+        public setSectorAngles() {
             let angle = this.calculateSectorAngles();
 
             this.sectors.forEach(function (sector, index) {
                 sector.startAngle = index * angle;
+                sector.endAngle = sector.startAngle + angle;
             });
         }
     }
@@ -67,6 +68,14 @@ module powerbi.extensibility.visual {
         }
         set startAngle(angle: number) {
             this._startAngle = angle;
+        }
+
+        private _endAngle: number;
+        get endAngle() {
+            return this._endAngle;
+        }
+        set endAngle(angle: number) {
+            this._endAngle = angle;
         }
 
         private _blips: Blip[];
@@ -182,7 +191,7 @@ module powerbi.extensibility.visual {
             radar.addSector(sectors[index]);
         }
 
-        radar.setSectorStartAngles();
+        radar.setSectorAngles();
 
         return radar;
     }
