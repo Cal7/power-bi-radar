@@ -51,9 +51,13 @@ module powerbi.extensibility.visual {
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
             let points = transformData(options.dataViews[0]);
+
+            let width = options.viewport.width;
+            let height = options.viewport.height;
+
             this.svg.attr({
-                width: options.viewport.width,
-                height: options.viewport.height
+                width: width,
+                height: height
             });
 
             this.updateCount++;
