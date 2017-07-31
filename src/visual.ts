@@ -143,7 +143,7 @@ module powerbi.extensibility.visual {
     function transformData(data) {
         let radar = new Radar();
 
-        //ringMap holds all the rings, indexed by their name
+        //ringMap will hold all the rings, indexed by their name
         let ringMap = {};
 
         data.forEach(function (v, i) {
