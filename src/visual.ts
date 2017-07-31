@@ -42,7 +42,6 @@ module powerbi.extensibility.visual {
         private svg: d3.Selection<SVGElement>;
 
         constructor(options: VisualConstructorOptions) {
-            console.log('Visual constructor', options);
             this.target = options.element;
             this.svg = d3.select(this.target).append('svg');
             this.updateCount = 0;
