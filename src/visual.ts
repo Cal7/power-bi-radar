@@ -46,6 +46,14 @@ module powerbi.extensibility.visual {
             }, []);
         }
 
+        get rings() {
+            return this.blips.map(function (blip) {
+                return blip.ring.name;
+            }).filter(function (value, index, self) {
+                return self.indexOf(value) === index;
+                });
+        }
+
         private calculateSectorAngles() {
             return 360 / this.sectors.length;
         }
