@@ -141,7 +141,32 @@ module powerbi.extensibility.visual {
      * @param dataView
      */
     function transformData(dataView) {
-        return dataView.table.rows;
+        let data = dataView.table.rows;
+
+        let radar = new Radar();
+
+        //ringMap holds all the rings, indexed by their name
+        let ringMap = {};
+
+        data.forEach(function (v, i) {
+            let name = v[0];
+            let sectorName = v[1];
+            let ringName = v[2];
+            let description = v[3];
+            let isNew = v[4];
+
+            if (!ringMap[ringName]) {
+                ringMap[ringName] = new Ring(ringName, 1);
+            }
+
+            //Create the sector if it does not exist already
+            if (!radar.sectors[sectorName]) {
+                radar.addSector(new Sector(sectorName));
+            }
+            radar.sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
+        });
+        
+        return radar;
     }
 
     export class Visual implements IVisual {
@@ -159,7 +184,7 @@ module powerbi.extensibility.visual {
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            let points = transformData(options.dataViews[0]);
+            let radar = transformData(options.dataViews[0]);
 
             let width = options.viewport.width;
             let height = options.viewport.height;
