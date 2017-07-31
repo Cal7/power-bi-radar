@@ -55,6 +55,8 @@ module powerbi.extensibility.visual {
                 width: options.viewport.width,
                 height: options.viewport.height
             });
+
+            this.updateCount++;
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
