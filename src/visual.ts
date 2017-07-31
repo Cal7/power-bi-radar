@@ -55,6 +55,16 @@ module powerbi.extensibility.visual {
             let width = options.viewport.width;
             let height = options.viewport.height;
 
+            /**
+             * Calculates the coordinates of the center of the plot
+             */
+            function center() {
+                return {
+                    x: width / 2,
+                    y: height / 2
+                };
+            }
+
             this.svg.attr({
                 width: width,
                 height: height
