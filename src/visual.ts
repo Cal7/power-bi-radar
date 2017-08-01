@@ -299,6 +299,29 @@ module powerbi.extensibility.visual {
             return sectorGroup;
         }
 
+        /**
+         * Plots a white line marking the beginning of a sector
+         * @param sector
+         * @param lineGroup
+         */
+        private plotSectorLine(sector: Sector, lineGroup: d3.Selection<Element>) {
+            let absoluteStartCoordinates = this.convertCoordinates({ x: 0, y: 0 });
+
+            let relativeEndCoordinates = {
+                x: this.calculateMaxRadius() * Math.cos(sector.startAngle),
+                y: this.calculateMaxRadius() * Math.sin(sector.startAngle)
+            };
+            let absoluteEndCoordinates = this.convertCoordinates(relativeEndCoordinates);
+
+            lineGroup.append("line")
+                .attr("x1", absoluteStartCoordinates.x)
+                .attr("y1", absoluteStartCoordinates.y)
+                .attr("x2", absoluteEndCoordinates.x)
+                .attr("y2", absoluteEndCoordinates.y)
+                .attr("stroke-width", 2)
+                .attr("stroke", "white");
+        }
+
         public update(options: VisualUpdateOptions) {
             let self = this;
 
@@ -317,6 +340,11 @@ module powerbi.extensibility.visual {
 
             radar.sectors.forEach(function (sector) {
                 self.plotSector(sector, radar.rings);
+            });
+
+            let lineGroup = this.svg.append("g");
+            radar.sectors.forEach(function (sector) {
+                self.plotSectorLine(sector, lineGroup);
             });
 
             this.updateCount++;
