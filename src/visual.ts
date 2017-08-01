@@ -241,6 +241,13 @@ module powerbi.extensibility.visual {
                 };
             }
 
+            /**
+             * If the visual is not square then we still need a circular visual so the max radius will be whatever's smallest out of the visual's width and height
+             */
+            function maxRadius() {
+                return Math.min(width, height);
+            }
+
             this.svg.attr({
                 width: width,
                 height: height
