@@ -223,27 +223,37 @@ module powerbi.extensibility.visual {
         }
 
         /**
+         * Extracts the dimensions of an SVG element
+         * @param svg
+         */
+        private getDimensions(svg: d3.Selection<SVGElement>){
+            return {
+                width: parseInt(svg.attr("width")),
+                height: parseInt(svg.attr("height"))
+            };
+        }
+
+        /**
          * Gets the coordinates of the center of the visual
-         * @param width
-         * @param height
+         * @param svg
          */
         private calculateCenter(svg: d3.Selection<SVGElement>) {
-            let width = parseInt(svg.attr("width"));
-            let height = parseInt(svg.attr("height"));
+            let dimensions = this.getDimensions(svg);
 
             return {
-                x: width / 2,
-                y: height / 2
+                x: dimensions.width / 2,
+                y: dimensions.height / 2
             };
         }
 
         /**
          * For if the visual is not square, as the max radius cannot be greater than the smallest side of the visual
-         * @param width
-         * @param height
+         * @param svg
          */
-        private calculateMaxRadius(width, height) {
-            return Math.min(width, height);
+        private calculateMaxRadius(svg: d3.Selection<SVGElement>) {
+            let dimensions = this.getDimensions(svg);
+
+            return Math.min(dimensions.width, dimensions.height);
         }
 
         public update(options: VisualUpdateOptions) {
