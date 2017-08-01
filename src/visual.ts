@@ -227,7 +227,10 @@ module powerbi.extensibility.visual {
          * @param width
          * @param height
          */
-        private calculateCenter(width: number, height: number) {
+        private calculateCenter(svg: d3.Selection<SVGElement>) {
+            let width = parseInt(svg.attr("width"));
+            let height = parseInt(svg.attr("height"));
+
             return {
                 x: width / 2,
                 y: height / 2
