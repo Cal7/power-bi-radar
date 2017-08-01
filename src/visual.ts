@@ -253,7 +253,7 @@ module powerbi.extensibility.visual {
         private calculateMaxRadius(svg: d3.Selection<SVGElement>) {
             let dimensions = this.getDimensions(svg);
 
-            return Math.min(dimensions.width, dimensions.height);
+            return Math.min(dimensions.width, dimensions.height) / 2;
         }
 
         public update(options: VisualUpdateOptions) {
