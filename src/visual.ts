@@ -222,6 +222,27 @@ module powerbi.extensibility.visual {
             this.updateCount = 0;
         }
 
+        /**
+         * Gets the coordinates of the center of the visual
+         * @param width
+         * @param height
+         */
+        private calculateCenter(width: number, height: number) {
+            return {
+                x: width / 2,
+                y: height / 2
+            };
+        }
+
+        /**
+         * For if the visual is not square, as the max radius cannot be greater than the smallest side of the visual
+         * @param width
+         * @param height
+         */
+        private calculateMaxRadius(width, height) {
+            return Math.min(width, height);
+        }
+
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
@@ -230,23 +251,6 @@ module powerbi.extensibility.visual {
 
             let width = options.viewport.width;
             let height = options.viewport.height;
-
-            /**
-             * Calculates the coordinates of the center of the plot
-             */
-            function center() {
-                return {
-                    x: width / 2,
-                    y: height / 2
-                };
-            }
-
-            /**
-             * If the visual is not square then we still need a circular visual so the max radius will be whatever's smallest out of the visual's width and height
-             */
-            function maxRadius() {
-                return Math.min(width, height);
-            }
 
             this.svg.attr({
                 width: width,
