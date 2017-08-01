@@ -178,14 +178,12 @@ module powerbi.extensibility.visual {
         let radar = new Radar();
 
         //ringMap will hold all the rings, indexed by their name
-        let ringMap = {};
-        data.forEach(function (value, index) {
-            let ringName = value[2];
-
-            if (!ringMap[ringName]) {
-                ringMap[ringName] = new Ring(ringName, 1);
-            }
-        });
+        let ringMap = {
+            Accelerate: new Ring("Accelerate", 1),
+            Progress: new Ring("Progress", 2),
+            Monitor: new Ring("Monitor", 3),
+            Pause: new Ring("Pause", 4)
+        };
 
         let sectors = {};
         data.forEach(function (v, i) {
