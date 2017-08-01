@@ -231,7 +231,6 @@ module powerbi.extensibility.visual {
 
         /**
          * Extracts the dimensions of the visual's SVG container
-         * @param svg
          */
         private getDimensions(){
             return {
@@ -242,7 +241,6 @@ module powerbi.extensibility.visual {
 
         /**
          * Gets the coordinates of the center of the visual
-         * @param svg
          */
         private calculateCenter() {
             let dimensions = this.getDimensions();
@@ -255,7 +253,6 @@ module powerbi.extensibility.visual {
 
         /**
          * For if the visual is not square, as the max radius cannot be greater than the smallest side of the visual
-         * @param svg
          */
         private calculateMaxRadius() {
             let dimensions = this.getDimensions();
@@ -265,8 +262,8 @@ module powerbi.extensibility.visual {
 
         /**
          * Draws a sector onto the SVG element
-         * @param sectors
-         * @param svg
+         * @param sector
+         * @param rings
          */
         private plotSector(sector: Sector, rings: Ring[]) {
             let self = this;
