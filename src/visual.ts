@@ -48,7 +48,7 @@ module powerbi.extensibility.visual {
 
         get rings() {
             return this.blips.map(function (blip) {
-                return blip.ring.name;
+                return blip.ring;
             }).filter(function (value, index, self) {
                 return self.indexOf(value) === index;
                 });
