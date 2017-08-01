@@ -264,19 +264,19 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Draws the sectors onto the SVG element
+         * Draws a sector onto the SVG element
          * @param sectors
          * @param svg
          */
-        private plotSectors(sectors: Sector[], rings: Ring[], svg: d3.Selection<SVGElement>) {
+        private plotSector(sector: Sector, rings: Ring[], svg: d3.Selection<SVGElement>) {
             let self = this;
 
-            sectors.forEach(function (sector) {
-                let sectorGroup = svg.append("g");
+            let sectorGroup = svg.append("g");
 
+            rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
                     .innerRadius(0)
-                    .outerRadius(self.calculateMaxRadius(svg))
+                    .outerRadius(self.calculateMaxRadius(svg) * ring.order / 4)
                     .startAngle(sector.startAngle)
                     .endAngle(sector.endAngle);
 
@@ -285,9 +285,13 @@ module powerbi.extensibility.visual {
                     .style("fill", "#dbdbdb")
                     .attr("transform", "translate(" + self.calculateCenter(svg).x + ", " + self.calculateCenter(svg).y + ")");
             });
+
+            return sectorGroup;
         }
 
         public update(options: VisualUpdateOptions) {
+            let self = this;
+
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
             let radar = transformData(options.dataViews[0].table.rows);
@@ -301,7 +305,9 @@ module powerbi.extensibility.visual {
                 height: height
             });
 
-            this.plotSectors(radar.sectors, radar.rings, this.svg);
+            radar.sectors.forEach(function (sector) {
+                self.plotSector(sector, radar.rings, self.svg);
+            });
 
             this.updateCount++;
         }
