@@ -55,7 +55,7 @@ module powerbi.extensibility.visual {
         }
 
         private calculateSectorAngles() {
-            return 360 / this.sectors.length;
+            return 2 * Math.PI / this.sectors.length;
         }
         public setSectorAngles() {
             let angle = this.calculateSectorAngles();
@@ -270,8 +270,8 @@ module powerbi.extensibility.visual {
                 let arc = d3.svg.arc()
                     .innerRadius(0)
                     .outerRadius(self.calculateMaxRadius(svg))
-                    .startAngle(sector.startAngle * Math.PI / 180)
-                    .endAngle(sector.endAngle * Math.PI / 180);
+                    .startAngle(sector.startAngle)
+                    .endAngle(sector.endAngle);
 
                 sectorGroup.append("path")
                     .attr("d", <any>arc)
