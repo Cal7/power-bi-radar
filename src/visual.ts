@@ -259,7 +259,7 @@ module powerbi.extensibility.visual {
          * @param sectors
          * @param svg
          */
-        private plotSectors(sectors: Sector[], svg: d3.Selection<SVGElement>) {
+        private plotSectors(sectors: Sector[], rings: Ring[], svg: d3.Selection<SVGElement>) {
             let self = this;
 
             sectors.forEach(function (sector) {
@@ -292,7 +292,7 @@ module powerbi.extensibility.visual {
                 height: height
             });
 
-            this.plotSectors(radar.sectors, this.svg);
+            this.plotSectors(radar.sectors, radar.rings, this.svg);
 
             this.updateCount++;
         }
