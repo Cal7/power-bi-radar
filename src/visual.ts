@@ -230,13 +230,13 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Extracts the dimensions of an SVG element
+         * Extracts the dimensions of the visual's SVG container
          * @param svg
          */
-        private getDimensions(svg: d3.Selection<SVGElement>){
+        private getDimensions(){
             return {
-                width: parseInt(svg.attr("width")),
-                height: parseInt(svg.attr("height"))
+                width: parseInt(this.svg.attr("width")),
+                height: parseInt(this.svg.attr("height"))
             };
         }
 
@@ -244,8 +244,8 @@ module powerbi.extensibility.visual {
          * Gets the coordinates of the center of the visual
          * @param svg
          */
-        private calculateCenter(svg: d3.Selection<SVGElement>) {
-            let dimensions = this.getDimensions(svg);
+        private calculateCenter() {
+            let dimensions = this.getDimensions();
 
             return {
                 x: dimensions.width / 2,
@@ -257,8 +257,8 @@ module powerbi.extensibility.visual {
          * For if the visual is not square, as the max radius cannot be greater than the smallest side of the visual
          * @param svg
          */
-        private calculateMaxRadius(svg: d3.Selection<SVGElement>) {
-            let dimensions = this.getDimensions(svg);
+        private calculateMaxRadius() {
+            let dimensions = this.getDimensions();
 
             return Math.min(dimensions.width, dimensions.height) / 2;
         }
@@ -268,22 +268,22 @@ module powerbi.extensibility.visual {
          * @param sectors
          * @param svg
          */
-        private plotSector(sector: Sector, rings: Ring[], svg: d3.Selection<SVGElement>) {
+        private plotSector(sector: Sector, rings: Ring[]) {
             let self = this;
 
-            let sectorGroup = svg.append("g");
+            let sectorGroup = this.svg.append("g");
 
             rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
-                    .innerRadius(self.calculateMaxRadius(svg) * (ring.order - 1) / 4)
-                    .outerRadius(self.calculateMaxRadius(svg) * ring.order / 4)
+                    .innerRadius(self.calculateMaxRadius() * (ring.order - 1) / 4)
+                    .outerRadius(self.calculateMaxRadius() * ring.order / 4)
                     .startAngle(sector.startAngle)
                     .endAngle(sector.endAngle);
 
                 sectorGroup.append("path")
                     .attr("d", <any>arc)
                     .style("fill", ring.colour)
-                    .attr("transform", "translate(" + self.calculateCenter(svg).x + ", " + self.calculateCenter(svg).y + ")");
+                    .attr("transform", "translate(" + self.calculateCenter().x + ", " + self.calculateCenter().y + ")");
             });
 
             return sectorGroup;
@@ -306,7 +306,7 @@ module powerbi.extensibility.visual {
             });
 
             radar.sectors.forEach(function (sector) {
-                self.plotSector(sector, radar.rings, self.svg);
+                self.plotSector(sector, radar.rings);
             });
 
             this.updateCount++;
