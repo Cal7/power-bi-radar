@@ -261,6 +261,19 @@ module powerbi.extensibility.visual {
         }
 
         /**
+         * Converts coordinates relative to the center of the radar into coordinates relative to the top left of the SVG container
+         * @param coordinates
+         */
+        private convertCoordinates(coordinates: { x: number, y: number }) {
+            let center = this.calculateCenter();
+
+            return {
+                x: coordinates.x + center.x,
+                y: center.y - coordinates.y
+            }
+        };
+
+        /**
          * Draws a sector onto the SVG element
          * @param sector
          * @param rings
