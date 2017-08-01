@@ -256,6 +256,30 @@ module powerbi.extensibility.visual {
             return Math.min(dimensions.width, dimensions.height) / 2;
         }
 
+        /**
+         * Draws the sectors onto the SVG element
+         * @param sectors
+         * @param svg
+         */
+        private plotSectors(sectors: Sector[], svg: d3.Selection<SVGElement>) {
+            let self = this;
+
+            sectors.forEach(function (sector) {
+                let sectorGroup = svg.append("g");
+
+                let arc = d3.svg.arc()
+                    .innerRadius(0)
+                    .outerRadius(self.calculateMaxRadius(svg))
+                    .startAngle(sector.startAngle * Math.PI / 180)
+                    .endAngle(sector.endAngle * Math.PI / 180);
+
+                sectorGroup.append("path")
+                    .attr("d", <any>arc)
+                    .style("fill", "#dbdbdb")
+                    .attr("transform", "translate(" + self.calculateCenter(svg).x + ", " + self.calculateCenter(svg).y + ")");
+            });
+        }
+
         public update(options: VisualUpdateOptions) {
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
@@ -269,6 +293,8 @@ module powerbi.extensibility.visual {
                 width: width,
                 height: height
             });
+
+            this.plotSectors(radar.sectors, this.svg);
 
             this.updateCount++;
         }
