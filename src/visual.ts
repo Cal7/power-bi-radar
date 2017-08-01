@@ -275,14 +275,14 @@ module powerbi.extensibility.visual {
 
             rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
-                    .innerRadius(0)
+                    .innerRadius(self.calculateMaxRadius(svg) * (ring.order - 1) / 4)
                     .outerRadius(self.calculateMaxRadius(svg) * ring.order / 4)
                     .startAngle(sector.startAngle)
                     .endAngle(sector.endAngle);
 
                 sectorGroup.append("path")
                     .attr("d", <any>arc)
-                    .style("fill", "#dbdbdb")
+                    .style("fill", ring.colour)
                     .attr("transform", "translate(" + self.calculateCenter(svg).x + ", " + self.calculateCenter(svg).y + ")");
             });
 
