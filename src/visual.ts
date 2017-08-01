@@ -164,9 +164,18 @@ module powerbi.extensibility.visual {
             this._order = order;
         }
 
-        constructor(name: string, order: number) {
+        private _colour: string;
+        get colour() {
+            return this._colour;
+        }
+        set colour(colour: string) {
+            this._colour = colour;
+        }
+
+        constructor(name: string, order: number, colour: string) {
             this.name = name;
             this.order = order;
+            this.colour = colour;
         }
     }
 
@@ -179,10 +188,10 @@ module powerbi.extensibility.visual {
 
         //ringMap will hold all the rings, indexed by their name
         let ringMap = {
-            Accelerate: new Ring("Accelerate", 1),
-            Progress: new Ring("Progress", 2),
-            Monitor: new Ring("Monitor", 3),
-            Pause: new Ring("Pause", 4)
+            Accelerate: new Ring("Accelerate", 1, "#bababa"),
+            Progress: new Ring("Progress", 2, "#cacaca"),
+            Monitor: new Ring("Monitor", 3, "#dadada"),
+            Pause: new Ring("Pause", 4, "#eeeeee")
         };
 
         let sectors = {};
