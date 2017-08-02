@@ -285,7 +285,9 @@ module powerbi.extensibility.visual {
         private plotSector(sector: Sector, rings: Ring[]) {
             let self = this;
 
-            let sectorGroup = this.svg.append("g").attr("id", "sector-" + sector.id);
+            let sectorGroup = this.svg.append("g")
+                .attr("id", "sector-" + sector.id)
+                .attr("class", "sector");
 
             rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
