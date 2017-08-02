@@ -374,7 +374,16 @@ module powerbi.extensibility.visual {
             sectorGroup.select("g.blips").append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
-                .attr("r", 10);
+                .attr("r", this.calculateBlipRadius());
+        }
+
+        /**
+         * Calculates the radius that each blip should have
+         */
+        private calculateBlipRadius() {
+            let radius = this.calculateMaxRadius();
+
+            return radius / 40;
         }
 
         public update(options: VisualUpdateOptions) {
