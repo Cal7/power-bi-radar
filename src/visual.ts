@@ -192,44 +192,6 @@ module powerbi.extensibility.visual {
         }
     }
 
-    /**
-     * Transforms the data inside a data view into a form that's necessary to work with
-     * @param dataView
-     */
-    function transformData(data) {
-        let radar = new Radar();
-
-        //ringMap will hold all the rings, indexed by their name
-        let ringMap = {
-            Accelerate: new Ring("Accelerate", 1, "#bababa"),
-            Progress: new Ring("Progress", 2, "#cacaca"),
-            Monitor: new Ring("Monitor", 3, "#dadada"),
-            Pause: new Ring("Pause", 4, "#eeeeee")
-        };
-
-        let sectors = {};
-        data.forEach(function (v, i) {
-            let name = v[0];
-            let sectorName = v[1];
-            let ringName = v[2];
-            let description = v[3];
-            let isNew = v[4];
-
-            if (!sectors[sectorName]) {
-                sectors[sectorName] = new Sector(sectorName, "#000000");
-            }
-            sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
-        });
-
-        for (let index in sectors) {
-            radar.addSector(sectors[index]);
-        }
-
-        radar.setSectorAngles();
-
-        return radar;
-    }
-
     export class Visual implements IVisual {
         private target: HTMLElement;
         private updateCount: number;
@@ -240,6 +202,44 @@ module powerbi.extensibility.visual {
             this.target = options.element;
             this.svg = d3.select(this.target).append('svg');
             this.updateCount = 0;
+        }
+
+        /**
+         * Transforms the data inside a data view into a form that's necessary to work with
+         * @param data
+         */
+        private transformData(data) {
+            let radar = new Radar();
+
+            //ringMap will hold all the rings, indexed by their name
+            let ringMap = {
+                Accelerate: new Ring("Accelerate", 1, "#bababa"),
+                Progress: new Ring("Progress", 2, "#cacaca"),
+                Monitor: new Ring("Monitor", 3, "#dadada"),
+                Pause: new Ring("Pause", 4, "#eeeeee")
+            };
+
+            let sectors = {};
+            data.forEach(function (v, i) {
+                let name = v[0];
+                let sectorName = v[1];
+                let ringName = v[2];
+                let description = v[3];
+                let isNew = v[4];
+
+                if (!sectors[sectorName]) {
+                    sectors[sectorName] = new Sector(sectorName, "#000000");
+                }
+                sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
+            });
+
+            for (let index in sectors) {
+                radar.addSector(sectors[index]);
+            }
+
+            radar.setSectorAngles();
+
+            return radar;
         }
 
         /**
@@ -401,7 +401,7 @@ module powerbi.extensibility.visual {
 
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            let radar = transformData(options.dataViews[0].table.rows);
+            let radar = this.transformData(options.dataViews[0].table.rows);
             console.log(radar);
 
             this.svg.selectAll("*").remove();
