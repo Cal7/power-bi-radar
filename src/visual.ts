@@ -268,7 +268,7 @@ module powerbi.extensibility.visual {
          * Converts coordinates relative to the center of the radar into coordinates relative to the top left of the SVG container
          * @param coordinates
          */
-        private convertCoordinates(coordinates: { x: number, y: number }) {
+        private convertRelativeCoordinates(coordinates: { x: number, y: number }) {
             let center = this.calculateCenter();
 
             return {
@@ -329,13 +329,13 @@ module powerbi.extensibility.visual {
          * @param sector
          */
         private plotSectorLine(sector: Sector) {
-            let absoluteStartCoordinates = this.convertCoordinates({ x: 0, y: 0 });
+            let absoluteStartCoordinates = this.convertRelativeCoordinates({ x: 0, y: 0 });
 
             let relativeEndCoordinates = {
                 x: this.calculateMaxRadius() * Math.cos(sector.startAngle),
                 y: this.calculateMaxRadius() * Math.sin(sector.startAngle)
             };
-            let absoluteEndCoordinates = this.convertCoordinates(relativeEndCoordinates);
+            let absoluteEndCoordinates = this.convertRelativeCoordinates(relativeEndCoordinates);
 
             this.svg.select("g#lines").append("line")
                 .attr("x1", absoluteStartCoordinates.x)
@@ -369,7 +369,7 @@ module powerbi.extensibility.visual {
          * @param coordinates
          */
         private plotBlip(blip: Blip, coordinates: { x: number, y: number }, sectorGroup: d3.Selection<Element>) {
-            let absoluteCoordinates = this.convertCoordinates(coordinates);
+            let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
 
             sectorGroup.select("g.blips").append("circle")
                 .attr("cx", absoluteCoordinates.x)
