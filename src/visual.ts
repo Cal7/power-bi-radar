@@ -413,6 +413,28 @@ module powerbi.extensibility.visual {
             return radius / 40;
         }
 
+        /**
+         * Renders the names of the rings
+         * @param rings
+         */
+        private plotRingAxes(rings: Ring[]) {
+            let self = this;
+            let ringAxesGroup = this.svg.select("#axes");
+            rings.forEach(function (ring) {
+                let textRelativeCoordinates = {
+                    x: self.calculateMaxRadius() * (ring.order - 1) / 4,
+                    y: -1 * self.calculateSectorLineWidth() / 2 //If the y were just 0 then it would be slightly above the sector line, so this vertically aligns it within the line
+                };
+                let textAbsoluteCoordinates = self.convertRelativeCoordinates(textRelativeCoordinates);
+                ringAxesGroup.append("text")
+                    .text(ring.name)
+                    .attr("x", textAbsoluteCoordinates.x)
+                    .attr("y", textAbsoluteCoordinates.y);
+
+                console.log(ring);
+            });
+        }
+
         public update(options: VisualUpdateOptions) {
             let self = this;
 
@@ -444,6 +466,9 @@ module powerbi.extensibility.visual {
                     self.plotBlip(blip, point, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
                 });
             });
+
+            this.svg.append("g").attr("id", "axes");
+            this.plotRingAxes(radar.rings);
 
             this.updateCount++;
         }
