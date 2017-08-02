@@ -313,11 +313,11 @@ module powerbi.extensibility.visual {
         private plotSector(sector: Sector, rings: Ring[]) {
             let self = this;
 
-            let sectorGroup = this.svg.select("g#sectors").append("g")
+            let sectorGroup = this.svg.select("#sectors").append("g")
                 .attr("id", "sector-" + sector.id)
                 .attr("class", "sector")
                 .on("mouseover", function () { //Reduce the opacity of the the other sectors to make this one more prominent
-                    self.svg.selectAll("g#sectors .sector:not(#sector-" + sector.id + ")")
+                    self.svg.selectAll("#sectors .sector:not(#sector-" + sector.id + ")")
                         .style("opacity", 0.3);
                 }).
                 on("mouseout", function () {
@@ -354,7 +354,7 @@ module powerbi.extensibility.visual {
             };
             let absoluteEndCoordinates = this.convertRelativeCoordinates(relativeEndCoordinates);
 
-            this.svg.select("g#lines").append("line")
+            this.svg.select("#lines").append("line")
                 .attr("x1", absoluteStartCoordinates.x)
                 .attr("y1", absoluteStartCoordinates.y)
                 .attr("x2", absoluteEndCoordinates.x)
@@ -388,7 +388,7 @@ module powerbi.extensibility.visual {
         private plotBlip(blip: Blip, coordinates: { x: number, y: number }, colour: string, sectorGroup: d3.Selection<Element>) {
             let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
 
-            sectorGroup.select("g.blips").append("circle")
+            sectorGroup.select(".blips").append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", this.calculateBlipRadius())
