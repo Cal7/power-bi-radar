@@ -96,6 +96,14 @@ module powerbi.extensibility.visual {
             this._endAngle = angle;
         }
 
+        private _colour: string;
+        get colour() {
+            return this._colour;
+        }
+        set colour(colour: string) {
+            this._colour = colour;
+        }
+
         private _blips: Blip[];
         get blips() {
             return this._blips;
@@ -104,8 +112,9 @@ module powerbi.extensibility.visual {
             this.blips.push(blip);
         }
 
-        constructor(name: string) {
+        constructor(name: string, colour: string) {
             this.name = name;
+            this.colour = colour;
             this._blips = [];
         }
     }
@@ -207,7 +216,7 @@ module powerbi.extensibility.visual {
             let isNew = v[4];
 
             if (!sectors[sectorName]) {
-                sectors[sectorName] = new Sector(sectorName);
+                sectors[sectorName] = new Sector(sectorName, "#000000");
             }
             sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
         });
@@ -368,13 +377,14 @@ module powerbi.extensibility.visual {
          * @param blip
          * @param coordinates
          */
-        private plotBlip(blip: Blip, coordinates: { x: number, y: number }, sectorGroup: d3.Selection<Element>) {
+        private plotBlip(blip: Blip, coordinates: { x: number, y: number }, colour: string, sectorGroup: d3.Selection<Element>) {
             let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
 
             sectorGroup.select("g.blips").append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
-                .attr("r", this.calculateBlipRadius());
+                .attr("r", this.calculateBlipRadius())
+                .attr("fill", colour);
         }
 
         /**
@@ -417,7 +427,7 @@ module powerbi.extensibility.visual {
             radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
                     let point = self.generatePoint(sector, blip.ring);
-                    self.plotBlip(blip, point, self.svg.select("#sectors #sector-" + sector.id));
+                    self.plotBlip(blip, point, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
                 });
             });
 
