@@ -285,7 +285,7 @@ module powerbi.extensibility.visual {
         private plotSector(sector: Sector, rings: Ring[]) {
             let self = this;
 
-            let sectorGroup = this.svg.append("g")
+            let sectorGroup = this.svg.select("g#sectors").append("g")
                 .attr("id", "sector-" + sector.id)
                 .attr("class", "sector");
 
@@ -379,6 +379,7 @@ module powerbi.extensibility.visual {
                 height: height
             });
 
+            this.svg.append("g").attr("id", "sectors");
             radar.sectors.forEach(function (sector) {
                 self.plotSector(sector, radar.rings);
             });
