@@ -304,7 +304,7 @@ module powerbi.extensibility.visual {
          * @param sector
          * @param lineGroup
          */
-        private plotSectorLine(sector: Sector, lineGroup: d3.Selection<Element>) {
+        private plotSectorLine(sector: Sector) {
             let absoluteStartCoordinates = this.convertCoordinates({ x: 0, y: 0 });
 
             let relativeEndCoordinates = {
@@ -313,7 +313,7 @@ module powerbi.extensibility.visual {
             };
             let absoluteEndCoordinates = this.convertCoordinates(relativeEndCoordinates);
 
-            lineGroup.append("line")
+            this.svg.select("g#lines").append("line")
                 .attr("x1", absoluteStartCoordinates.x)
                 .attr("y1", absoluteStartCoordinates.y)
                 .attr("x2", absoluteEndCoordinates.x)
@@ -347,10 +347,10 @@ module powerbi.extensibility.visual {
          * @param blip
          * @param coordinates
          */
-        private plotBlip(blip: Blip, coordinates: { x: number, y: number }, blipGroup: d3.Selection<Element>) {
+        private plotBlip(blip: Blip, coordinates: { x: number, y: number }) {
             let absoluteCoordinates = this.convertCoordinates(coordinates);
 
-            blipGroup.append("circle")
+            this.svg.select("g#blips").append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", 10);
@@ -378,16 +378,16 @@ module powerbi.extensibility.visual {
                 self.plotSector(sector, radar.rings);
             });
 
-            let lineGroup = this.svg.append("g");
+            this.svg.append("g").attr("id", "lines");
             radar.sectors.forEach(function (sector) {
-                self.plotSectorLine(sector, lineGroup);
+                self.plotSectorLine(sector);
             });
 
-            let blipGroup = this.svg.append("g");
+            this.svg.append("g").attr("id", "blips");
             radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
                     let point = self.generatePoint(sector, blip.ring);
-                    self.plotBlip(blip, point, blipGroup);
+                    self.plotBlip(blip, point);
                 });
             });
 
