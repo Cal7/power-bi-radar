@@ -287,7 +287,15 @@ module powerbi.extensibility.visual {
 
             let sectorGroup = this.svg.select("g#sectors").append("g")
                 .attr("id", "sector-" + sector.id)
-                .attr("class", "sector");
+                .attr("class", "sector")
+                .on("mouseover", function () { //Reduce the opacity of the the other sectors to make this one more prominent
+                    d3.selectAll(".sector:not(#sector-" + sector.id + ")")
+                        .style("opacity", 0.3);
+                }).
+                on("mouseout", function () {
+                    d3.selectAll(".sector")
+                        .style("opacity", 1)
+                });
 
             rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
