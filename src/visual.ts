@@ -359,8 +359,15 @@ module powerbi.extensibility.visual {
                 .attr("y1", absoluteStartCoordinates.y)
                 .attr("x2", absoluteEndCoordinates.x)
                 .attr("y2", absoluteEndCoordinates.y)
-                .attr("stroke-width", 2)
+                .attr("stroke-width", this.calculateSectorLineWidth())
                 .attr("stroke", "white");
+        }
+
+        /**
+         * Determines the width that the white line at the start of each sector should be
+         */
+        private calculateSectorLineWidth() {
+            return this.calculateMaxRadius() / 40;
         }
 
         /**
