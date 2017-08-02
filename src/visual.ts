@@ -76,6 +76,10 @@ module powerbi.extensibility.visual {
             this._name = name;
         }
 
+        get id() {
+            return this.name.replace(/\W/g, "").toLowerCase();
+        }
+
         private _startAngle: number;
         get startAngle() {
             return this._startAngle;
@@ -281,7 +285,7 @@ module powerbi.extensibility.visual {
         private plotSector(sector: Sector, rings: Ring[]) {
             let self = this;
 
-            let sectorGroup = this.svg.append("g");
+            let sectorGroup = this.svg.append("g").attr("id", "sector-" + sector.id);
 
             rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
