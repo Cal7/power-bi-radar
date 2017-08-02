@@ -306,7 +306,6 @@ module powerbi.extensibility.visual {
         /**
          * Plots a white line marking the beginning of a sector
          * @param sector
-         * @param lineGroup
          */
         private plotSectorLine(sector: Sector) {
             let absoluteStartCoordinates = this.convertCoordinates({ x: 0, y: 0 });
