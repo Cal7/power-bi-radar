@@ -347,8 +347,7 @@ module powerbi.extensibility.visual {
          * @param blip
          * @param coordinates
          */
-        private plotBlip(blip: Blip, coordinates: { x: number, y: number }) {
-            let blipGroup = this.svg.append("g");
+        private plotBlip(blip: Blip, coordinates: { x: number, y: number }, blipGroup: d3.Selection<Element>) {
             let absoluteCoordinates = this.convertCoordinates(coordinates);
 
             blipGroup.append("circle")
@@ -384,10 +383,11 @@ module powerbi.extensibility.visual {
                 self.plotSectorLine(sector, lineGroup);
             });
 
+            let blipGroup = this.svg.append("g");
             radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
                     let point = self.generatePoint(sector, blip.ring);
-                    self.plotBlip(blip, point);
+                    self.plotBlip(blip, point, blipGroup);
                 });
             });
 
