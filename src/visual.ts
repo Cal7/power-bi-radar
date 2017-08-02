@@ -278,6 +278,17 @@ module powerbi.extensibility.visual {
         };
 
         /**
+         * Converts an angle and distance to an x,y pair. Due to the way d3 plots arcs, the angle is taken clockwise from the positive y axis rather than the standard convention
+         * @param polar
+         */
+        private polarToCartesian(polar: { distance: number, angle: number }) {
+            return {
+                x: polar.distance * Math.sin(polar.angle),
+                y: polar.distance * Math.cos(polar.angle)
+            };
+        }
+
+        /**
          * Draws a sector onto the SVG element
          * @param sector
          * @param rings
@@ -349,10 +360,7 @@ module powerbi.extensibility.visual {
             let max_distance = this.calculateMaxRadius() * ring.order / 4;
             let distance = Math.random() * (max_distance - min_distance) + min_distance;
 
-            return {
-                x: distance * Math.cos(angle),
-                y: distance * Math.sin(angle)
-            };
+            return this.polarToCartesian({ distance: distance, angle: angle });
         }
 
         /**
