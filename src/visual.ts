@@ -342,6 +342,21 @@ module powerbi.extensibility.visual {
             };
         }
 
+        /**
+         * Draws a blip on the graph
+         * @param blip
+         * @param coordinates
+         */
+        private plotBlip(blip: Blip, coordinates: { x: number, y: number }) {
+            let blipGroup = this.svg.append("g");
+            let absoluteCoordinates = this.convertCoordinates(coordinates);
+
+            blipGroup.append("circle")
+                .attr("cx", absoluteCoordinates.x)
+                .attr("cy", absoluteCoordinates.y)
+                .attr("r", 10);
+        }
+
         public update(options: VisualUpdateOptions) {
             let self = this;
 
@@ -365,6 +380,13 @@ module powerbi.extensibility.visual {
             let lineGroup = this.svg.append("g");
             radar.sectors.forEach(function (sector) {
                 self.plotSectorLine(sector, lineGroup);
+            });
+
+            radar.sectors.forEach(function (sector) {
+                sector.blips.forEach(function (blip) {
+                    let point = self.generatePoint(sector, blip.ring);
+                    self.plotBlip(blip, point);
+                });
             });
 
             this.updateCount++;
