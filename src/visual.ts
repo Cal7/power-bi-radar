@@ -430,8 +430,6 @@ module powerbi.extensibility.visual {
                     .text(ring.name)
                     .attr("x", textAbsoluteCoordinates.x)
                     .attr("y", textAbsoluteCoordinates.y);
-
-                console.log(ring);
             });
         }
 
