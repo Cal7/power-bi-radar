@@ -388,7 +388,9 @@ module powerbi.extensibility.visual {
         private plotBlip(blip: Blip, coordinates: { x: number, y: number }, colour: string, sectorGroup: d3.Selection<Element>) {
             let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
 
-            sectorGroup.select(".blips").append("circle")
+            let blipGroup = sectorGroup.select(".blips").append("g")
+                .attr("class", "blip");
+            blipGroup.append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", this.calculateBlipRadius())
