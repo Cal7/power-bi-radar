@@ -309,8 +309,6 @@ module powerbi.extensibility.visual {
                     .style("fill", ring.colour)
                     .attr("transform", "translate(" + self.calculateCenter().x + ", " + self.calculateCenter().y + ")");
             });
-
-            return sectorGroup;
         }
 
         /**
