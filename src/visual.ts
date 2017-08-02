@@ -209,6 +209,7 @@ module powerbi.extensibility.visual {
          * @param data
          */
         private transformData(data) {
+            let self = this;
             let radar = new Radar();
 
             //ringMap will hold all the rings, indexed by their name
@@ -228,7 +229,7 @@ module powerbi.extensibility.visual {
                 let isNew = v[4];
 
                 if (!sectors[sectorName]) {
-                    sectors[sectorName] = new Sector(sectorName, "#000000");
+                    sectors[sectorName] = new Sector(sectorName, self.generateColour());
                 }
                 sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
             });
@@ -240,6 +241,13 @@ module powerbi.extensibility.visual {
             radar.setSectorAngles();
 
             return radar;
+        }
+
+        /**
+         * Generates a random hex codes, used to determine what colour the blips of each sector should be
+         */
+        private generateColour() {
+            return "#" + Math.floor(Math.random() * 16777215).toString(16);
         }
 
         /**
