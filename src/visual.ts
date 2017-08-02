@@ -289,11 +289,11 @@ module powerbi.extensibility.visual {
                 .attr("id", "sector-" + sector.id)
                 .attr("class", "sector")
                 .on("mouseover", function () { //Reduce the opacity of the the other sectors to make this one more prominent
-                    d3.selectAll(".sector:not(#sector-" + sector.id + ")")
+                    self.svg.selectAll("g#sectors .sector:not(#sector-" + sector.id + ")")
                         .style("opacity", 0.3);
                 }).
                 on("mouseout", function () {
-                    d3.selectAll(".sector")
+                    self.svg.selectAll(".sector")
                         .style("opacity", 1)
                 });
 
