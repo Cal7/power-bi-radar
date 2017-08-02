@@ -365,6 +365,8 @@ module powerbi.extensibility.visual {
             let radar = transformData(options.dataViews[0].table.rows);
             console.log(radar);
 
+            this.svg.selectAll("*").remove();
+
             let width = options.viewport.width;
             let height = options.viewport.height;
 
