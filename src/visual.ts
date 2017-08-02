@@ -406,12 +406,9 @@ module powerbi.extensibility.visual {
 
             this.svg.selectAll("*").remove();
 
-            let width = options.viewport.width;
-            let height = options.viewport.height;
-
             this.svg.attr({
-                width: width,
-                height: height
+                width: options.viewport.width,
+                height: options.viewport.height
             });
 
             this.svg.append("g").attr("id", "sectors");
