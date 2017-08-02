@@ -322,6 +322,26 @@ module powerbi.extensibility.visual {
                 .attr("stroke", "white");
         }
 
+        /**
+         * Given a sector and a ring to which a point belongs, randomly generates coordinates for the point
+         * @param sector
+         * @param ring
+         */
+        private generatePoint(sector: Sector, ring: Ring) {
+            let min_angle = sector.startAngle;
+            let max_angle = sector.endAngle;
+            let angle = Math.random() * (max_angle - min_angle) + min_angle;
+
+            let min_distance = this.calculateMaxRadius() * (ring.order - 1) / 4;
+            let max_distance = this.calculateMaxRadius() * ring.order / 4;
+            let distance = Math.random() * (max_distance - min_distance) + min_distance;
+
+            return {
+                x: distance * Math.cos(angle),
+                y: distance * Math.sin(angle)
+            };
+        }
+
         public update(options: VisualUpdateOptions) {
             let self = this;
 
