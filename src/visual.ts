@@ -465,6 +465,22 @@ module powerbi.extensibility.visual {
             });
         }
 
+        /**
+         * Displays information about the sectors in the visual's sidebar
+         * @param sectors
+         */
+        private plotSidebar(sectors: Sector[]) {
+            let self = this;
+            sectors.forEach(function (sector) {
+                self.sidebar.append("h3").text(sector.name).style("color", sector.colour);
+
+                let ul = self.sidebar.append("ul").style("padding-left", 0);
+                sector.blips.forEach(function (blip) {
+                    ul.append("li").text(blip.name);
+                });
+            });
+        }
+
         public update(options: VisualUpdateOptions) {
             let self = this;
 
@@ -499,6 +515,9 @@ module powerbi.extensibility.visual {
 
             this.svg.append("g").attr("id", "axes");
             this.plotRingAxes(radar.rings);
+
+            this.sidebar.selectAll("*").remove();
+            this.plotSidebar(radar.sectors);
 
             this.updateCount++;
         }
