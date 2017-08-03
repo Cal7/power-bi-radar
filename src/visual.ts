@@ -398,6 +398,7 @@ module powerbi.extensibility.visual {
          * @param coordinates
          */
         private plotBlip(blip: Blip, coordinates: { x: number, y: number }, colour: string, sectorGroup: d3.Selection<Element>) {
+            let self = this;
             let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
 
             let blipGroup = sectorGroup.select(".blips").append("g")
@@ -408,32 +409,15 @@ module powerbi.extensibility.visual {
                 .attr("r", this.calculateBlipRadius())
                 .attr("fill", colour)
                 .on("mouseover", function () {
-                    blipGroup.select("text").attr("visibility", "visible");
+                    self.svg.append("text")
+                        .attr("id", "blip-mouseover")
+                        .attr("x", absoluteCoordinates.x)
+                        .attr("y", absoluteCoordinates.y - self.calculateBlipRadius())
+                        .text(blip.name);
                 })
                 .on("mouseout", function () {
-                    blipGroup.select("text").attr("visibility", "hidden");
+                    self.svg.select("#blip-mouseover").remove();
                 });
-
-            this.plotBlipText(blip, {
-                x: coordinates.x, y: coordinates.y + this.calculateBlipRadius()
-            }, blipGroup);
-        }
-
-        /**
-         * Plots the text of a blip that displays on hover of the blip
-         * @param blip
-         * @param coordinates
-         * @param blipGroup
-         */
-        private plotBlipText(blip: Blip, coordinates: { x: number, y: number }, blipGroup: d3.Selection<Element>) {
-            let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
-
-            blipGroup.append("text")
-                .text(blip.name)
-                .attr("x", absoluteCoordinates.x)
-                .attr("y", absoluteCoordinates.y)
-                .attr("font-size", 20)
-                .attr("visibility", "hidden");
         }
 
         /**
