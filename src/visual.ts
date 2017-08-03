@@ -202,10 +202,10 @@ module powerbi.extensibility.visual {
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
             this.sidebar = d3.select(this.target)
-                .append("section").attr("id", "sidebar");
+                .append("section").attr("id", "sidebar").style("float", "left").style("width", "20%").style("height", "100%");
             this.svg = d3.select(this.target)
-                .append("section").attr("id", "svg-container")
-                .append("svg").attr("id", "svg");
+                .append("section").attr("id", "svg-container").style("float", "right").style("width", "80%").style("height", "100%")
+                .append("svg");
             this.updateCount = 0;
         }
 
@@ -477,10 +477,8 @@ module powerbi.extensibility.visual {
             //"Clear" the previously drawn SVG
             this.svg.selectAll("*").remove();
 
-            this.svg.attr({
-                width: options.viewport.width,
-                height: options.viewport.height
-            });
+            //The SVG should fill its container
+            this.svg.style("width", "100%").style("height", "100%");
 
             this.svg.append("g").attr("id", "sectors");
             radar.sectors.forEach(function (sector) {
