@@ -409,10 +409,24 @@ module powerbi.extensibility.visual {
                     blipGroup.select("text").attr("visibility", "hidden");
                 });
 
+            this.plotBlipText(blip, {
+                x: coordinates.x, y: coordinates.y + this.calculateBlipRadius()
+            }, blipGroup);
+        }
+
+        /**
+         * Plots the text of a blip that displays on hover of the blip
+         * @param blip
+         * @param coordinates
+         * @param blipGroup
+         */
+        private plotBlipText(blip: Blip, coordinates: { x: number, y: number }, blipGroup: d3.Selection<Element>) {
+            let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
+
             blipGroup.append("text")
                 .text(blip.name)
                 .attr("x", absoluteCoordinates.x)
-                .attr("y", absoluteCoordinates.y - this.calculateBlipRadius())
+                .attr("y", absoluteCoordinates.y)
                 .attr("visibility", "hidden");
         }
 
