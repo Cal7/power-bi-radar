@@ -401,7 +401,19 @@ module powerbi.extensibility.visual {
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", this.calculateBlipRadius())
-                .attr("fill", colour);
+                .attr("fill", colour)
+                .on("mouseover", function () {
+                    blipGroup.select("text").attr("visibility", "visible");
+                })
+                .on("mouseout", function () {
+                    blipGroup.select("text").attr("visibility", "hidden");
+                });
+
+            blipGroup.append("text")
+                .text(blip.name)
+                .attr("x", absoluteCoordinates.x)
+                .attr("y", absoluteCoordinates.y - this.calculateBlipRadius())
+                .attr("visibility", "hidden");
         }
 
         /**
