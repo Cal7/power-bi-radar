@@ -372,7 +372,7 @@ module powerbi.extensibility.visual {
          * Determines the width that the white line at the start of each sector should be
          */
         private calculateSectorLineWidth() {
-            return this.calculateMaxRadius() / 40;
+            return this.calculateMaxRadius() / 25;
         }
 
         /**
