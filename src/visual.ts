@@ -468,6 +468,8 @@ module powerbi.extensibility.visual {
             let radar = this.transformData(options.dataViews[0].table.rows);
             console.log(radar);
 
+
+            //"Clear" the previously drawn SVG
             this.svg.selectAll("*").remove();
 
             this.svg.attr({
