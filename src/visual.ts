@@ -201,8 +201,11 @@ module powerbi.extensibility.visual {
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
-            this.sidebar = d3.select(this.target).append("section").attr("id", "sidebar");
-            this.svg = d3.select(this.target).append("svg").attr("id", "svg");
+            this.sidebar = d3.select(this.target)
+                .append("section").attr("id", "sidebar");
+            this.svg = d3.select(this.target)
+                .append("section").attr("id", "svg-container")
+                .append("svg").attr("id", "svg");
             this.updateCount = 0;
         }
 
