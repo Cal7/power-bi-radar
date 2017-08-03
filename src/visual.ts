@@ -255,8 +255,8 @@ module powerbi.extensibility.visual {
          */
         private getDimensions(){
             return {
-                width: parseInt(this.svg.attr("width")),
-                height: parseInt(this.svg.attr("height"))
+                width: (this.svg.node() as HTMLElement).getBoundingClientRect().width,
+                height: (this.svg.node() as HTMLElement).getBoundingClientRect().height
             };
         }
 
