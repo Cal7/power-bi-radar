@@ -200,7 +200,7 @@ module powerbi.extensibility.visual {
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
-            this.svg = d3.select(this.target).append('svg');
+            this.svg = d3.select(this.target).append("svg").attr("id", "svg");
             this.updateCount = 0;
         }
 
