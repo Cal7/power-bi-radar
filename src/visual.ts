@@ -427,6 +427,7 @@ module powerbi.extensibility.visual {
                 .text(blip.name)
                 .attr("x", absoluteCoordinates.x)
                 .attr("y", absoluteCoordinates.y)
+                .attr("font-size", 20)
                 .attr("visibility", "hidden");
         }
 
