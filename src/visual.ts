@@ -229,13 +229,23 @@ module powerbi.extensibility.visual {
                 Pause: new Ring("Pause", 4, "#eeeeee")
             };
 
+            //Because the order of the columns is not guaranteed to remain consistent, we need to determine the indices of all the fields before we can fetch their values
+            let columnMap = table.columns.map(function (column) {
+                return column.displayName;
+            });
+            let nameIndex = columnMap.indexOf("name");
+            let descriptionIndex = columnMap.indexOf("description");
+            let sectorIndex = columnMap.indexOf("sector");
+            let ringIndex = columnMap.indexOf("ring");
+            let isNewIndex = columnMap.indexOf("isNew");
+
             let sectors = {};
             table.rows.forEach(function (v, i) {
-                let name = v[0];
-                let sectorName = v[1];
-                let ringName = v[2];
-                let description = v[3];
-                let isNew = v[4];
+                let name = v[nameIndex];
+                let description = v[descriptionIndex];
+                let sectorName = v[sectorIndex];
+                let ringName = v[ringIndex];
+                let isNew = v[isNewIndex];
 
                 if (!sectors[sectorName]) {
                     sectors[sectorName] = new Sector(sectorName, self.generateColour());
