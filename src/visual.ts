@@ -51,7 +51,7 @@ module powerbi.extensibility.visual {
                 return blip.ring;
             }).filter(function (value, index, self) {
                 return self.indexOf(value) === index;
-                });
+            });
         }
 
         private calculateSectorAngles() {
@@ -258,7 +258,7 @@ module powerbi.extensibility.visual {
         /**
          * Extracts the dimensions of the visual's SVG container
          */
-        private getDimensions(){
+        private getDimensions() {
             return {
                 width: (this.svg.node() as HTMLElement).getBoundingClientRect().width,
                 height: (this.svg.node() as HTMLElement).getBoundingClientRect().height
@@ -473,7 +473,6 @@ module powerbi.extensibility.visual {
             let radar = this.transformData(options.dataViews[0].table.rows);
             console.log(radar);
 
-
             //"Clear" the previously drawn SVG
             this.svg.selectAll("*").remove();
 
@@ -489,7 +488,7 @@ module powerbi.extensibility.visual {
             radar.sectors.forEach(function (sector) {
                 self.plotSectorLine(sector);
             });
-            
+
             radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
                     let point = self.generatePoint(sector, blip.ring);
