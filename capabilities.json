@@ -11,8 +11,8 @@
       "kind": "Grouping"
     },
     {
-      "displayName": "Quadrant",
-      "name": "quadrant",
+      "displayName": "Sector",
+      "name": "sector",
       "kind": "Grouping"
     },
     {
@@ -43,7 +43,7 @@
             },
             {
               "for": {
-                "in": "quadrant"
+                "in": "sector"
               }
             },
             {
