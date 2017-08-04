@@ -217,7 +217,7 @@ module powerbi.extensibility.visual {
          * Transforms the data inside a data view into a form that's necessary to work with
          * @param data
          */
-        private transformData(data) {
+        private transformData(table) {
             let self = this;
             let radar = new Radar();
 
@@ -230,7 +230,7 @@ module powerbi.extensibility.visual {
             };
 
             let sectors = {};
-            data.forEach(function (v, i) {
+            table.rows.forEach(function (v, i) {
                 let name = v[0];
                 let sectorName = v[1];
                 let ringName = v[2];
@@ -474,7 +474,7 @@ module powerbi.extensibility.visual {
 
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            let radar = this.transformData(options.dataViews[0].table.rows);
+            let radar = this.transformData(options.dataViews[0].table);
             console.log(radar);
 
             //"Clear" the previously drawn SVG
