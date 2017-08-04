@@ -27,6 +27,8 @@
 module powerbi.extensibility.visual {
     "use strict";
 
+    //Not sure why this is necessary for lodash but not for d3... but it got things working.
+    //Hacky solution from https://community.powerbi.com/t5/Developer/Adding-a-static-js-script-to-a-custom-visualization/td-p/104957
     let _ = (<any>window)._;
 
     class Radar {
