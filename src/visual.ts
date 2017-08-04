@@ -27,6 +27,8 @@
 module powerbi.extensibility.visual {
     "use strict";
 
+    let _ = (<any>window)._;
+
     class Radar {
         private _sectors: Sector[];
         get sectors() {
