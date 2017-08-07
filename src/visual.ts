@@ -448,7 +448,7 @@ module powerbi.extensibility.visual {
         private calculateBlipRadius() {
             let radius = this.calculateMaxRadius();
 
-            return radius / 40;
+            return radius / 30;
         }
 
         /**
