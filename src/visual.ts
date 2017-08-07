@@ -422,12 +422,7 @@ module powerbi.extensibility.visual {
             let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
 
             let blipGroup = sectorGroup.select(".blips").append("g")
-                .attr("class", "blip");
-            blipGroup.append("circle")
-                .attr("cx", absoluteCoordinates.x)
-                .attr("cy", absoluteCoordinates.y)
-                .attr("r", this.calculateBlipRadius())
-                .attr("fill", colour)
+                .attr("class", "blip")
                 .on("mouseover", function () {
                     self.svg.append("text")
                         .attr("id", "blip-mouseover")
@@ -438,6 +433,11 @@ module powerbi.extensibility.visual {
                 .on("mouseout", function () {
                     self.svg.select("#blip-mouseover").remove();
                 });
+            blipGroup.append("circle")
+                .attr("cx", absoluteCoordinates.x)
+                .attr("cy", absoluteCoordinates.y)
+                .attr("r", this.calculateBlipRadius())
+                .attr("fill", colour);
             blipGroup.append("text")
                 .attr("x", absoluteCoordinates.x)
                 .attr("y", absoluteCoordinates.y + self.calculateBlipRadius() / 2)
