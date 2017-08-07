@@ -380,6 +380,7 @@ module powerbi.extensibility.visual {
             this.sidebar.selectAll("*").remove();
 
             sector.blips.forEach(function (blip) {
+                //If this blip's ring does not yet have a container element, create it
                 if (self.sidebar.select("#ring-" + blip.ring.order).empty()) {
                     let ringDiv = self.sidebar.append("div").attr("id", "ring-" + blip.ring.order);
 
