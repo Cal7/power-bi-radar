@@ -532,7 +532,7 @@ module powerbi.extensibility.visual {
             //"Clear" the previously drawn SVG
             this.svg.selectAll("*").remove();
             
-            this.svg.style({
+            this.svg.attr({
                 width: this.calculateMaxRadius() * 2,
                 height: this.calculateMaxRadius() * 2
             });
