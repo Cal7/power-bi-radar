@@ -527,7 +527,10 @@ module powerbi.extensibility.visual {
                         "margin-right": "20px",
                         padding: "10px 20px"
                     })
-                    .attr("id", sector.id + "-button");
+                    .attr("id", sector.id + "-button")
+                    .on("mouseover", function () {
+                        self.selectSector(sector);
+                    });
             });
         }
 
