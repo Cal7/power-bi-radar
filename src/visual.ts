@@ -299,9 +299,13 @@ module powerbi.extensibility.visual {
          * For if the visual is not square, as the max radius cannot be greater than the smallest side of the visual
          */
         private calculateMaxRadius() {
-            let dimensions = this.getDimensions();
+            let svgContainer = d3.select(this.target).select("#svg-container").node() as HTMLElement;
+            let svgContainerDimensions = {
+                width: svgContainer.getBoundingClientRect().width,
+                height: svgContainer.getBoundingClientRect().height
+            };
 
-            return Math.min(dimensions.width, dimensions.height) / 2;
+            return Math.min(svgContainerDimensions.width, svgContainerDimensions.height) / 2;
         }
 
         /**
@@ -527,9 +531,11 @@ module powerbi.extensibility.visual {
 
             //"Clear" the previously drawn SVG
             this.svg.selectAll("*").remove();
-
-            //The SVG should fill its container
-            this.svg.style("width", "100%").style("height", "100%");
+            
+            this.svg.style({
+                width: this.calculateMaxRadius() * 2,
+                height: this.calculateMaxRadius() * 2
+            });
 
             this.svg.append("g").attr("id", "sectors");
             radar.sectors.forEach(function (sector) {
