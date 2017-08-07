@@ -24,6 +24,11 @@
       "displayName": "Is new?",
       "name": "isNew",
       "kind": "Grouping"
+    },
+    {
+      "displayName": "Colour",
+      "name": "colour",
+      "kind": "Grouping"
     }
   ],
   "dataViewMappings": [
@@ -54,6 +59,11 @@
             {
               "for": {
                 "in": "isNew"
+              }
+            },
+            {
+              "for": {
+                "in": "colour"
               }
             }
           ]
