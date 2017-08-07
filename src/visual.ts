@@ -543,9 +543,9 @@ module powerbi.extensibility.visual {
             sectors.forEach(function (sector) {
                 self.sidebar.append("h3").text(sector.name).style("color", sector.colour);
 
-                let ul = self.sidebar.append("ul").style("padding-left", 0);
+                let ul = self.sidebar.append("ul");
                 sector.blips.forEach(function (blip) {
-                    ul.append("li").text(blip.name + " (" + blip.number + ")");
+                    ul.append("li").text(blip.number + ". " + blip.name);
                 });
             });
         }
