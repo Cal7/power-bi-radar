@@ -402,6 +402,9 @@ module powerbi.extensibility.visual {
 
             let min_distance = this.calculateMaxRadius() * (ring.order - 1) / 4;
             let max_distance = this.calculateMaxRadius() * ring.order / 4;
+            if (min_distance === 0) {
+                min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center
+            }
             let distance = Math.random() * (max_distance - min_distance) + min_distance;
 
             return this.polarToCartesian({ distance: distance, angle: angle });
