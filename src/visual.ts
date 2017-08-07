@@ -350,6 +350,9 @@ module powerbi.extensibility.visual {
                 on("mouseout", function () {
                     self.svg.selectAll(".sector")
                         .style("opacity", 1)
+                })
+                .on("click", function () {
+                    self.selectSector(sector);
                 });
 
             rings.forEach(function (ring) {
@@ -366,6 +369,14 @@ module powerbi.extensibility.visual {
             });
 
             sectorGroup.append("g").attr("class", "blips");
+        }
+
+        /**
+         * Gets called when a sector is clicked on
+         * @param sector
+         */
+        private selectSector(sector) {
+            console.log(sector);
         }
 
         /**
