@@ -438,7 +438,8 @@ module powerbi.extensibility.visual {
                 .attr("x", absoluteCoordinates.x)
                 .attr("y", absoluteCoordinates.y + self.calculateBlipRadius() / 2)
                 .text(blip.number)
-                .attr("text-anchor", "middle");
+                .attr("text-anchor", "middle")
+                .attr("fill", "white");
         }
 
         /**
