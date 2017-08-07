@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  Power BI Visual CLI
  *
  *  Copyright (c) Microsoft Corporation
@@ -132,6 +132,11 @@ module powerbi.extensibility.visual {
             this._name = name;
         }
 
+        private _number: number;
+        get number() {
+            return this._number;
+        }
+
         private _ring: Ring;
         get ring() {
             return this._ring;
@@ -156,8 +161,9 @@ module powerbi.extensibility.visual {
             this._description = description;
         }
 
-        constructor(name: string, ring: Ring, isNew: boolean, description: string) {
+        constructor(name: string, number: number, ring: Ring, isNew: boolean, description: string) {
             this.name = name;
+            this._number = number;
             this.ring = ring;
             this.isNew = isNew;
             this.description = description;
@@ -250,7 +256,7 @@ module powerbi.extensibility.visual {
                 if (!sectors[sectorName]) {
                     sectors[sectorName] = new Sector(sectorName, self.generateColour());
                 }
-                sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
+                sectors[sectorName].addBlip(new Blip(name, i + 1, ringMap[ringName], isNew, description));
             });
 
             for (let index in sectors) {
@@ -432,6 +438,11 @@ module powerbi.extensibility.visual {
                 .on("mouseout", function () {
                     self.svg.select("#blip-mouseover").remove();
                 });
+            blipGroup.append("text")
+                .attr("x", absoluteCoordinates.x)
+                .attr("y", absoluteCoordinates.y + self.calculateBlipRadius() / 2)
+                .text(blip.number)
+                .attr("text-anchor", "middle");
         }
 
         /**
@@ -474,7 +485,7 @@ module powerbi.extensibility.visual {
 
                 let ul = self.sidebar.append("ul").style("padding-left", 0);
                 sector.blips.forEach(function (blip) {
-                    ul.append("li").text(blip.name);
+                    ul.append("li").text(blip.name + " (" + blip.number + ")");
                 });
             });
         }
