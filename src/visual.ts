@@ -526,7 +526,8 @@ module powerbi.extensibility.visual {
                         display: "inline-block",
                         "margin-right": "20px",
                         padding: "10px 20px"
-                    });
+                    })
+                    .attr("id", sector.id + "-button");
             });
         }
 
