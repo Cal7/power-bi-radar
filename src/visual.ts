@@ -209,6 +209,7 @@ module powerbi.extensibility.visual {
         private header: d3.Selection<HTMLElement>;
         private sidebar: d3.Selection<HTMLElement>;
         private svg: d3.Selection<SVGElement>;
+        private radar: Radar;
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
@@ -333,11 +334,21 @@ module powerbi.extensibility.visual {
         }
 
         /**
+         * Draws all the radar's sectors onto the SVG element
+         */
+        private plotSectors() {
+            let self = this;
+            this.radar.sectors.forEach(function (sector) {
+                self.plotSector(sector);
+            });
+        }
+
+        /**
          * Draws a sector onto the SVG element
          * @param sector
          * @param rings
          */
-        private plotSector(sector: Sector, rings: Ring[]) {
+        private plotSector(sector: Sector) {
             let self = this;
 
             let sectorGroup = this.svg.select("#sectors").append("g")
@@ -355,7 +366,7 @@ module powerbi.extensibility.visual {
                     self.selectSector(sector);
                 });
 
-            rings.forEach(function (ring) {
+            self.radar.rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
                     .innerRadius(self.calculateMaxRadius() * (ring.order - 1) / 4)
                     .outerRadius(self.calculateMaxRadius() * ring.order / 4)
@@ -390,6 +401,16 @@ module powerbi.extensibility.visual {
 
                 let ringDiv = self.sidebar.select("#ring-" + blip.ring.order);
                 ringDiv.select("ul").append("li").text(blip.number + ". " + blip.name);
+            });
+        }
+
+        /**
+         * Draws all the sector lines onto the SVG element
+         */
+        private plotSectorLines() {
+            let self = this;
+            this.radar.sectors.forEach(function (sector) {
+                self.plotSectorLine(sector);
             });
         }
 
@@ -443,7 +464,20 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Draws a blip on the graph
+         * Draws all blips onto the SVG element
+         */
+        private plotBlips() {
+            let self = this;
+            this.radar.sectors.forEach(function (sector) {
+                sector.blips.forEach(function (blip) {
+                    let point = self.generatePoint(sector, blip.ring);
+                    self.plotBlip(blip, point, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
+                });
+            });
+        }
+
+        /**
+         * Draws a blip onto the SVG element
          * @param blip
          * @param coordinates
          */
@@ -490,10 +524,10 @@ module powerbi.extensibility.visual {
          * Renders the names of the rings
          * @param rings
          */
-        private plotRingAxes(rings: Ring[]) {
+        private plotRingAxes() {
             let self = this;
             let ringAxesGroup = this.svg.select("#axes");
-            rings.forEach(function (ring) {
+            this.radar.rings.forEach(function (ring) {
                 let innerRadius = self.calculateMaxRadius() * (ring.order - 1) / 4;
                 let outerRadius = self.calculateMaxRadius() * ring.order / 4;
 
@@ -514,9 +548,9 @@ module powerbi.extensibility.visual {
          * Displays buttons for each sector inside the header
          * @param sectors
          */
-        private plotHeader(sectors: Sector[]) {
+        private plotHeader() {
             let self = this;
-            sectors.forEach(function (sector) {
+            this.radar.sectors.forEach(function (sector) {
                 self.header.append("div")
                     .text(sector.name)
                     .style({
@@ -538,9 +572,9 @@ module powerbi.extensibility.visual {
          * Displays information about the sectors in the visual's sidebar
          * @param sectors
          */
-        private plotSidebar(sectors: Sector[]) {
+        private plotSidebar() {
             let self = this;
-            sectors.forEach(function (sector) {
+            this.radar.sectors.forEach(function (sector) {
                 self.sidebar.append("h3").text(sector.name).style("color", sector.colour);
 
                 let ul = self.sidebar.append("ul");
@@ -555,8 +589,8 @@ module powerbi.extensibility.visual {
 
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            let radar = this.transformData(options.dataViews[0].table);
-            console.log(radar);
+            this.radar = this.transformData(options.dataViews[0].table);
+            console.log(this.radar);
 
             //"Clear" the previously drawn SVG
             this.svg.selectAll("*").remove();
@@ -567,30 +601,21 @@ module powerbi.extensibility.visual {
             });
 
             this.svg.append("g").attr("id", "sectors");
-            radar.sectors.forEach(function (sector) {
-                self.plotSector(sector, radar.rings);
-            });
+            this.plotSectors();
 
             this.svg.append("g").attr("id", "lines");
-            radar.sectors.forEach(function (sector) {
-                self.plotSectorLine(sector);
-            });
+            this.plotSectorLines();
 
-            radar.sectors.forEach(function (sector) {
-                sector.blips.forEach(function (blip) {
-                    let point = self.generatePoint(sector, blip.ring);
-                    self.plotBlip(blip, point, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
-                });
-            });
+            this.plotBlips();
 
             this.svg.append("g").attr("id", "axes");
-            this.plotRingAxes(radar.rings);
+            this.plotRingAxes();
 
             this.header.selectAll("*").remove();
-            this.plotHeader(radar.sectors);
+            this.plotHeader();
 
             this.sidebar.selectAll("*").remove();
-            this.plotSidebar(radar.sectors);
+            this.plotSidebar();
 
             this.updateCount++;
         }
