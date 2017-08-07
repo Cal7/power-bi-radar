@@ -465,15 +465,19 @@ module powerbi.extensibility.visual {
             let self = this;
             let ringAxesGroup = this.svg.select("#axes");
             rings.forEach(function (ring) {
+                let innerRadius = self.calculateMaxRadius() * (ring.order - 1) / 4;
+                let outerRadius = self.calculateMaxRadius() * ring.order / 4;
+
                 let textRelativeCoordinates = {
-                    x: self.calculateMaxRadius() * (ring.order - 1) / 4,
+                    x: (innerRadius + outerRadius) / 2, //The middle of the text should be at the average of the inner and outer radius
                     y: -1 * self.calculateSectorLineWidth() / 2 //If the y were just 0 then it would be slightly above the sector line, so this vertically aligns it within the line
                 };
                 let textAbsoluteCoordinates = self.convertRelativeCoordinates(textRelativeCoordinates);
                 ringAxesGroup.append("text")
                     .text(ring.name)
                     .attr("x", textAbsoluteCoordinates.x)
-                    .attr("y", textAbsoluteCoordinates.y);
+                    .attr("y", textAbsoluteCoordinates.y)
+                    .attr("text-anchor", "middle");
             });
         }
 
