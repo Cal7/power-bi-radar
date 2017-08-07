@@ -206,15 +206,18 @@ module powerbi.extensibility.visual {
         private target: HTMLElement;
         private updateCount: number;
         private settings: VisualSettings;
+        private header: d3.Selection<HTMLElement>;
         private sidebar: d3.Selection<HTMLElement>;
         private svg: d3.Selection<SVGElement>;
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
+            this.header = d3.select(this.target)
+                .append("section").attr("id", "header").style("height", "10%");
             this.sidebar = d3.select(this.target)
-                .append("section").attr("id", "sidebar").style("float", "left").style("width", "20%").style("height", "100%");
+                .append("section").attr("id", "sidebar").style("float", "left").style("width", "20%").style("height", "90%");
             this.svg = d3.select(this.target)
-                .append("section").attr("id", "svg-container").style("float", "right").style("width", "80%").style("height", "100%")
+                .append("section").attr("id", "svg-container").style("float", "right").style("width", "80%").style("height", "90%")
                 .append("svg");
             this.updateCount = 0;
         }
