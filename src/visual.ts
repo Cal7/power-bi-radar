@@ -376,7 +376,20 @@ module powerbi.extensibility.visual {
          * @param sector
          */
         private selectSector(sector) {
-            console.log(sector);
+            let self = this;
+            this.sidebar.selectAll("*").remove();
+
+            sector.blips.forEach(function (blip) {
+                if (self.sidebar.select("#ring-" + blip.ring.order).empty()) {
+                    let ringDiv = self.sidebar.append("div").attr("id", "ring-" + blip.ring.order);
+
+                    ringDiv.append("h3").text(blip.ring.name);
+                    ringDiv.append("ul");
+                }
+
+                let ringDiv = self.sidebar.select("#ring-" + blip.ring.order);
+                ringDiv.select("ul").append("li").text(blip.number + ". " + blip.name);
+            });
         }
 
         /**
