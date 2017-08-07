@@ -478,6 +478,26 @@ module powerbi.extensibility.visual {
         }
 
         /**
+         * Displays buttons for each sector inside the header
+         * @param sectors
+         */
+        private plotHeader(sectors: Sector[]) {
+            let self = this;
+            sectors.forEach(function (sector) {
+                self.header.append("div")
+                    .text(sector.name)
+                    .style({
+                        background: sector.colour,
+                        "border-radius": "5px",
+                        color: "white",
+                        display: "inline-block",
+                        "margin-right": "20px",
+                        padding: "10px 20px"
+                    });
+            });
+        }
+
+        /**
          * Displays information about the sectors in the visual's sidebar
          * @param sectors
          */
@@ -526,6 +546,9 @@ module powerbi.extensibility.visual {
 
             this.svg.append("g").attr("id", "axes");
             this.plotRingAxes(radar.rings);
+
+            this.header.selectAll("*").remove();
+            this.plotHeader(radar.sectors);
 
             this.sidebar.selectAll("*").remove();
             this.plotSidebar(radar.sectors);
