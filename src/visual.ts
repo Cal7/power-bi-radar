@@ -427,8 +427,9 @@ module powerbi.extensibility.visual {
                     self.svg.append("text")
                         .attr("id", "blip-mouseover")
                         .attr("x", absoluteCoordinates.x)
-                        .attr("y", absoluteCoordinates.y - self.calculateBlipRadius())
-                        .text(blip.name);
+                        .attr("y", absoluteCoordinates.y - self.calculateBlipRadius() * 2)
+                        .text(blip.name)
+                        .attr("text-anchor", "middle");
                 })
                 .on("mouseout", function () {
                     self.svg.select("#blip-mouseover").remove();
