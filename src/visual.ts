@@ -396,8 +396,8 @@ module powerbi.extensibility.visual {
          * @param ring
          */
         private generatePoint(sector: Sector, ring: Ring) {
-            let min_angle = sector.startAngle;
-            let max_angle = sector.endAngle;
+            let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis
+            let max_angle = sector.endAngle - (Math.PI / 16);
             let angle = Math.random() * (max_angle - min_angle) + min_angle;
 
             let min_distance = this.calculateMaxRadius() * (ring.order - 1) / 4;
