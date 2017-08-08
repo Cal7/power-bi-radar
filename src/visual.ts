@@ -356,6 +356,9 @@ module powerbi.extensibility.visual {
                 .attr("class", "sector")
                 .on("mouseover", function () {
                     self.selectSector(sector);
+                })
+                .on("mouseout", function () {
+                    self.deselectSector();
                 });
 
             self.radar.rings.forEach(function (ring) {
@@ -420,6 +423,16 @@ module powerbi.extensibility.visual {
             this.svg.selectAll("#sectors .sector:not(#sector-" + sector.id + ")")
                 .style("opacity", 0.3);
             this.svg.select("#sectors .sector#sector-" + sector.id)
+                .style("opacity", 1);
+        }
+
+        /**
+         * Returns the visual to its "normal" state when a particular sector should no longer be focused on
+         */
+        private deselectSector() {
+            this.plotHeader();
+            this.plotSidebar();
+            this.svg.selectAll("#sectors .sector")
                 .style("opacity", 1);
         }
 
@@ -568,6 +581,8 @@ module powerbi.extensibility.visual {
          * @param sectors
          */
         private plotHeader() {
+            this.header.selectAll("*").remove();
+
             let self = this;
             this.radar.sectors.forEach(function (sector) {
                 self.header.append("div")
@@ -583,6 +598,9 @@ module powerbi.extensibility.visual {
                     .attr("id", sector.id + "-button")
                     .on("mouseover", function () {
                         self.selectSector(sector);
+                    })
+                    .on("mouseout", function () {
+                        self.deselectSector();
                     });
             });
         }
@@ -592,6 +610,8 @@ module powerbi.extensibility.visual {
          * @param sectors
          */
         private plotSidebar() {
+            this.sidebar.selectAll("*").remove();
+
             let self = this;
             this.radar.sectors.forEach(function (sector) {
                 self.sidebar.append("h3").text(sector.name).style("color", sector.colour);
@@ -629,11 +649,9 @@ module powerbi.extensibility.visual {
 
             this.svg.append("g").attr("id", "axes");
             this.plotRingAxes();
-
-            this.header.selectAll("*").remove();
+            
             this.plotHeader();
-
-            this.sidebar.selectAll("*").remove();
+            
             this.plotSidebar();
 
             this.updateCount++;
