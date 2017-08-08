@@ -392,7 +392,20 @@ module powerbi.extensibility.visual {
                 }
 
                 let ringDiv = self.sidebar.select("#ring-" + blip.ring.order);
-                ringDiv.select("ul").append("li").text(blip.number + ". " + blip.name);
+                let li = ringDiv.select("ul").append("li");
+                li.append("div")
+                    .text(blip.number + ". " + blip.name)
+                    .classed("item-name", true);
+                if (blip.description) {
+                    li.append("div")
+                        .html(blip.description)
+                        .classed("item-description", true)
+                        .style({
+                            "border-color": "black",
+                            "border-style": "solid",
+                            "border-width": "1px 0px"
+                        });
+                }
             });
 
             this.header.select("#" + sector.id + "-button").style({
