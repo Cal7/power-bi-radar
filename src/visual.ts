@@ -402,6 +402,15 @@ module powerbi.extensibility.visual {
                 let ringDiv = self.sidebar.select("#ring-" + blip.ring.order);
                 ringDiv.select("ul").append("li").text(blip.number + ". " + blip.name);
             });
+
+            this.header.select("#" + sector.id + "-button").style({
+                background: sector.colour,
+                color: "white"
+            });
+            this.header.selectAll(":not(#" + sector.id + "-button)").style({
+                background: "#eeeeee",
+                color: "black"
+            });
         }
 
         /**
