@@ -354,14 +354,6 @@ module powerbi.extensibility.visual {
             let sectorGroup = this.svg.select("#sectors").append("g")
                 .attr("id", "sector-" + sector.id)
                 .attr("class", "sector")
-                .on("mouseover", function () { //Reduce the opacity of the the other sectors to make this one more prominent
-                    self.svg.selectAll("#sectors .sector:not(#sector-" + sector.id + ")")
-                        .style("opacity", 0.3);
-                }).
-                on("mouseout", function () {
-                    self.svg.selectAll(".sector")
-                        .style("opacity", 1)
-                })
                 .on("click", function () {
                     self.selectSector(sector);
                 });
@@ -411,6 +403,11 @@ module powerbi.extensibility.visual {
                 background: "#eeeeee",
                 color: "black"
             });
+
+            this.svg.selectAll("#sectors .sector:not(#sector-" + sector.id + ")")
+                .style("opacity", 0.3);
+            this.svg.select("#sectors .sector#sector-" + sector.id)
+                .style("opacity", 1);
         }
 
         /**
