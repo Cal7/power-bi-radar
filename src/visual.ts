@@ -562,7 +562,7 @@ module powerbi.extensibility.visual {
                         padding: "10px 20px"
                     })
                     .attr("id", sector.id + "-button")
-                    .on("mouseover", function () {
+                    .on("click", function () {
                         self.selectSector(sector);
                     });
             });
