@@ -397,7 +397,7 @@ module powerbi.extensibility.visual {
                 let ringDiv = self.sidebar.select("#ring-" + blip.ring.order);
                 let li = ringDiv.select("ul").append("li");
                 li.append("div")
-                    .text(blip.number + ". " + blip.name)
+                    .html(blip.number + ". " + blip.name + (blip.isNew ? " <i>(new)</i>" : ""))
                     .classed("item-name", true);
                 if (blip.description) {
                     li.append("div")
