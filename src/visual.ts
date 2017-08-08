@@ -354,7 +354,7 @@ module powerbi.extensibility.visual {
             let sectorGroup = this.svg.select("#sectors").append("g")
                 .attr("id", "sector-" + sector.id)
                 .attr("class", "sector")
-                .on("click", function () {
+                .on("mouseover", function () {
                     self.selectSector(sector);
                 });
 
@@ -568,7 +568,7 @@ module powerbi.extensibility.visual {
                         padding: "10px 20px"
                     })
                     .attr("id", sector.id + "-button")
-                    .on("click", function () {
+                    .on("mouseover", function () {
                         self.selectSector(sector);
                     });
             });
