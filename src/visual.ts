@@ -41,12 +41,23 @@ module powerbi.extensibility.visual {
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
-            this.header = d3.select(this.target)
-                .append("section").attr("id", "header").style("height", "10%");
-            this.sidebar = d3.select(this.target)
-                .append("section").attr("id", "sidebar").style("float", "left").style("width", "20%").style("height", "90%");
-            this.svg = d3.select(this.target)
-                .append("section").attr("id", "svg-container").style("float", "right").style("width", "80%").style("height", "90%")
+            this.header = d3.select(this.target).append("section")
+                .attr("id", "header")
+                .style("height", "10%");
+            this.sidebar = d3.select(this.target).append("section")
+                .attr("id", "sidebar")
+                .style({
+                    float: "left",
+                    width: "20%",
+                    height: "90%"
+                });
+            this.svg = d3.select(this.target).append("section")
+                .attr("id", "svg-container")
+                .style({
+                    float: "right",
+                    width: "80%",
+                    height: "90%"
+                })
                 .append("svg");
             this.updateCount = 0;
         }
@@ -217,11 +228,13 @@ module powerbi.extensibility.visual {
             this.sidebar.selectAll("*").remove();
 
             sector.blips.forEach(function (blip) {
-                //If this blip's ring does not yet have a container element inside the sector, create it
+                //If this blip's ring does not yet have a container element inside the sidebar, create it
                 if (self.sidebar.select("#ring-" + blip.ring.order).empty()) {
-                    let ringDiv = self.sidebar.append("div").attr("id", "ring-" + blip.ring.order);
+                    let ringDiv = self.sidebar.append("div")
+                        .attr("id", "ring-" + blip.ring.order);
 
-                    ringDiv.append("h3").text(blip.ring.name);
+                    ringDiv.append("h3")
+                        .text(blip.ring.name);
                     ringDiv.append("ul");
                 }
 
@@ -243,14 +256,16 @@ module powerbi.extensibility.visual {
             });
 
             //Grey all the buttons in the header apart from this sector's button
-            this.header.select("#" + sector.id + "-button").style({
-                background: sector.colour,
-                color: "white"
-            });
-            this.header.selectAll(":not(#" + sector.id + "-button)").style({
-                background: "#eeeeee",
-                color: "black"
-            });
+            this.header.select("#" + sector.id + "-button")
+                .style({
+                    background: sector.colour,
+                    color: "white"
+                });
+            this.header.selectAll(":not(#" + sector.id + "-button)")
+                .style({
+                    background: "#eeeeee",
+                    color: "black"
+                });
 
             //Decrease the opacity of all sectors apart from this one
             this.svg.select("#sectors .sector#sector-" + sector.id)
