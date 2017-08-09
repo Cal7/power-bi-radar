@@ -27,8 +27,7 @@
 module powerbi.extensibility.visual {
     "use strict";
 
-    //Not sure why this is necessary for lodash but not for d3... but it got things working.
-    //Hacky solution from https://community.powerbi.com/t5/Developer/Adding-a-static-js-script-to-a-custom-visualization/td-p/104957
+    //Get lodash working... Hacky solution from https://community.powerbi.com/t5/Developer/Adding-a-static-js-script-to-a-custom-visualization/td-p/104957
     let _ = (<any>window)._;
 
     export class Visual implements IVisual {
@@ -61,6 +60,7 @@ module powerbi.extensibility.visual {
             let radar = new Radar();
 
             //ringMap will hold all the rings, indexed by their name
+            //Maybe at a later date these will be defined in the data instead of hardcoded
             let ringMap = {
                 Accelerate: new Ring("Accelerate", 1, "#bababa"),
                 Progress: new Ring("Progress", 2, "#cacaca"),
@@ -139,7 +139,7 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Converts coordinates relative to the center of the radar into coordinates relative to the top left of the SVG container
+         * Converts coordinates relative to the radar's center into coordinates relative to the top left of the SVG container
          * @param coordinates
          */
         private convertRelativeCoordinates(coordinates: { x: number, y: number }) {
@@ -207,15 +207,17 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Gets called when a sector is clicked on
+         * Gets called when a sector is clicked on. Focuses on the sector and changes the sidebar to display info about the sector
          * @param sector
          */
         private selectSector(sector) {
             let self = this;
+
+            //Remove the current contents of the sidebar
             this.sidebar.selectAll("*").remove();
 
             sector.blips.forEach(function (blip) {
-                //If this blip's ring does not yet have a container element, create it
+                //If this blip's ring does not yet have a container element inside the sector, create it
                 if (self.sidebar.select("#ring-" + blip.ring.order).empty()) {
                     let ringDiv = self.sidebar.append("div").attr("id", "ring-" + blip.ring.order);
 
@@ -240,6 +242,7 @@ module powerbi.extensibility.visual {
                 }
             });
 
+            //Grey all the buttons in the header apart from this sector's button
             this.header.select("#" + sector.id + "-button").style({
                 background: sector.colour,
                 color: "white"
@@ -249,10 +252,11 @@ module powerbi.extensibility.visual {
                 color: "black"
             });
 
-            this.svg.selectAll("#sectors .sector:not(#sector-" + sector.id + ")")
-                .style("opacity", 0.3);
+            //Decrease the opacity of all sectors apart from this one
             this.svg.select("#sectors .sector#sector-" + sector.id)
                 .style("opacity", 1);
+            this.svg.selectAll("#sectors .sector:not(#sector-" + sector.id + ")")
+                .style("opacity", 0.3);
         }
 
         /**
@@ -276,16 +280,17 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Plots a white line marking the beginning of a sector
+         * Plots white lines to show the beginning and end of a sector
          * @param sector
          */
         private plotSectorLine(sector: Sector) {
-            let absoluteStartCoordinates = this.convertRelativeCoordinates({ x: 0, y: 0 });
-
+            let relativeStartCoordinates = { x: 0, y: 0 };
             let relativeEndCoordinates = {
                 x: this.calculateMaxRadius() * Math.cos(sector.startAngle),
                 y: this.calculateMaxRadius() * Math.sin(sector.startAngle)
             };
+
+            let absoluteStartCoordinates = this.convertRelativeCoordinates({ x: 0, y: 0 });
             let absoluteEndCoordinates = this.convertRelativeCoordinates(relativeEndCoordinates);
 
             this.svg.select("#lines").append("line")
@@ -310,14 +315,14 @@ module powerbi.extensibility.visual {
          * @param ring
          */
         private generatePoint(sector: Sector, ring: Ring) {
-            let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis
+            let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
-            let angle = Math.random() * (max_angle - min_angle) + min_angle;
+            let angle = Math.random() * (max_angle - min_angle) + min_angle; //Random angle between min_angle and max_angle
 
             let min_distance = this.calculateMaxRadius() * (ring.order - 1) / 4;
             let max_distance = this.calculateMaxRadius() * ring.order / 4;
             if (min_distance === 0) {
-                min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center
+                min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
             let distance = Math.random() * (max_distance - min_distance) + min_distance;
 
@@ -376,9 +381,7 @@ module powerbi.extensibility.visual {
          * Calculates the radius that each blip should have
          */
         private calculateBlipRadius() {
-            let radius = this.calculateMaxRadius();
-
-            return radius / 30;
+            return this.calculateMaxRadius() / 30;
         }
 
         /**
@@ -410,9 +413,11 @@ module powerbi.extensibility.visual {
          * @param sectors
          */
         private plotHeader() {
+            //Remove the existing header
             this.header.selectAll("*").remove();
 
             let self = this;
+            //Plot the buttons of each sector
             this.radar.sectors.forEach(function (sector) {
                 self.header.append("div")
                     .text(sector.name)
@@ -439,15 +444,19 @@ module powerbi.extensibility.visual {
          * @param sectors
          */
         private plotSidebar() {
+            //Remove the existing sidebar
             this.sidebar.selectAll("*").remove();
 
             let self = this;
             this.radar.sectors.forEach(function (sector) {
-                self.sidebar.append("h3").text(sector.name).style("color", sector.colour);
+                self.sidebar.append("h3")
+                    .text(sector.name)
+                    .style("color", sector.colour);
 
                 let ul = self.sidebar.append("ul");
                 sector.blips.forEach(function (blip) {
-                    ul.append("li").text(blip.number + ". " + blip.name);
+                    ul.append("li")
+                        .text(blip.number + ". " + blip.name);
                 });
             });
         }

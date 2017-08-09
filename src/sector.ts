@@ -10,7 +10,7 @@ class Sector {
     }
 
     get id() {
-        return this.name.replace(/\W/g, "").toLowerCase();
+        return this.name.replace(/\W/g, "").toLowerCase(); //Strip non-alphanumeric characters (then convert to lowercase)
     }
 
     private _startAngle: number;
