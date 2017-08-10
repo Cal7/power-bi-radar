@@ -329,7 +329,7 @@ module powerbi.extensibility.visual {
          * @param sector
          * @param ring
          */
-        private generatePoint(sector: Sector, ring: Ring) {
+        private generateBlipCoordinates(sector: Sector, ring: Ring) {
             let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
             let angle = Math.random() * (max_angle - min_angle) + min_angle; //Random angle between min_angle and max_angle
@@ -351,7 +351,7 @@ module powerbi.extensibility.visual {
             let self = this;
             this.radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
-                    let point = self.generatePoint(sector, blip.ring);
+                    let point = self.generateBlipCoordinates(sector, blip.ring);
                     self.plotBlip(blip, point, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
                 });
             });
