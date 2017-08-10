@@ -378,7 +378,6 @@ module powerbi.extensibility.visual {
             let self = this;
             this.radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
-                    let point = self.generateBlipCoordinates(sector, blip.ring);
                     self.plotBlip(blip, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
                 });
             });
