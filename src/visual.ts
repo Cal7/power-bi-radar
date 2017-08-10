@@ -330,9 +330,14 @@ module powerbi.extensibility.visual {
         private setBlipCoordinates() {
             let self = this;
 
+            //We need to keep track of the coordinates of all blips so we can check whether a spot is available or not
+            let allCoordinates: { x: number, y: number }[] = [];
+
             this.radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
-                    blip.coordinates = self.generateBlipCoordinates(sector, blip.ring);
+                    let coordinates = self.generateBlipCoordinates(sector, blip.ring, allCoordinates);
+                    blip.coordinates = coordinates;
+                    allCoordinates.push(coordinates);
                 });
             });
         }
@@ -342,7 +347,7 @@ module powerbi.extensibility.visual {
          * @param sector
          * @param ring
          */
-        private generateBlipCoordinates(sector: Sector, ring: Ring) {
+        private generateBlipCoordinates(sector: Sector, ring: Ring, allCoordinates: { x: number, y: number }[]) {
             let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
 
@@ -358,7 +363,7 @@ module powerbi.extensibility.visual {
                 let distance = Math.random() * (max_distance - min_distance) + min_distance;
 
                 coordinates = this.polarToCartesian({ distance: distance, angle: angle });
-            } while (!this.coordinatesAreFree(coordinates));
+            } while (!this.coordinatesAreFree(coordinates, allCoordinates));
 
             return coordinates;
         }
@@ -367,8 +372,13 @@ module powerbi.extensibility.visual {
          * Determines whether the space at particular coordinates is empty or whether a blip is already plotted there
          * @param coordinates
          */
-        private coordinatesAreFree(coordinates: { x: number, y: number }) {
-            return true;
+        private coordinatesAreFree(coordinates: { x: number, y: number }, allCoordinates: { x: number, y: number }[]) {
+            let blipRadius = this.calculateBlipRadius();
+
+            //Go through every existing blip's coordinates, and return whether they are all a sufficient distance away or not
+            return allCoordinates.every(function (currentCoordinates) {
+                return Math.abs(currentCoordinates.x - coordinates.x) > blipRadius && Math.abs(currentCoordinates.y - coordinates.y) > blipRadius;
+            });
         }
 
         /**
