@@ -38,6 +38,14 @@ class Blip {
         this._description = description;
     }
 
+    private _coordinates: { x: number, y: number };
+    get coordinates() {
+        return this._coordinates;
+    }
+    set coordinates(coordinates: { x: number, y: number }) {
+        this._coordinates = coordinates;
+    }
+
     constructor(name: string, number: number, ring: Ring, isNew: boolean, description: string) {
         this.name = name;
         this._number = number;

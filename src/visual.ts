@@ -325,6 +325,19 @@ module powerbi.extensibility.visual {
         }
 
         /**
+         * Iterates over every blip on the radar and generates coordinates for it
+         */
+        private setBlipCoordinates() {
+            let self = this;
+
+            this.radar.sectors.forEach(function (sector) {
+                sector.blips.forEach(function (blip) {
+                    blip.coordinates = self.generateBlipCoordinates(sector, blip.ring);
+                });
+            });
+        }
+
+        /**
          * Given a sector and a ring to which a point belongs, randomly generates coordinates for the point
          * @param sector
          * @param ring
@@ -352,7 +365,7 @@ module powerbi.extensibility.visual {
             this.radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
                     let point = self.generateBlipCoordinates(sector, blip.ring);
-                    self.plotBlip(blip, point, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
+                    self.plotBlip(blip, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
                 });
             });
         }
@@ -362,9 +375,9 @@ module powerbi.extensibility.visual {
          * @param blip
          * @param coordinates
          */
-        private plotBlip(blip: Blip, coordinates: { x: number, y: number }, colour: string, sectorGroup: d3.Selection<Element>) {
+        private plotBlip(blip: Blip, colour: string, sectorGroup: d3.Selection<Element>) {
             let self = this;
-            let absoluteCoordinates = this.convertRelativeCoordinates(coordinates);
+            let absoluteCoordinates = this.convertRelativeCoordinates(blip.coordinates);
 
             let blipGroup = sectorGroup.select(".blips").append("g")
                 .attr("class", "blip")
@@ -498,6 +511,7 @@ module powerbi.extensibility.visual {
             this.svg.append("g").attr("id", "lines");
             this.plotSectorLines();
 
+            this.setBlipCoordinates();
             this.plotBlips();
 
             this.svg.append("g").attr("id", "axes");
