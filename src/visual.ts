@@ -300,10 +300,10 @@ module powerbi.extensibility.visual {
          */
         private plotSectorLine(sector: Sector) {
             let relativeStartCoordinates = { x: 0, y: 0 };
-            let relativeEndCoordinates = {
-                x: this.calculateMaxRadius() * Math.cos(sector.startAngle),
-                y: this.calculateMaxRadius() * Math.sin(sector.startAngle)
-            };
+            let relativeEndCoordinates = this.polarToCartesian({
+                distance: this.calculateMaxRadius(),
+                angle: sector.startAngle
+            });
 
             let absoluteStartCoordinates = this.convertRelativeCoordinates({ x: 0, y: 0 });
             let absoluteEndCoordinates = this.convertRelativeCoordinates(relativeEndCoordinates);
