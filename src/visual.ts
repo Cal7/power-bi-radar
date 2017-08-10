@@ -345,16 +345,30 @@ module powerbi.extensibility.visual {
         private generateBlipCoordinates(sector: Sector, ring: Ring) {
             let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
-            let angle = Math.random() * (max_angle - min_angle) + min_angle; //Random angle between min_angle and max_angle
 
             let min_distance = this.calculateMaxRadius() * (ring.order - 1) / 4;
             let max_distance = this.calculateMaxRadius() * ring.order / 4;
             if (min_distance === 0) {
                 min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
-            let distance = Math.random() * (max_distance - min_distance) + min_distance;
 
-            return this.polarToCartesian({ distance: distance, angle: angle });
+            let coordinates: { x: number, y: number };
+            do {
+                let angle = Math.random() * (max_angle - min_angle) + min_angle; //Random angle between min_angle and max_angle
+                let distance = Math.random() * (max_distance - min_distance) + min_distance;
+
+                coordinates = this.polarToCartesian({ distance: distance, angle: angle });
+            } while (!this.coordinatesAreFree(coordinates));
+
+            return coordinates;
+        }
+
+        /**
+         * Determines whether the space at particular coordinates is empty or whether a blip is already plotted there
+         * @param coordinates
+         */
+        private coordinatesAreFree(coordinates: { x: number, y: number }) {
+            return true;
         }
 
         /**
