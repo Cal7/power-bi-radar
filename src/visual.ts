@@ -358,11 +358,17 @@ module powerbi.extensibility.visual {
             }
 
             let coordinates: { x: number, y: number };
+            let attemptCount = 0; //Keeps track of how many times we have generated coordinates and had to discard them for being too close to another blip
             do {
                 let angle = Math.random() * (max_angle - min_angle) + min_angle; //Random angle between min_angle and max_angle
                 let distance = Math.random() * (max_distance - min_distance) + min_distance;
 
                 coordinates = this.polarToCartesian({ distance: distance, angle: angle });
+
+                attemptCount++;
+                if (attemptCount >+ 10) { //If ten successive attempts fail, it is probable that there's simply nowhere to put it, so it should just be allowed to overlap another blip
+                    break;
+                }
             } while (!this.coordinatesAreFree(coordinates, allCoordinates));
 
             return coordinates;
