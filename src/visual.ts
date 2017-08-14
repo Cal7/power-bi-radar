@@ -535,6 +535,8 @@ module powerbi.extensibility.visual {
         }
 
         public update(options: VisualUpdateOptions) {
+            console.time("update");
+
             let self = this;
 
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
@@ -567,6 +569,8 @@ module powerbi.extensibility.visual {
             this.plotSidebar();
 
             this.updateCount++;
+
+            console.timeEnd("update");
         }
 
         private static parseSettings(dataView: DataView): VisualSettings {
