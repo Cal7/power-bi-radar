@@ -379,7 +379,7 @@ module powerbi.extensibility.visual {
 
             //Go through every existing blip's coordinates, and return whether they are all a sufficient distance away or not
             return allCoordinates.every(function (currentCoordinates) {
-                return self.distanceBetweenPoints(coordinates, currentCoordinates) > blipRadius * 2;
+                return self.distanceBetweenPoints(coordinates, currentCoordinates) > blipRadius * 2.1; //2.1 rather than 2 so that two blips cannot be touching each other
             });
         }
 
