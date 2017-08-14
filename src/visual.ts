@@ -81,7 +81,7 @@ module powerbi.extensibility.visual {
 
             //Because the order of the columns is not guaranteed to remain consistent, we need to determine the indices of all the fields before we can fetch their values
             let columnMap = table.columns.map(function (column) {
-                return column.displayName;
+                return Object.keys(column.roles)[0];
             });
             let nameIndex = columnMap.indexOf("name");
             let descriptionIndex = columnMap.indexOf("description");
