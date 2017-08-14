@@ -115,12 +115,12 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Extracts the dimensions of the visual's SVG container
+         * Returns the dimensions of the "drawing area" of the SVG element
          */
         private getDimensions() {
             return {
-                width: (this.svg.node() as HTMLElement).getBoundingClientRect().width,
-                height: (this.svg.node() as HTMLElement).getBoundingClientRect().height
+                width: 2,
+                height: 2
             };
         }
 
@@ -203,8 +203,8 @@ module powerbi.extensibility.visual {
 
             self.radar.rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
-                    .innerRadius(self.calculateMaxRadius() * (ring.order - 1) / 4)
-                    .outerRadius(self.calculateMaxRadius() * ring.order / 4)
+                    .innerRadius((ring.order - 1) / 4)
+                    .outerRadius(ring.order / 4)
                     .startAngle(sector.startAngle)
                     .endAngle(sector.endAngle);
 
@@ -301,7 +301,7 @@ module powerbi.extensibility.visual {
         private plotSectorLine(sector: Sector) {
             let relativeStartCoordinates = { x: 0, y: 0 };
             let relativeEndCoordinates = this.polarToCartesian({
-                distance: this.calculateMaxRadius(),
+                distance: 1,
                 angle: sector.startAngle
             });
 
@@ -321,7 +321,7 @@ module powerbi.extensibility.visual {
          * Determines the width that the white line at the start of each sector should be
          */
         private calculateSectorLineWidth() {
-            return this.calculateMaxRadius() / 100;
+            return 0.01;
         }
 
         /**
@@ -351,8 +351,8 @@ module powerbi.extensibility.visual {
             let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
 
-            let min_distance = this.calculateMaxRadius() * (ring.order - 1) / 4;
-            let max_distance = this.calculateMaxRadius() * ring.order / 4;
+            let min_distance = (ring.order - 1) / 4;
+            let max_distance = ring.order / 4;
             if (min_distance === 0) {
                 min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
@@ -431,7 +431,8 @@ module powerbi.extensibility.visual {
                         .attr("x", absoluteCoordinates.x)
                         .attr("y", absoluteCoordinates.y - self.calculateBlipRadius() * 2)
                         .text(blip.name)
-                        .attr("text-anchor", "middle");
+                        .attr("text-anchor", "middle")
+                        .attr("font-size", 0.06);
                 })
                 .on("mouseout", function () {
                     self.svg.select("#blip-mouseover").remove();
@@ -446,14 +447,15 @@ module powerbi.extensibility.visual {
                 .attr("y", absoluteCoordinates.y + self.calculateBlipRadius() / 2)
                 .text(blip.number)
                 .attr("text-anchor", "middle")
-                .attr("fill", "white");
+                .attr("fill", "white")
+                .attr("font-size", 0.05);
         }
 
         /**
          * Calculates the radius that each blip should have
          */
         private calculateBlipRadius() {
-            return this.calculateMaxRadius() / 30;
+            return 0.035;
         }
 
         /**
@@ -464,8 +466,8 @@ module powerbi.extensibility.visual {
             let self = this;
             let ringAxesGroup = this.svg.select("#axes");
             this.radar.rings.forEach(function (ring) {
-                let innerRadius = self.calculateMaxRadius() * (ring.order - 1) / 4;
-                let outerRadius = self.calculateMaxRadius() * ring.order / 4;
+                let innerRadius = (ring.order - 1) / 4;
+                let outerRadius = ring.order / 4;
 
                 let textRelativeCoordinates = {
                     x: (innerRadius + outerRadius) / 2, //The middle of the text should be at the average of the inner and outer radius
@@ -477,7 +479,8 @@ module powerbi.extensibility.visual {
                     .attr("x", textAbsoluteCoordinates.x)
                     .attr("y", textAbsoluteCoordinates.y)
                     .attr("text-anchor", "middle")
-                    .attr("alignment-baseline", "middle");
+                    .attr("alignment-baseline", "middle")
+                    .attr("font-size", 0.05);
             });
         }
 
@@ -549,7 +552,8 @@ module powerbi.extensibility.visual {
             
             this.svg.attr({
                 width: this.calculateMaxRadius() * 2,
-                height: this.calculateMaxRadius() * 2
+                height: this.calculateMaxRadius() * 2,
+                viewBox: "0 0 2 2"
             });
 
             this.svg.append("g").attr("id", "sectors");
