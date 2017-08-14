@@ -373,12 +373,33 @@ module powerbi.extensibility.visual {
          * @param coordinates
          */
         private coordinatesAreFree(coordinates: { x: number, y: number }, allCoordinates: { x: number, y: number }[]) {
+            let self = this;
+
             let blipRadius = this.calculateBlipRadius();
 
             //Go through every existing blip's coordinates, and return whether they are all a sufficient distance away or not
             return allCoordinates.every(function (currentCoordinates) {
-                return Math.abs(currentCoordinates.x - coordinates.x) > blipRadius && Math.abs(currentCoordinates.y - coordinates.y) > blipRadius;
+                return self.distanceBetweenPoints(coordinates, currentCoordinates) > blipRadius * 2;
             });
+        }
+
+        /**
+         * Calculates the distance between two points on a Cartesian plane
+         * @param coordinates1
+         * @param coordinates2
+         */
+        private distanceBetweenPoints(coordinates1: { x: number, y: number }, coordinates2: { x: number, y: number }) {
+            return Math.pow(
+                Math.pow(
+                    coordinates1.x - coordinates2.x,
+                    2
+                )
+                + Math.pow(
+                    coordinates1.y - coordinates2.y,
+                    2
+                ),
+                0.5
+            );
         }
 
         /**
