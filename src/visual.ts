@@ -455,7 +455,8 @@ module powerbi.extensibility.visual {
                     .text(ring.name)
                     .attr("x", textAbsoluteCoordinates.x)
                     .attr("y", textAbsoluteCoordinates.y)
-                    .attr("text-anchor", "middle");
+                    .attr("text-anchor", "middle")
+                    .attr("alignment-baseline", "middle");
             });
         }
 
