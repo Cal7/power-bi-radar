@@ -42,22 +42,11 @@ module powerbi.extensibility.visual {
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
             this.header = d3.select(this.target).append("section")
-                .attr("id", "header")
-                .style("height", "10%");
+                .attr("id", "header");
             this.sidebar = d3.select(this.target).append("section")
-                .attr("id", "sidebar")
-                .style({
-                    float: "left",
-                    width: "20%",
-                    height: "90%"
-                });
+                .attr("id", "sidebar");
             this.svg = d3.select(this.target).append("section")
                 .attr("id", "svg-container")
-                .style({
-                    float: "right",
-                    width: "80%",
-                    height: "90%"
-                })
                 .append("svg");
             this.updateCount = 0;
         }
@@ -89,6 +78,9 @@ module powerbi.extensibility.visual {
             let ringIndex = columnMap.indexOf("ring");
             let isNewIndex = columnMap.indexOf("isNew");
             let colourIndex = columnMap.indexOf("colour");
+
+            let ringNames = table.rows;
+            console.log(ringNames);
 
             let sectors = {};
             table.rows.forEach(function (v, i) {
@@ -246,12 +238,7 @@ module powerbi.extensibility.visual {
                 if (blip.description) {
                     li.append("div")
                         .html(blip.description)
-                        .classed("item-description", true)
-                        .style({
-                            "border-color": "black",
-                            "border-style": "solid",
-                            "border-width": "1px 0px"
-                        });
+                        .classed("item-description", true);
                 }
             });
 
@@ -503,13 +490,10 @@ module powerbi.extensibility.visual {
             this.radar.sectors.forEach(function (sector) {
                 self.header.append("div")
                     .text(sector.name)
+                    .classed("button", true)
                     .style({
                         background: sector.colour,
-                        "border-radius": "5px",
-                        color: "white",
-                        display: "inline-block",
-                        "margin-right": "20px",
-                        padding: "10px 20px"
+                        color: "white"
                     })
                     .attr("id", sector.id + "-button")
                     .on("mouseover", function () {
