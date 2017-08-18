@@ -76,9 +76,6 @@ module powerbi.extensibility.visual {
             let isNewIndex = columnMap.indexOf("isNew");
             let colourIndex = columnMap.indexOf("colour");
 
-            let ringNames = table.rows;
-            console.log(ringNames);
-
             let sectors = {};
             table.rows.forEach(function (v, i) {
                 let name = v[nameIndex];
