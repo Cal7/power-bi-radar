@@ -9,11 +9,6 @@ class Blip {
         this._name = name;
     }
 
-    private _number: number;
-    get number() {
-        return this._number;
-    }
-
     private _ring: Ring;
     get ring() {
         return this._ring;
@@ -46,9 +41,8 @@ class Blip {
         this._coordinates = coordinates;
     }
 
-    constructor(name: string, number: number, ring: Ring, isNew: boolean, description: string) {
+    constructor(name: string, ring: Ring, isNew: boolean, description: string) {
         this.name = name;
-        this._number = number;
         this.ring = ring;
         this.isNew = isNew;
         this.description = description;
