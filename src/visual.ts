@@ -201,39 +201,6 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Draws all the sector lines onto the SVG element
-         */
-        private plotSectorLines() {
-            let self = this;
-            this.radar.sectors.forEach(function (sector) {
-                self.plotSectorLine(sector);
-            });
-        }
-
-        /**
-         * Plots white lines to show the beginning and end of a sector
-         * @param sector
-         */
-        private plotSectorLine(sector: Sector) {
-            let relativeStartCoordinates = { x: 0, y: 0 };
-            let relativeEndCoordinates = this.polarToCartesian({
-                distance: 1,
-                angle: sector.startAngle
-            });
-
-            let absoluteStartCoordinates = this.convertRelativeCoordinates({ x: 0, y: 0 });
-            let absoluteEndCoordinates = this.convertRelativeCoordinates(relativeEndCoordinates);
-
-            this.svg.select("#lines").append("line")
-                .attr("x1", absoluteStartCoordinates.x)
-                .attr("y1", absoluteStartCoordinates.y)
-                .attr("x2", absoluteEndCoordinates.x)
-                .attr("y2", absoluteEndCoordinates.y)
-                .attr("stroke-width", this.calculateSectorLineWidth())
-                .attr("stroke", "white");
-        }
-
-        /**
          * Determines the width that the white line at the start of each sector should be
          */
         private calculateSectorLineWidth() {
@@ -381,32 +348,6 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Renders the names of the rings
-         * @param rings
-         */
-        private plotRingAxes() {
-            let self = this;
-            let ringAxesGroup = this.svg.select("#axes");
-            this.radar.rings.forEach(function (ring) {
-                let innerRadius = (ring.order - 1) / 4;
-                let outerRadius = ring.order / 4;
-
-                let textRelativeCoordinates = {
-                    x: (innerRadius + outerRadius) / 2, //The middle of the text should be at the average of the inner and outer radius
-                    y: -1 * self.calculateSectorLineWidth() / 2 //If the y were just 0 then it would be slightly above the sector line, so this vertically aligns it within the line
-                };
-                let textAbsoluteCoordinates = self.convertRelativeCoordinates(textRelativeCoordinates);
-                ringAxesGroup.append("text")
-                    .text(ring.name)
-                    .attr("x", textAbsoluteCoordinates.x)
-                    .attr("y", textAbsoluteCoordinates.y)
-                    .attr("text-anchor", "middle")
-                    .attr("alignment-baseline", "middle")
-                    .attr("font-size", 0.05);
-            });
-        }
-
-        /**
          * Displays information about the sectors in the visual's sidebar
          * @param sectors
          */
@@ -447,14 +388,8 @@ module powerbi.extensibility.visual {
             this.svg.append("g").attr("id", "sectors");
             this.plotSectors();
 
-            this.svg.append("g").attr("id", "lines");
-            this.plotSectorLines();
-
             this.setBlipCoordinates();
             this.plotBlips();
-
-            this.svg.append("g").attr("id", "axes");
-            this.plotRingAxes();
             
             this.plotSidebar();
 
