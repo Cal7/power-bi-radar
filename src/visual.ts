@@ -368,7 +368,15 @@ module powerbi.extensibility.visual {
                 sector.blips.forEach(function (blip) {
                     ul.append("li")
                         .text(blip.name)
-                        .classed("blip-" + blip.id, true);
+                        .classed("blip-" + blip.id, true)
+                        .on("mouseover", function () {
+                            d3.select(this)
+                                .style({
+                                    background: blip.ring.colour
+                                });
+                            self.svg.select(".blip-" + blip.id + " circle")
+                                .attr("r", self.calculateBlipRadius() * 1.5);
+                        });
                 });
             });
         }
