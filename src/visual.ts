@@ -327,6 +327,32 @@ module powerbi.extensibility.visual {
         }
 
         /**
+         * When an item is hovered over in a sidebar list, the blip size should be increased and the list item's background changed
+         * @param blip
+         */
+        private focusBlip(blip) {
+            this.sidebar.select(".blip-" + blip.id)
+                .style({
+                    background: blip.ring.colour
+                });
+            this.svg.select(".blip-" + blip.id + " circle")
+                .attr("r", this.calculateBlipRadius() * 1.5);
+        }
+
+        /**
+         * When a sidebar item stops being hovered over, it should return to its normal state
+         * @param blip
+         */
+        private defocusBlip(blip) {
+            this.sidebar.select(".blip-" + blip.id)
+                .style({
+                    background: "none"
+                });
+            this.svg.select(".blip-" + blip.id + " circle")
+                .attr("r", this.calculateBlipRadius());
+        }
+
+        /**
          * Calculates the radius that each blip should have
          */
         private calculateBlipRadius() {
@@ -370,12 +396,10 @@ module powerbi.extensibility.visual {
                         .text(blip.name)
                         .classed("blip-" + blip.id, true)
                         .on("mouseover", function () {
-                            d3.select(this)
-                                .style({
-                                    background: blip.ring.colour
-                                });
-                            self.svg.select(".blip-" + blip.id + " circle")
-                                .attr("r", self.calculateBlipRadius() * 1.5);
+                            self.focusBlip(blip);
+                        })
+                        .on("mouseout", function () {
+                            self.defocusBlip(blip);
                         });
                 });
             });
