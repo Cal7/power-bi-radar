@@ -34,15 +34,12 @@ module powerbi.extensibility.visual {
         private target: HTMLElement;
         private updateCount: number;
         private settings: VisualSettings;
-        private header: d3.Selection<HTMLElement>;
         private sidebar: d3.Selection<HTMLElement>;
         private svg: d3.Selection<SVGElement>;
         private radar: Radar;
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
-            this.header = d3.select(this.target).append("section")
-                .attr("id", "header");
             this.sidebar = d3.select(this.target).append("section")
                 .attr("id", "sidebar");
             this.svg = d3.select(this.target).append("section")
@@ -410,28 +407,6 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Displays buttons for each sector inside the header
-         * @param sectors
-         */
-        private plotHeader() {
-            //Remove the existing header
-            this.header.selectAll("*").remove();
-
-            let self = this;
-            //Plot the buttons of each sector
-            this.radar.sectors.forEach(function (sector) {
-                self.header.append("div")
-                    .text(sector.name)
-                    .classed("button", true)
-                    .style({
-                        background: sector.colour,
-                        color: "white"
-                    })
-                    .attr("id", sector.id + "-button");
-            });
-        }
-
-        /**
          * Displays information about the sectors in the visual's sidebar
          * @param sectors
          */
@@ -440,16 +415,13 @@ module powerbi.extensibility.visual {
             this.sidebar.selectAll("*").remove();
 
             let self = this;
-            this.radar.sectors.forEach(function (sector) {
-                self.sidebar.append("h3")
-                    .text(sector.name)
-                    .style("color", sector.colour);
 
-                let ul = self.sidebar.append("ul");
-                sector.blips.forEach(function (blip) {
-                    ul.append("li")
-                        .text(blip.number + ". " + blip.name);
-                });
+            this.radar.sectors.forEach(function (sector) {
+                self.sidebar.append("button")
+                    .text(sector.name)
+                    .style({
+                        background: sector.colour
+                    });
             });
         }
 
@@ -483,8 +455,6 @@ module powerbi.extensibility.visual {
 
             this.svg.append("g").attr("id", "axes");
             this.plotRingAxes();
-            
-            this.plotHeader();
             
             this.plotSidebar();
 
