@@ -348,6 +348,8 @@ module powerbi.extensibility.visual {
                         background: sector.colour
                     })
                     .on("click", function () {
+                        self.collapseSidebarLists();
+
                         d3.select(this.parentNode).select("ul")
                             .style({
                                 display: "block"
@@ -363,6 +365,16 @@ module powerbi.extensibility.visual {
                         .text(blip.name);
                 });
             });
+        }
+
+        /**
+         * If there is a list visible in the sidebar, hide it
+         */
+        private collapseSidebarLists() {
+            this.sidebar.selectAll("ul")
+                .style({
+                    display: "none"
+                });
         }
 
         public update(options: VisualUpdateOptions) {
