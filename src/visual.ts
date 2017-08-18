@@ -76,6 +76,12 @@ module powerbi.extensibility.visual {
             let isNewIndex = columnMap.indexOf("isNew");
             let colourIndex = columnMap.indexOf("colour");
 
+            //Sort the rows by ring, using ringMap to determine how the rings should be compared.
+            //i.e. places all accelerate rings first, then progress, etc.
+            table.rows = _.sortBy(table.rows, function (o) {
+                return ringMap[o[ringIndex]].order;
+            });
+
             let sectors = {};
             table.rows.forEach(function (v, i) {
                 let name = v[nameIndex];
