@@ -185,7 +185,7 @@ module powerbi.extensibility.visual {
 
             let sectorGroup = this.svg.select("#sectors").append("g")
                 .attr("id", "sector-" + sector.id)
-                .attr("class", "sector");
+                .classed("sector", true);
 
             self.radar.rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
@@ -200,7 +200,8 @@ module powerbi.extensibility.visual {
                     .attr("transform", "translate(" + self.calculateCenter().x + ", " + self.calculateCenter().y + ")");
             });
 
-            sectorGroup.append("g").attr("class", "blips");
+            sectorGroup.append("g")
+                .classed("blips", true);
         }
 
         /**
@@ -316,7 +317,7 @@ module powerbi.extensibility.visual {
             let absoluteCoordinates = this.convertRelativeCoordinates(blip.coordinates);
 
             let blipGroup = sectorGroup.select(".blips").append("g")
-                .attr("class", "blip");
+                .classed("blip", true);
             blipGroup.append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
