@@ -185,13 +185,7 @@ module powerbi.extensibility.visual {
 
             let sectorGroup = this.svg.select("#sectors").append("g")
                 .attr("id", "sector-" + sector.id)
-                .attr("class", "sector")
-                .on("mouseover", function () {
-                    self.selectSector(sector);
-                })
-                .on("mouseout", function () {
-                    self.deselectSector();
-                });
+                .attr("class", "sector");
 
             self.radar.rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
@@ -207,68 +201,6 @@ module powerbi.extensibility.visual {
             });
 
             sectorGroup.append("g").attr("class", "blips");
-        }
-
-        /**
-         * Gets called when a sector is clicked on. Focuses on the sector and changes the sidebar to display info about the sector
-         * @param sector
-         */
-        private selectSector(sector) {
-            let self = this;
-
-            //Remove the current contents of the sidebar
-            this.sidebar.selectAll("*").remove();
-
-            sector.blips.forEach(function (blip) {
-                //If this blip's ring does not yet have a container element inside the sidebar, create it
-                if (self.sidebar.select("#ring-" + blip.ring.order).empty()) {
-                    let ringDiv = self.sidebar.append("div")
-                        .attr("id", "ring-" + blip.ring.order);
-
-                    ringDiv.append("h3")
-                        .text(blip.ring.name);
-                    ringDiv.append("ul");
-                }
-
-                let ringDiv = self.sidebar.select("#ring-" + blip.ring.order);
-                let li = ringDiv.select("ul").append("li");
-                li.append("div")
-                    .html(blip.number + ". " + blip.name + (blip.isNew ? " <i>(new)</i>" : ""))
-                    .classed("item-name", true);
-                if (blip.description) {
-                    li.append("div")
-                        .html(blip.description)
-                        .classed("item-description", true);
-                }
-            });
-
-            //Grey all the buttons in the header apart from this sector's button
-            this.header.select("#" + sector.id + "-button")
-                .style({
-                    background: sector.colour,
-                    color: "white"
-                });
-            this.header.selectAll(":not(#" + sector.id + "-button)")
-                .style({
-                    background: "#eeeeee",
-                    color: "black"
-                });
-
-            //Decrease the opacity of all sectors apart from this one
-            this.svg.select("#sectors .sector#sector-" + sector.id)
-                .style("opacity", 1);
-            this.svg.selectAll("#sectors .sector:not(#sector-" + sector.id + ")")
-                .style("opacity", 0.3);
-        }
-
-        /**
-         * Returns the visual to its "normal" state when a particular sector should no longer be focused on
-         */
-        private deselectSector() {
-            this.plotHeader();
-            this.plotSidebar();
-            this.svg.selectAll("#sectors .sector")
-                .style("opacity", 1);
         }
 
         /**
@@ -495,13 +427,7 @@ module powerbi.extensibility.visual {
                         background: sector.colour,
                         color: "white"
                     })
-                    .attr("id", sector.id + "-button")
-                    .on("mouseover", function () {
-                        self.selectSector(sector);
-                    })
-                    .on("mouseout", function () {
-                        self.deselectSector();
-                    });
+                    .attr("id", sector.id + "-button");
             });
         }
 
