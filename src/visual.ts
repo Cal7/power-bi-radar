@@ -313,31 +313,12 @@ module powerbi.extensibility.visual {
             let absoluteCoordinates = this.convertRelativeCoordinates(blip.coordinates);
 
             let blipGroup = sectorGroup.select(".blips").append("g")
-                .attr("class", "blip")
-                .on("mouseover", function () {
-                    self.svg.append("text")
-                        .attr("id", "blip-mouseover")
-                        .attr("x", absoluteCoordinates.x)
-                        .attr("y", absoluteCoordinates.y - self.calculateBlipRadius() * 2)
-                        .text(blip.name)
-                        .attr("text-anchor", "middle")
-                        .attr("font-size", 0.06);
-                })
-                .on("mouseout", function () {
-                    self.svg.select("#blip-mouseover").remove();
-                });
+                .attr("class", "blip");
             blipGroup.append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", this.calculateBlipRadius())
                 .attr("fill", colour);
-            blipGroup.append("text")
-                .attr("x", absoluteCoordinates.x)
-                .attr("y", absoluteCoordinates.y + self.calculateBlipRadius() / 2)
-                .text(blip.number)
-                .attr("text-anchor", "middle")
-                .attr("fill", "white")
-                .attr("font-size", 0.05);
         }
 
         /**
