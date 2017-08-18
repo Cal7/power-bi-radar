@@ -317,7 +317,8 @@ module powerbi.extensibility.visual {
             let absoluteCoordinates = this.convertRelativeCoordinates(blip.coordinates);
 
             let blipGroup = sectorGroup.select(".blips").append("g")
-                .classed("blip", true);
+                .classed("blip", true)
+                .classed("blip-" + blip.id, true);
             blipGroup.append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
@@ -366,7 +367,8 @@ module powerbi.extensibility.visual {
                     });
                 sector.blips.forEach(function (blip) {
                     ul.append("li")
-                        .text(blip.name);
+                        .text(blip.name)
+                        .classed("blip-" + blip.id, true);
                 });
             });
         }
