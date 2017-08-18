@@ -339,11 +339,29 @@ module powerbi.extensibility.visual {
             let self = this;
 
             this.radar.sectors.forEach(function (sector) {
-                self.sidebar.append("button")
+                let mainDiv = self.sidebar.append("div")
+                    .attr("id", "sidebar-" + sector.id);
+
+                mainDiv.append("button")
                     .text(sector.name)
                     .style({
                         background: sector.colour
+                    })
+                    .on("click", function () {
+                        d3.select(this.parentNode).select("ul")
+                            .style({
+                                display: "block"
+                            });
                     });
+
+                let ul = mainDiv.append("ul")
+                    .style({
+                        display: "none"
+                    });
+                sector.blips.forEach(function (blip) {
+                    ul.append("li")
+                        .text(blip.name);
+                });
             });
         }
 
