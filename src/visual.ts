@@ -40,6 +40,8 @@ module powerbi.extensibility.visual {
 
         constructor(options: VisualConstructorOptions) {
             this.target = options.element;
+            d3.select(this.target)
+                .style("background", "#383838");
             this.sidebar = d3.select(this.target).append("section")
                 .attr("id", "sidebar");
             this.svg = d3.select(this.target).append("section")
@@ -59,10 +61,10 @@ module powerbi.extensibility.visual {
             //ringMap will hold all the rings, indexed by their name
             //Maybe at a later date these will be defined in the data instead of hardcoded
             let ringMap = {
-                Accelerate: new Ring("Accelerate", 1, "#bababa"),
-                Progress: new Ring("Progress", 2, "#cacaca"),
-                Monitor: new Ring("Monitor", 3, "#dadada"),
-                Pause: new Ring("Pause", 4, "#eeeeee")
+                Accelerate: new Ring("Accelerate", 1, "#DEDEDE"),
+                Progress: new Ring("Progress", 2, "#C4C4C4"),
+                Monitor: new Ring("Monitor", 3, "#9E9E9E"),
+                Pause: new Ring("Pause", 4, "#696969")
             };
 
             //Because the order of the columns is not guaranteed to remain consistent, we need to determine the indices of all the fields before we can fetch their values
