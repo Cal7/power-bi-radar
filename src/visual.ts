@@ -302,7 +302,7 @@ module powerbi.extensibility.visual {
             let self = this;
             this.radar.sectors.forEach(function (sector) {
                 sector.blips.forEach(function (blip) {
-                    self.plotBlip(blip, sector.colour, self.svg.select("#sectors #sector-" + sector.id));
+                    self.plotBlip(blip, self.svg.select("#sectors #sector-" + sector.id));
                 });
             });
         }
@@ -312,7 +312,7 @@ module powerbi.extensibility.visual {
          * @param blip
          * @param coordinates
          */
-        private plotBlip(blip: Blip, colour: string, sectorGroup: d3.Selection<Element>) {
+        private plotBlip(blip: Blip, sectorGroup: d3.Selection<Element>) {
             let self = this;
             let absoluteCoordinates = this.convertRelativeCoordinates(blip.coordinates);
 
@@ -323,7 +323,7 @@ module powerbi.extensibility.visual {
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", this.calculateBlipRadius())
-                .attr("fill", colour);
+                .attr("fill", blip.sector.colour);
         }
 
         /**
