@@ -46,7 +46,8 @@ module powerbi.extensibility.visual {
                 .attr("id", "sidebar");
             this.svg = d3.select(this.target).append("section")
                 .attr("id", "svg-container")
-                .append("svg");
+                .append("svg")
+                .attr("viewBox", "0 0 100 100");
             this.updateCount = 0;
         }
 
@@ -448,8 +449,7 @@ module powerbi.extensibility.visual {
             
             this.svg.attr({
                 width: this.calculateMaxRadius() * 2,
-                height: this.calculateMaxRadius() * 2,
-                viewBox: "0 0 100 100"
+                height: this.calculateMaxRadius() * 2
             });
 
             this.svg.append("g").attr("id", "sectors");
