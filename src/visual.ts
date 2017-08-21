@@ -113,8 +113,8 @@ module powerbi.extensibility.visual {
          */
         private getDimensions() {
             return {
-                width: 2,
-                height: 2
+                width: 100,
+                height: 100
             };
         }
 
@@ -191,8 +191,8 @@ module powerbi.extensibility.visual {
 
             self.radar.rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
-                    .innerRadius((ring.order - 1) / 4)
-                    .outerRadius(ring.order / 4)
+                    .innerRadius(50 * (ring.order - 1) / 4)
+                    .outerRadius(50 * ring.order / 4)
                     .startAngle(sector.startAngle)
                     .endAngle(sector.endAngle);
 
@@ -240,8 +240,8 @@ module powerbi.extensibility.visual {
             let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
 
-            let min_distance = (ring.order - 1) / 4;
-            let max_distance = ring.order / 4;
+            let min_distance = 50 * (ring.order - 1) / 4;
+            let max_distance = 50 * ring.order / 4;
             if (min_distance === 0) {
                 min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
@@ -358,7 +358,7 @@ module powerbi.extensibility.visual {
          * Calculates the radius that each blip should have
          */
         private calculateBlipRadius() {
-            return 0.035;
+            return 2;
         }
 
         /**
@@ -433,7 +433,7 @@ module powerbi.extensibility.visual {
             this.svg.attr({
                 width: this.calculateMaxRadius() * 2,
                 height: this.calculateMaxRadius() * 2,
-                viewBox: "0 0 2 2"
+                viewBox: "0 0 100 100"
             });
 
             this.svg.append("g").attr("id", "sectors");
