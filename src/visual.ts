@@ -313,7 +313,28 @@ module powerbi.extensibility.visual {
 
             let blipGroup = sectorGroup.select(".blips").append("g")
                 .classed("blip", true)
-                .classed("blip-" + blip.id, true);
+                .classed("blip-" + blip.id, true)
+                .on("click", function () {
+                    let blipTextContainer = self.svg.append("g")
+                        .attr("id", "blipTextContainer");
+
+                    blipTextContainer.append("text")
+                        .attr("x", absoluteCoordinates.x)
+                        .attr("y", absoluteCoordinates.y - self.calculateBlipRadius() * 2)
+                        .attr("fill", "white")
+                        .attr("font-size", 2.5)
+                        .attr("text-anchor", "middle")
+                        .text(blip.name);
+
+                    let bBox = (blipTextContainer.node() as any).getBBox();
+                    blipTextContainer.insert("rect", "#blipTextContainer text") //The rectangle needs to appear before the text in the DOM, otherwise it will cover the text
+                        .attr("width", bBox.width * 1.1)
+                        .attr("height", bBox.height * 1.4)
+                        .attr("x", bBox.x - (bBox.width * 0.05))
+                        .attr("y", bBox.y - (bBox.height * 0.2))
+                        .attr("rx", 2)
+                        .attr("fill", blip.sector.colour);
+                });
             blipGroup.append("circle")
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
