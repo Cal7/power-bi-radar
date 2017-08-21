@@ -315,6 +315,8 @@ module powerbi.extensibility.visual {
                 .classed("blip", true)
                 .classed("blip-" + blip.id, true)
                 .on("click", function () {
+                    self.collapseSidebarLists();
+
                     let blipTextContainer = self.svg.append("g")
                         .attr("id", "blipTextContainer");
 
