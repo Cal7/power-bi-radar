@@ -21,6 +21,14 @@ class Blip {
         this._ring = ring;
     }
 
+    private _sector: Sector;
+    get sector() {
+        return this._sector;
+    }
+    set sector(sector: Sector) {
+        this._sector = sector;
+    }
+
     private _isNew: boolean;
     get isNew() {
         return this._isNew;
@@ -45,9 +53,10 @@ class Blip {
         this._coordinates = coordinates;
     }
 
-    constructor(name: string, ring: Ring, isNew: boolean, description: string) {
+    constructor(name: string, ring: Ring, sector: Sector, isNew: boolean, description: string) {
         this.name = name;
         this.ring = ring;
+        this.sector = sector;
         this.isNew = isNew;
         this.description = description;
     }

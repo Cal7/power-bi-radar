@@ -94,7 +94,7 @@ module powerbi.extensibility.visual {
                 if (!sectors[sectorName]) {
                     sectors[sectorName] = new Sector(sectorName, colour);
                 }
-                sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], isNew, description));
+                sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], sectors[sectorName], isNew, description));
             });
 
             for (let index in sectors) {
