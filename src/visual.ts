@@ -207,13 +207,6 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Determines the width that the white line at the start of each sector should be
-         */
-        private calculateSectorLineWidth() {
-            return 0.01;
-        }
-
-        /**
          * Iterates over every blip on the radar and generates coordinates for it
          */
         private setBlipCoordinates() {
