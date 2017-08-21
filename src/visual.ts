@@ -34,7 +34,7 @@ module powerbi.extensibility.visual {
         private target: HTMLElement;
         private updateCount: number;
         private settings: VisualSettings;
-        private sidebar: d3.Selection<HTMLElement>;
+        private leftSidebar: d3.Selection<HTMLElement>;
         private svg: d3.Selection<SVGElement>;
         private radar: Radar;
 
@@ -42,8 +42,8 @@ module powerbi.extensibility.visual {
             this.target = options.element;
             d3.select(this.target)
                 .style("background", "#383838");
-            this.sidebar = d3.select(this.target).append("section")
-                .attr("id", "sidebar");
+            this.leftSidebar = d3.select(this.target).append("section")
+                .attr("id", "leftSidebar");
             this.svg = d3.select(this.target).append("section")
                 .attr("id", "svg-container")
                 .append("svg")
@@ -350,7 +350,7 @@ module powerbi.extensibility.visual {
          * @param blip
          */
         private focusBlip(blip) {
-            this.sidebar.select(".blip-" + blip.id)
+            this.leftSidebar.select(".blip-" + blip.id)
                 .style({
                     background: blip.ring.colour
                 });
@@ -363,7 +363,7 @@ module powerbi.extensibility.visual {
          * @param blip
          */
         private defocusBlip(blip) {
-            this.sidebar.select(".blip-" + blip.id)
+            this.leftSidebar.select(".blip-" + blip.id)
                 .style({
                     background: "none"
                 });
@@ -382,14 +382,14 @@ module powerbi.extensibility.visual {
          * Displays information about the sectors in the visual's sidebar
          * @param sectors
          */
-        private plotSidebar() {
+        private plotLeftSidebar() {
             //Remove the existing sidebar
-            this.sidebar.selectAll("*").remove();
+            this.leftSidebar.selectAll("*").remove();
 
             let self = this;
 
             this.radar.sectors.forEach(function (sector) {
-                let mainDiv = self.sidebar.append("div")
+                let mainDiv = self.leftSidebar.append("div")
                     .attr("id", "sidebar-" + sector.id);
 
                 mainDiv.append("button")
@@ -428,7 +428,7 @@ module powerbi.extensibility.visual {
          * If there is a list visible in the sidebar, hide it
          */
         private collapseSidebarLists() {
-            this.sidebar.selectAll("ul")
+            this.leftSidebar.selectAll("ul")
                 .style({
                     display: "none"
                 });
@@ -458,7 +458,7 @@ module powerbi.extensibility.visual {
             this.setBlipCoordinates();
             this.plotBlips();
             
-            this.plotSidebar();
+            this.plotLeftSidebar();
 
             this.updateCount++;
 
