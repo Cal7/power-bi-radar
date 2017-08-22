@@ -447,8 +447,9 @@ module powerbi.extensibility.visual {
 
             this.radar.rings.forEach(function (ring) {
                 ul.append("li")
-                    .text(ring.name)
-                    .style("color", ring.colour);
+                    .style("color", ring.colour)
+                    .append("span") //Actual text is inside a span so the li's bullet can be made larger independently
+                    .text(ring.name);
             });
         }
 
