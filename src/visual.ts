@@ -36,6 +36,7 @@ module powerbi.extensibility.visual {
         private target: d3.Selection<HTMLElement>;
         private leftSidebar: d3.Selection<HTMLElement>;
         private svg: d3.Selection<SVGElement>;
+        private rightSidebar: d3.Selection<HTMLElement>;
         private radar: Radar;
 
         constructor(options: VisualConstructorOptions) {
@@ -50,6 +51,8 @@ module powerbi.extensibility.visual {
                 .attr("id", "svg-container")
                 .append("svg")
                 .attr("viewBox", "0 0 100 100");
+            this.rightSidebar = this.target.append("section")
+                .attr("id", "rightSidebar");
             this.updateCount = 0;
         }
 
