@@ -439,6 +439,19 @@ module powerbi.extensibility.visual {
                 });
         }
 
+        private plotRightSidebar() {
+            this.rightSidebar.selectAll("*").remove();
+
+            let self = this;
+            let ul = this.rightSidebar.append("ul");
+
+            this.radar.rings.forEach(function (ring) {
+                ul.append("li")
+                    .text(ring.name)
+                    .style("color", ring.colour);
+            });
+        }
+
         public update(options: VisualUpdateOptions) {
             console.time("update");
 
@@ -464,6 +477,7 @@ module powerbi.extensibility.visual {
             this.plotBlips();
             
             this.plotLeftSidebar();
+            this.plotRightSidebar();
 
             this.updateCount++;
 
