@@ -31,20 +31,18 @@ module powerbi.extensibility.visual {
     let _ = (<any>window)._;
 
     export class Visual implements IVisual {
-        private target: HTMLElement;
         private updateCount: number;
         private settings: VisualSettings;
+        private target: d3.Selection<HTMLElement>;
         private leftSidebar: d3.Selection<HTMLElement>;
         private svg: d3.Selection<SVGElement>;
         private radar: Radar;
 
         constructor(options: VisualConstructorOptions) {
-            this.target = options.element;
-            d3.select(this.target)
-                .style("background", "#383838");
-            this.leftSidebar = d3.select(this.target).append("section")
+            this.target = d3.select(options.element).style("background", "#383838");
+            this.leftSidebar = this.target.append("section")
                 .attr("id", "leftSidebar");
-            this.svg = d3.select(this.target).append("section")
+            this.svg = d3.select(options.element).append("section") //d3.select(options.element) instead of this.target because of https://stackoverflow.com/questions/45812941/type-selectionhtmlelement-is-not-assignable-to-type-selectionsvgelement
                 .attr("id", "svg-container")
                 .append("svg")
                 .attr("viewBox", "0 0 100 100");
@@ -135,7 +133,7 @@ module powerbi.extensibility.visual {
          * For if the visual is not square, as the max radius cannot be greater than the smallest side of the visual
          */
         private calculateMaxRadius() {
-            let svgContainer = d3.select(this.target).select("#svg-container").node() as HTMLElement;
+            let svgContainer = this.target.select("#svg-container").node() as HTMLElement;
             let svgContainerDimensions = {
                 width: svgContainer.getBoundingClientRect().width,
                 height: svgContainer.getBoundingClientRect().height
