@@ -46,13 +46,13 @@ module powerbi.extensibility.visual {
                     display: "flex"
                 });
             this.leftSidebar = this.target.append("section")
-                .attr("id", "leftSidebar");
+                .attr("id", "left-sidebar");
             this.svg = d3.select(options.element).append("section") //d3.select(options.element) instead of this.target because of https://stackoverflow.com/questions/45812941/type-selectionhtmlelement-is-not-assignable-to-type-selectionsvgelement
                 .attr("id", "svg-container")
                 .append("svg")
                 .attr("viewBox", "0 0 100 100");
             this.rightSidebar = this.target.append("section")
-                .attr("id", "rightSidebar");
+                .attr("id", "right-sidebar");
             this.updateCount = 0;
         }
 
