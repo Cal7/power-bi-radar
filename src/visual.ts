@@ -39,7 +39,11 @@ module powerbi.extensibility.visual {
         private radar: Radar;
 
         constructor(options: VisualConstructorOptions) {
-            this.target = d3.select(options.element).style("background", "#383838");
+            this.target = d3.select(options.element)
+                .style({
+                    background: "#383838",
+                    display: "flex"
+                });
             this.leftSidebar = this.target.append("section")
                 .attr("id", "leftSidebar");
             this.svg = d3.select(options.element).append("section") //d3.select(options.element) instead of this.target because of https://stackoverflow.com/questions/45812941/type-selectionhtmlelement-is-not-assignable-to-type-selectionsvgelement
