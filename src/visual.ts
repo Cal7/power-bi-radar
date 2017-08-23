@@ -318,8 +318,8 @@ module powerbi.extensibility.visual {
                 .on("click", function () {
                     self.collapseSidebarLists();
 
-                    let blipTextContainer = self.svg.append("g")
-                        .attr("id", "blip-text-container");
+                    let blipTextContainer = self.svg.select("#blip-text-container");
+                    blipTextContainer.selectAll("*").remove();
 
                     blipTextContainer.append("text")
                         .attr("x", absoluteCoordinates.x)
@@ -470,6 +470,7 @@ module powerbi.extensibility.visual {
             this.plotSectors();
 
             this.svg.append("g").attr("id", "blips");
+            this.svg.append("g").attr("id", "blip-text-container");
             this.setBlipCoordinates();
             this.plotBlips();
             
