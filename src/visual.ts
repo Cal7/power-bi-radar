@@ -207,9 +207,6 @@ module powerbi.extensibility.visual {
                     .style("fill", ring.colour)
                     .attr("transform", "translate(" + self.calculateCenter().x + ", " + self.calculateCenter().y + ")");
             });
-
-            sectorGroup.append("g")
-                .classed("blips", true);
         }
 
         /**
@@ -301,10 +298,8 @@ module powerbi.extensibility.visual {
          */
         private plotBlips() {
             let self = this;
-            this.radar.sectors.forEach(function (sector) {
-                sector.blips.forEach(function (blip) {
-                    self.plotBlip(blip, self.svg.select("#sectors #sector-" + sector.id));
-                });
+            this.radar.blips.forEach(function (blip) {
+                self.plotBlip(blip);
             });
         }
 
@@ -313,11 +308,11 @@ module powerbi.extensibility.visual {
          * @param blip
          * @param coordinates
          */
-        private plotBlip(blip: Blip, sectorGroup: d3.Selection<Element>) {
+        private plotBlip(blip: Blip) {
             let self = this;
             let absoluteCoordinates = this.convertRelativeCoordinates(blip.coordinates);
 
-            let blipGroup = sectorGroup.select(".blips").append("g")
+            let blipGroup = this.svg.select("#blips").append("g")
                 .classed("blip", true)
                 .classed("blip-" + blip.id, true)
                 .on("click", function () {
@@ -474,6 +469,7 @@ module powerbi.extensibility.visual {
             this.svg.append("g").attr("id", "sectors");
             this.plotSectors();
 
+            this.svg.append("g").attr("id", "blips");
             this.setBlipCoordinates();
             this.plotBlips();
             
