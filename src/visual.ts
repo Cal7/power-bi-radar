@@ -324,7 +324,7 @@ module powerbi.extensibility.visual {
                     self.collapseSidebarLists();
 
                     let blipTextContainer = self.svg.append("g")
-                        .attr("id", "blipTextContainer");
+                        .attr("id", "blip-text-container");
 
                     blipTextContainer.append("text")
                         .attr("x", absoluteCoordinates.x)
@@ -335,7 +335,7 @@ module powerbi.extensibility.visual {
                         .text(blip.name);
 
                     let bBox = (blipTextContainer.node() as any).getBBox();
-                    blipTextContainer.insert("rect", "#blipTextContainer text") //The rectangle needs to appear before the text in the DOM, otherwise it will cover the text
+                    blipTextContainer.insert("rect", "#blip-text-container text") //The rectangle needs to appear before the text in the DOM, otherwise it will cover the text
                         .attr("width", bBox.width * 1.1)
                         .attr("height", bBox.height * 1.4)
                         .attr("x", bBox.x - (bBox.width * 0.05))
