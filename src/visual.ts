@@ -315,11 +315,10 @@ module powerbi.extensibility.visual {
             let blipGroup = this.svg.select("#blips").append("g")
                 .classed("blip", true)
                 .classed("blip-" + blip.id, true)
-                .on("click", function () {
+                .on("focus", function () {
                     self.collapseSidebarLists();
 
                     let blipTextContainer = self.svg.select("#blip-text-container");
-                    blipTextContainer.selectAll("*").remove();
 
                     blipTextContainer.append("text")
                         .attr("x", absoluteCoordinates.x)
@@ -337,6 +336,9 @@ module powerbi.extensibility.visual {
                         .attr("y", bBox.y - (bBox.height * 0.2))
                         .attr("rx", 2)
                         .attr("fill", blip.sector.colour);
+                })
+                .on("focusout", function () {
+                    self.svg.select("#blip-text-container").selectAll("*").remove();
                 });
             blipGroup.append("circle")
                 .attr("cx", absoluteCoordinates.x)
