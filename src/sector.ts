@@ -45,9 +45,9 @@ class Sector {
         this.blips.push(blip);
     }
 
-    constructor(name: string, colour: string) {
+    constructor(name: string) {
         this.name = name;
-        this.colour = colour;
+        this.colour = "#000000";
         this._blips = [];
     }
 }

@@ -70,5 +70,22 @@
         }
       }
     }
-  ]
+  ],
+  "objects": {
+    "colourSelector": {
+      "displayName": "Sector colours",
+      "properties": {
+        "fill": {
+          "displayName": "Colour",
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

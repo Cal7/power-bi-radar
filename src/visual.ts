@@ -60,8 +60,9 @@ module powerbi.extensibility.visual {
          * Transforms the data inside a data view into a form that's necessary to work with
          * @param data
          */
-        private transformData(table) {
+        private transformData(dataView) {
             let self = this;
+            let table = dataView.table;
             let radar = new Radar();
 
             //ringMap will hold all the rings, indexed by their name
@@ -82,7 +83,6 @@ module powerbi.extensibility.visual {
             let sectorIndex = columnMap.indexOf("sector");
             let ringIndex = columnMap.indexOf("ring");
             let isNewIndex = columnMap.indexOf("isNew");
-            let colourIndex = columnMap.indexOf("colour");
 
             //Sort the rows by ring, using ringMap to determine how the rings should be compared.
             //i.e. places all accelerate rings first, then progress, etc.
@@ -97,10 +97,16 @@ module powerbi.extensibility.visual {
                 let sectorName = v[sectorIndex];
                 let ringName = v[ringIndex];
                 let isNew = v[isNewIndex];
-                let colour = v[colourIndex];
 
                 if (!sectors[sectorName]) {
-                    sectors[sectorName] = new Sector(sectorName, colour);
+                    sectors[sectorName] = new Sector(sectorName);
+
+                    //Check if a colour for this sector has been defined via the "Format" pane, and if so, set the colour
+                    if ("objects" in dataView.metadata
+                        && sectors[sectorName].id in dataView.metadata.objects.colourSelector.$instances
+                    ) {
+                        sectors[sectorName].colour = dataView.metadata.objects.colourSelector.$instances[sectors[sectorName].id].fill.solid.color;
+                    }
                 }
                 sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], sectors[sectorName], isNew, description));
             });
@@ -457,7 +463,7 @@ module powerbi.extensibility.visual {
 
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            this.radar = this.transformData(options.dataViews[0].table);
+            this.radar = this.transformData(options.dataViews[0]);
             console.log(this.radar);
 
             //"Clear" the previously drawn SVG
@@ -494,7 +500,28 @@ module powerbi.extensibility.visual {
          * 
          */
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
-            return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+            let objectEnumeration = [];
+
+            switch (options.objectName) {
+                case "colourSelector":
+                    this.radar.sectors.forEach(function (sector) {
+                        objectEnumeration.push({
+                            objectName: options.objectName,
+                            displayName: sector.name,
+                            properties: {
+                                fill: {
+                                    solid: {
+                                        color: sector.colour
+                                    }
+                                }
+                            },
+                            selector: sector
+                        });
+                    });
+                    break;
+            }
+
+            return objectEnumeration;
         }
     }
 }
