@@ -17,10 +17,19 @@
             border-radius: 20px;
             color: white;
             display: block;
-            font-size: 1.1em;
             margin: 20px auto;
             padding: 10px 20px;
             width: 100%;
+
+            @media(max-width: 600px){
+                font-size: 0.7em;
+            }
+            @media(min-width: 601px) and (max-width: 750px){
+                font-size: 0.9em;
+            }
+            @media(min-width: 751px){
+                font-size: 1.1em;
+            }
         }
 
         ul{
@@ -30,8 +39,17 @@
             li{
                 border-radius: 20px;
                 color: white;
-                font-size: 1em;
                 padding: 5px 0px;
+
+                @media(max-width: 600px){
+                    font-size: 0.6em;
+                }
+                @media(min-width: 601px) and (max-width: 750px){
+                    font-size: 0.8em;
+                }
+                @media(min-width: 751px){
+                    font-size: 1em;
+                }
             }
         }
     }
@@ -55,8 +73,17 @@
             padding: 0px;
 
             li{
-                font-size: 1em;
                 line-height: 50px;
+                
+                @media(max-width: 600px){
+                    font-size: 0.6em;
+                }
+                @media(min-width: 601px) and (max-width: 750px){
+                    font-size: 0.8em;
+                }
+                @media(min-width: 751px){
+                    font-size: 1em;
+                }
 
                 span{
                     color: white;
