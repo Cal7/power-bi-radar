@@ -45,7 +45,9 @@ module powerbi.extensibility.visual {
             this.leftSidebar = this.target.append("section")
                 .attr("id", "left-sidebar");
             this.svg = this.target.append("section")
-                .attr("id", "svg-container")
+                .attr("id", "main")
+                .append("div")
+                .attr("id", "main")
                 .append("svg")
                 .attr("viewBox", "0 0 100 100") as any;
             this.rightSidebar = this.target.append("section")
@@ -162,7 +164,7 @@ module powerbi.extensibility.visual {
          * For if the visual is not square, as the max radius cannot be greater than the smallest side of the visual
          */
         private calculateMaxRadius() {
-            let svgContainer = this.target.select("#svg-container").node() as HTMLElement;
+            let svgContainer = this.target.select("#main").node() as HTMLElement;
             let svgContainerDimensions = {
                 width: svgContainer.getBoundingClientRect().width,
                 height: svgContainer.getBoundingClientRect().height
