@@ -168,7 +168,8 @@ module powerbi.extensibility.visual {
                 height: svgContainer.getBoundingClientRect().height
             };
 
-            return Math.min(svgContainerDimensions.width, svgContainerDimensions.height) / 2;
+            return Math.min(svgContainerDimensions.width, svgContainerDimensions.height) / 2
+                - (parseInt(window.getComputedStyle(svgContainer).getPropertyValue("padding")) * 2); //We need to account for the container's padding by reducing the radar's radius
         }
 
         /**
