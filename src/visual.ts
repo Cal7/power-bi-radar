@@ -46,8 +46,6 @@ module powerbi.extensibility.visual {
                 .attr("id", "left-sidebar");
             this.svg = this.target.append("section")
                 .attr("id", "main")
-                .append("div")
-                .attr("id", "main")
                 .append("svg")
                 .attr("viewBox", "0 0 100 100") as any;
             this.rightSidebar = this.target.append("section")
