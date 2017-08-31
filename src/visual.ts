@@ -257,8 +257,8 @@ module powerbi.extensibility.visual {
             let max_angle = sector.endAngle - (Math.PI / 16);
 
             let ringRadii = this.calculateRingRadii(ring);
-            let min_distance = ringRadii.inner;
-            let max_distance = ringRadii.outer;
+            let min_distance = ringRadii.inner * 1.1; //The multipliers ensure it cannot be plotted virtually on the ring boundaries
+            let max_distance = ringRadii.outer * 0.9;
             if (min_distance === 0) {
                 min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
