@@ -118,25 +118,6 @@ module powerbi.extensibility.visual {
         }
 
         /**
-         * Randomly generates a given number of colours, used when no colours have been specified for the sectors
-         * @param number
-         */
-        private generateColours(number: number) {
-            let colours = [];
-            let offset = Math.random() * 360; //Ensure that the same colours are not generated every time
-
-            for (let i = 0; i < number; i++) {
-                let h = ((i * (360 / number)) + offset) % 360;
-                let s = 100;
-                let l = 50;
-
-                colours.push("hsl(" + h + "," + s + "," + l + ")");
-            }
-
-            return colours;
-        }
-
-        /**
          * Returns the dimensions of the "drawing area" of the SVG element
          */
         private getDimensions() {

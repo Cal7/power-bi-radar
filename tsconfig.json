@@ -15,6 +15,7 @@
     "src/blip.ts",
     "src/radar.ts",
     "src/ring.ts",
-    "src/sector.ts"
+    "src/sector.ts",
+    "src/colourGenerator.ts"
   ]
 }
