@@ -88,6 +88,7 @@ module powerbi.extensibility.visual {
             });
 
             let sectors = {};
+            let colourGenerator = new ColourGenerator();
             table.rows.forEach(function (v, i) {
                 let name = v[nameIndex];
                 let description = v[descriptionIndex];
@@ -98,11 +99,14 @@ module powerbi.extensibility.visual {
                 if (!sectors[sectorName]) {
                     sectors[sectorName] = new Sector(sectorName);
 
-                    //Check if a colour for this sector has been defined via the "Format" pane, and if so, set the colour
+                    //Check if a colour for this sector has been defined via the "Format" pane
+                    //If so, set the colour, else generate a random one
                     if ("objects" in dataView.metadata
                         && sectors[sectorName].id in dataView.metadata.objects.colourSelector.$instances
                     ) {
                         sectors[sectorName].colour = dataView.metadata.objects.colourSelector.$instances[sectors[sectorName].id].fill.solid.color;
+                    } else {
+                        sectors[sectorName].colour = colourGenerator.getColour();
                     }
                 }
                 sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], sectors[sectorName], isNew, description));
