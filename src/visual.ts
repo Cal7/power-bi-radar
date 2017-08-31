@@ -179,6 +179,20 @@ module powerbi.extensibility.visual {
         }
 
         /**
+         * Determines the inner and outer radii of a given ring
+         * @param ring
+         */
+        private calculateRingRadii(ring) {
+            let maxRadius = this.getViewBoxSize() / 2; //Represents the outer radius of the outer ring, i.e. half of the viewbox size. From this we can calculate other rings relatively
+            let ringCount = this.radar.rings.length;
+
+            return {
+                "inner": maxRadius * (ring.order - 1) / ringCount,
+                "outer": maxRadius * ring.order / ringCount
+            };
+        }
+
+        /**
          * Draws all the radar's sectors onto the SVG element
          */
         private plotSectors() {
@@ -201,9 +215,10 @@ module powerbi.extensibility.visual {
                 .classed("sector", true);
 
             this.radar.rings.forEach(function (ring) {
+                let radii = self.calculateRingRadii(ring);
                 let arc = d3.svg.arc()
-                    .innerRadius(50 * (ring.order - 1) / self.radar.rings.length)
-                    .outerRadius(50 * ring.order / self.radar.rings.length)
+                    .innerRadius(radii.inner)
+                    .outerRadius(radii.outer)
                     .startAngle(sector.startAngle)
                     .endAngle(sector.endAngle);
 
@@ -241,8 +256,9 @@ module powerbi.extensibility.visual {
             let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
 
-            let min_distance = 50 * (ring.order - 1) / this.radar.rings.length;
-            let max_distance = 50 * ring.order / this.radar.rings.length;
+            let ringRadii = this.calculateRingRadii(ring);
+            let min_distance = ringRadii.inner;
+            let max_distance = ringRadii.outer;
             if (min_distance === 0) {
                 min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
