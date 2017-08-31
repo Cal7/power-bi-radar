@@ -377,6 +377,8 @@ module powerbi.extensibility.visual {
                 .style({
                     background: blip.ring.colour
                 });
+            this.leftSidebar.select("#blip-description")
+                .html(blip.description);
             this.svg.select(".blip-" + blip.id + " circle")
                 .attr("r", this.calculateBlipRadius() * 1.5);
         }
@@ -390,6 +392,7 @@ module powerbi.extensibility.visual {
                 .style({
                     background: "none"
                 });
+            this.leftSidebar.select("#blip-description").html("");
             this.svg.select(".blip-" + blip.id + " circle")
                 .attr("r", this.calculateBlipRadius());
         }
@@ -445,6 +448,9 @@ module powerbi.extensibility.visual {
                         });
                 });
             });
+
+            self.leftSidebar.append("div")
+                .attr("id", "blip-description");
         }
 
         /**
