@@ -205,8 +205,8 @@ module powerbi.extensibility.visual {
 
             self.radar.rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
-                    .innerRadius(50 * (ring.order - 1) / 4)
-                    .outerRadius(50 * ring.order / 4)
+                    .innerRadius(50 * (ring.order - 1) / self.radar.rings.length)
+                    .outerRadius(50 * ring.order / self.radar.rings.length)
                     .startAngle(sector.startAngle)
                     .endAngle(sector.endAngle);
 
@@ -244,8 +244,8 @@ module powerbi.extensibility.visual {
             let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let max_angle = sector.endAngle - (Math.PI / 16);
 
-            let min_distance = 50 * (ring.order - 1) / 4;
-            let max_distance = 50 * ring.order / 4;
+            let min_distance = 50 * (ring.order - 1) / this.radar.rings.length;
+            let max_distance = 50 * ring.order / this.radar.rings.length;
             if (min_distance === 0) {
                 min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
