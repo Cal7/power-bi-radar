@@ -345,7 +345,7 @@ module powerbi.extensibility.visual {
                         .attr("x", absoluteCoordinates.x)
                         .attr("y", absoluteCoordinates.y - self.calculateBlipRadius() * 2)
                         .attr("fill", "white")
-                        .attr("font-size", 2.5)
+                        .attr("font-size", self.getViewBoxSize() / 40)
                         .attr("text-anchor", "middle")
                         .text(blip.name);
 
@@ -355,7 +355,7 @@ module powerbi.extensibility.visual {
                         .attr("height", bBox.height * 1.4)
                         .attr("x", bBox.x - (bBox.width * 0.05))
                         .attr("y", bBox.y - (bBox.height * 0.2))
-                        .attr("rx", 2)
+                        .attr("rx", self.getViewBoxSize() / 50)
                         .attr("fill", blip.sector.colour);
                 })
                 .on("focusout", function () {
@@ -401,7 +401,7 @@ module powerbi.extensibility.visual {
          * Calculates the radius that each blip should have
          */
         private calculateBlipRadius() {
-            return 2;
+            return this.getViewBoxSize() / 50;
         }
 
         /**
