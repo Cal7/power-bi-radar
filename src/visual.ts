@@ -203,7 +203,7 @@ module powerbi.extensibility.visual {
                 .attr("id", "sector-" + sector.id)
                 .classed("sector", true);
 
-            self.radar.rings.forEach(function (ring) {
+            this.radar.rings.forEach(function (ring) {
                 let arc = d3.svg.arc()
                     .innerRadius(50 * (ring.order - 1) / self.radar.rings.length)
                     .outerRadius(50 * ring.order / self.radar.rings.length)
