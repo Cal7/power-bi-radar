@@ -124,7 +124,7 @@ module powerbi.extensibility.visual {
         /**
          * Returns the dimensions of the "drawing area" of the SVG element
          */
-        private getViewboxDimensions() {
+        private getViewBoxDimensions() {
             return {
                 width: 100,
                 height: 100
@@ -135,7 +135,7 @@ module powerbi.extensibility.visual {
          * Gets the coordinates of the center of the visual
          */
         private calculateCenter() {
-            let dimensions = this.getViewboxDimensions();
+            let dimensions = this.getViewBoxDimensions();
 
             return {
                 x: dimensions.width / 2,
