@@ -24,11 +24,11 @@
  *  THE SOFTWARE.
  */
 
+//Get lodash working... Hacky solution from https://community.powerbi.com/t5/Developer/Adding-a-static-js-script-to-a-custom-visualization/td-p/104957
+let _ = (<any>window)._;
+
 module powerbi.extensibility.visual {
     "use strict";
-
-    //Get lodash working... Hacky solution from https://community.powerbi.com/t5/Developer/Adding-a-static-js-script-to-a-custom-visualization/td-p/104957
-    let _ = (<any>window)._;
 
     export class Visual implements IVisual {
         private updateCount: number;
