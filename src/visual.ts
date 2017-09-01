@@ -416,7 +416,7 @@ module powerbi.extensibility.visual {
 
             this.radar.sectors.forEach(function (sector) {
                 let mainDiv = self.leftSidebar.append("div")
-                    .attr("id", "sidebar-" + sector.id);
+                    .classed("sidebar-grouping", true);
 
                 mainDiv.append("button")
                     .text(sector.name)
