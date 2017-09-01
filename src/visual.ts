@@ -356,7 +356,8 @@ module powerbi.extensibility.visual {
                         .attr("x", bBox.x - (bBox.width * 0.05))
                         .attr("y", bBox.y - (bBox.height * 0.2))
                         .attr("rx", self.getViewBoxSize() / 50)
-                        .attr("fill", blip.sector.colour);
+                        .attr("fill", blip.sector.colour)
+                        .attr("filter", "url(#shadow)");
                 })
                 .on("focusout", function () {
                     self.svg.select("#blip-text-container").selectAll("*").remove();
@@ -365,7 +366,8 @@ module powerbi.extensibility.visual {
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", this.calculateBlipRadius())
-                .attr("fill", blip.sector.colour);
+                .attr("fill", blip.sector.colour)
+                .attr("filter", "url(#shadow)");
         }
 
         /**
@@ -494,6 +496,27 @@ module powerbi.extensibility.visual {
                 width: this.calculateMaxRadius() * 2,
                 height: this.calculateMaxRadius() * 2
             });
+
+            //Define the shadow applied to blips and the blip titles
+            //The increased size and offset x and y is because the shadow would otherwise be "cropped"
+            //Offset should be a quarter of the dimensions
+            let filter = this.svg.append("filter")
+                .attr("id", "shadow")
+                .attr("x", "-50%")
+                .attr("y", "-50%")
+                .attr("width", "200%")
+                .attr("height", "200%");
+            filter.append("feOffset")
+                .attr("in", "SourceAlpha")
+                .attr("result", "offOut");
+            filter.append("feGaussianBlur")
+                .attr("in", "offOut")
+                .attr("result", "blurOut")
+                .attr("stdDeviation", 1);
+            filter.append("feBlend")
+                .attr("in", "SourceGraphic")
+                .attr("in2", "blurOut")
+                .attr("mode", "normal");
 
             this.svg.append("g").attr("id", "sectors");
             this.plotSectors();
