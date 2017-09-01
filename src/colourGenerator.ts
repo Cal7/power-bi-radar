@@ -14,7 +14,7 @@ class ColourGenerator {
         let goldenAngle = 360 * (Math.pow(1.61803399, -2));
 
         let h = (this.lastHue + goldenAngle) % 360;
-        let s = 50;
+        let s = 45;
         let l = 50;
 
         this.lastHue = h;
