@@ -512,7 +512,7 @@ module powerbi.extensibility.visual {
             filter.append("feGaussianBlur")
                 .attr("in", "offOut")
                 .attr("result", "blurOut")
-                .attr("stdDeviation", 1);
+                .attr("stdDeviation", 0.5);
             filter.append("feBlend")
                 .attr("in", "SourceGraphic")
                 .attr("in2", "blurOut")
