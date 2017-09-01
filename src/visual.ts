@@ -426,12 +426,18 @@ module powerbi.extensibility.visual {
                         background: sector.colour
                     })
                     .on("click", function () {
+                        let ul = d3.select(this.parentNode).select("ul");
+                        //Determine whether the list should be shown (if currently hidden) or hidden (if currently visible)
+                        let newDisplay: "block" | "none";
+                        if (ul.style("display") === "none") {
+                            newDisplay = "block";
+                        } else {
+                            newDisplay = "none";
+                        }
+
                         self.collapseSidebarLists();
 
-                        d3.select(this.parentNode).select("ul")
-                            .style({
-                                display: "block"
-                            });
+                        ul.style("display", newDisplay);
                     });
 
                 let ul = mainDiv.append("ul")
