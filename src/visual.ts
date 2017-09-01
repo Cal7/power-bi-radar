@@ -253,21 +253,21 @@ module powerbi.extensibility.visual {
          * @param ring
          */
         private generateBlipCoordinates(sector: Sector, ring: Ring, allCoordinates: { x: number, y: number }[]) {
-            let min_angle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
-            let max_angle = sector.endAngle - (Math.PI / 16);
+            let minAngle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
+            let maxAngle = sector.endAngle - (Math.PI / 16);
 
             let ringRadii = this.calculateRingRadii(ring);
-            let min_distance = ringRadii.inner * 1.1; //The multipliers ensure it cannot be plotted virtually on the ring boundaries
-            let max_distance = ringRadii.outer * 0.9;
-            if (min_distance === 0) {
-                min_distance = max_distance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
+            let minDistance = ringRadii.inner * 1.1; //The multipliers ensure it cannot be plotted virtually on the ring boundaries
+            let maxDistance = ringRadii.outer * 0.9;
+            if (minDistance === 0) {
+                minDistance = maxDistance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
 
             let coordinates: { x: number, y: number };
             let attemptCount = 0; //Keeps track of how many times we have generated coordinates and had to discard them for being too close to another blip
             do {
-                let angle = Math.random() * (max_angle - min_angle) + min_angle; //Random angle between min_angle and max_angle
-                let distance = Math.random() * (max_distance - min_distance) + min_distance;
+                let angle = Math.random() * (maxAngle - minAngle) + minAngle; //Random angle between minAngle and maxAngle
+                let distance = Math.random() * (maxDistance - minDistance) + minDistance;
 
                 coordinates = this.polarToCartesian({ distance: distance, angle: angle });
 
