@@ -569,6 +569,18 @@ module powerbi.extensibility.visual {
                         });
                     });
                     break;
+                case "ringOrderer":
+                    this.radar.rings.forEach(function (ring) {
+                        objectEnumeration.push({
+                            objectName: options.objectName,
+                            displayName: ring.name,
+                            properties: {
+                                order: ring.order
+                            },
+                            selector: ring
+                        });
+                    });
+                    break;
             }
 
             return objectEnumeration;
