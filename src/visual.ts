@@ -219,8 +219,8 @@ module powerbi.extensibility.visual {
                 let arc = d3.svg.arc()
                     .innerRadius(radii.inner)
                     .outerRadius(radii.outer)
-                    .startAngle(sector.startAngle)
-                    .endAngle(sector.endAngle);
+                    .startAngle(sector.startAngle - 0.1) //By making the angle wider than necessary by 0.1 radians each direction, we fix the rendering issue where a thin line would sometimes occur at two sectors' intersection
+                    .endAngle(sector.endAngle + 0.1);
 
                 sectorGroup.append("path")
                     .attr("d", <any>arc)
