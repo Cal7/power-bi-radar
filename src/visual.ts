@@ -272,7 +272,7 @@ module powerbi.extensibility.visual {
                 coordinates = this.polarToCartesian({ distance: distance, angle: angle });
 
                 attemptCount++;
-                if (attemptCount >+ 10) { //If ten successive attempts fail, it is probable that there's simply nowhere to put it, so it should just be allowed to overlap another blip
+                if (attemptCount >= 10) { //If ten successive attempts fail, it is probable that there's simply nowhere to put it, so it should just be allowed to overlap another blip
                     break;
                 }
             } while (!this.coordinatesAreFree(coordinates, allCoordinates));
