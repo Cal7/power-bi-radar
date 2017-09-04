@@ -24,11 +24,15 @@ class Radar {
     //Get all rings in the radar. This is done by first getting the ring property from all blips,
     //and then filtering just the unique values
     get rings() {
-        return this.blips.map(function (blip) {
-            return blip.ring;
-        }).filter(function (value, index, self) {
-            return self.indexOf(value) === index;
-        });
+        return _(this.blips)
+            .map(function (blip) {
+                return blip.ring;
+            })
+            .uniqBy("name")
+            .sortBy(function (ring) {
+                return ring.order;
+            })
+            .value();
     }
 
     //Calculate the angle each sector should have (in radians), e.g. if 4 sectors
