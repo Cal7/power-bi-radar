@@ -27,6 +27,9 @@
 module powerbi.extensibility.visual {
     "use strict";
 
+    //Hacky method needed because the way tinycolor exports itself does not play well with iframes...
+    let tinycolor = (<any>window).tinycolor;
+
     export class Visual implements IVisual {
         private updateCount: number;
         private settings: VisualSettings;
