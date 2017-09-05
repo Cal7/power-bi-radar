@@ -561,7 +561,7 @@ module powerbi.extensibility.visual {
                             properties: {
                                 fill: {
                                     solid: {
-                                        color: sector.colour
+                                        color: (<any>sector.colour).toHslString()
                                     }
                                 }
                             },
