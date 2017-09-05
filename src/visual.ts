@@ -104,9 +104,9 @@ module powerbi.extensibility.visual {
                     if ("objects" in dataView.metadata
                         && sectors[sectorName].id in dataView.metadata.objects.colourSelector.$instances
                     ) {
-                        sectors[sectorName].colour = dataView.metadata.objects.colourSelector.$instances[sectors[sectorName].id].fill.solid.color;
+                        sectors[sectorName].colour = tinycolor(dataView.metadata.objects.colourSelector.$instances[sectors[sectorName].id].fill.solid.color);
                     } else {
-                        sectors[sectorName].colour = colourGenerator.getColour();
+                        sectors[sectorName].colour = tinycolor(colourGenerator.getColour());
                     }
                 }
                 sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], sectors[sectorName], isNew, description));
@@ -356,7 +356,7 @@ module powerbi.extensibility.visual {
                         .attr("x", bBox.x - (bBox.width * 0.05))
                         .attr("y", bBox.y - (bBox.height * 0.2))
                         .attr("rx", self.getViewBoxSize() / 50)
-                        .attr("fill", blip.sector.colour)
+                        .attr("fill", (<any>blip.sector.colour).toHslString())
                         .attr("filter", "url(#shadow)");
                 })
                 .on("focusout", function () {
@@ -366,7 +366,7 @@ module powerbi.extensibility.visual {
                 .attr("cx", absoluteCoordinates.x)
                 .attr("cy", absoluteCoordinates.y)
                 .attr("r", this.calculateBlipRadius())
-                .attr("fill", blip.sector.colour)
+                .attr("fill", (<any>blip.sector.colour).toHslString())
                 .attr("filter", "url(#shadow)");
         }
 
@@ -423,7 +423,7 @@ module powerbi.extensibility.visual {
                 mainDiv.append("button")
                     .text(sector.name)
                     .style({
-                        background: sector.colour
+                        background: (<any>sector).colour.toHslString()
                     })
                     .on("click", function () {
                         let ul = d3.select(this.parentNode).select("ul");

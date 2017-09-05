@@ -29,11 +29,11 @@ class Sector {
         this._endAngle = angle;
     }
 
-    private _colour: string;
+    private _colour: tinycolor;
     get colour() {
         return this._colour;
     }
-    set colour(colour: string) {
+    set colour(colour: tinycolor) {
         this._colour = colour;
     }
 
@@ -47,7 +47,6 @@ class Sector {
 
     constructor(name: string) {
         this.name = name;
-        this.colour = "#000000";
         this._blips = [];
     }
 }
