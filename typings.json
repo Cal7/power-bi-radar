@@ -1,0 +1,5 @@
+{
+  "globalDependencies": {
+    "tinycolor2": "registry:dt/tinycolor2#1.1.1+20161117213728"
+  }
+}
