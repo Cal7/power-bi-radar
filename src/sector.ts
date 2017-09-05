@@ -44,6 +44,12 @@ class Sector {
     public addBlip(blip: Blip) {
         this.blips.push(blip);
     }
+    //Reorders this sector's blips by their ring, i.e. inner rings come first
+    public sortBlips() {
+        this._blips = _.sortBy(this.blips, function (blip) {
+            return blip.ring.order;
+        });
+    }
 
     constructor(name: string) {
         this.name = name;

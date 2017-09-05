@@ -81,12 +81,6 @@ module powerbi.extensibility.visual {
             let ringIndex = columnMap.indexOf("ring");
             let isNewIndex = columnMap.indexOf("isNew");
 
-            //Sort the rows by ring, using ringMap to determine how the rings should be compared.
-            //i.e. places all accelerate rings first, then progress, etc.
-            table.rows = _.sortBy(table.rows, function (o) {
-                return ringMap[o[ringIndex]].order;
-            });
-
             let sectors = {};
             let colourGenerator = new ColourGenerator();
             table.rows.forEach(function (v, i) {
@@ -113,6 +107,7 @@ module powerbi.extensibility.visual {
             });
 
             for (let index in sectors) {
+                sectors[index].sortBlips();
                 radar.addSector(sectors[index]);
             }
 
