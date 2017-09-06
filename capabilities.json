@@ -77,5 +77,15 @@
         }
       }
     }
+  },
+  "sorting": {
+    "implicit": {
+      "clauses": [
+        {
+          "role": "ring",
+          "direction": 1
+        }
+      ]
+    }
   }
 }
