@@ -217,7 +217,7 @@ module powerbi.extensibility.visual {
 
                 sectorGroup.append("path")
                     .attr("d", <any>arc)
-                    .style("fill", ring.colour.toHex())
+                    .style("fill", ring.colour.toHslString())
                     .attr("transform", "translate(" + self.calculateCenter().x + ", " + self.calculateCenter().y + ")");
             });
         }
