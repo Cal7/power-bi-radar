@@ -15,3 +15,6 @@ When a visual is ready, it may be packaged for use in Power BI Desktop. Run `pbi
 The visual uses three external JavaScript libraries; [d3](https://d3js.org/) to ease DOM manipulation, [lodash](https://lodash.com/) to provide common utilities like removing duplicates from an array, and [TinyColor](https://github.com/bgrins/TinyColor) for common colour manipulations (such as converting hex codes to HSL, darkening a colour, etc.)
 
 External libraries get defined in tsconfig.json by adding their file locations to the "files" array. It is recommended to also add the relevant typings files.
+
+# The radar "hierarchy"
+There are four main classes involved in representing a radar as a whole. The overall class is a Radar. This has a property called sectors, which is an array of Sector instances. In each Sector instance is an array of Blip instances. Each Blip then has a Ring.
