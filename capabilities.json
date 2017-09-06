@@ -76,17 +76,6 @@
           }
         }
       }
-    },
-    "ringOrderer": {
-      "displayName": "Ring orders",
-      "properties": {
-        "order": {
-          "displayName": "Order",
-          "type": {
-            "numeric": true
-          }
-        }
-      }
     }
   }
 }
