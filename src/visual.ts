@@ -487,7 +487,13 @@ module powerbi.extensibility.visual {
 
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            this.radar = this.transformData(options.dataViews[0]);
+            //We only need to create the radar again if there has been a change in data, not if it's e.g. being resized.
+            //As VisualUpdateType is an enum containing powers of two, and options.type is a sum of all relevant enums,
+            //a non-zero bitwise AND indicates that the given VisualUpdateType is "present" in options.type's sum
+            if ((VisualUpdateType.Data & options.type) !== 0) {
+                this.radar = this.transformData(options.dataViews[0]);
+                this.setBlipCoordinates();
+            }
             console.log(this.radar);
 
             //"Clear" the previously drawn SVG
@@ -524,7 +530,6 @@ module powerbi.extensibility.visual {
 
             this.svg.append("g").attr("id", "blips");
             this.svg.append("g").attr("id", "blip-text-container");
-            this.setBlipCoordinates();
             this.plotBlips();
             
             this.plotLeftSidebar();
