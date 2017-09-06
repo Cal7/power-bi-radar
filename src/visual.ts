@@ -84,7 +84,7 @@ module powerbi.extensibility.visual {
                 let isNew = v[isNewIndex];
 
                 if (!ringMap[ringName]) {
-                    ringMap[ringName] = new Ring(ringName, Object.keys(ringMap).length + 1, tinycolor("#" + ringColour.toHex())); //We cannot just pass in ringColour because the subsequent call to ringColour.darken() modified the object rather than returning a new one
+                    ringMap[ringName] = new Ring(ringName, Object.keys(ringMap).length + 1, tinycolor(ringColour.toHex())); //We cannot just pass in ringColour because the subsequent call to ringColour.darken() modified the object rather than returning a new one
                     ringColour.darken(15);
                 }
 
