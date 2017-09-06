@@ -17,15 +17,15 @@ class Ring {
         this._order = order;
     }
 
-    private _colour: string;
+    private _colour: tinycolor;
     get colour() {
         return this._colour;
     }
-    set colour(colour: string) {
+    set colour(colour: tinycolor) {
         this._colour = colour;
     }
 
-    constructor(name: string, order: number, colour: string) {
+    constructor(name: string, order: number, colour: tinycolor) {
         this.name = name;
         this.order = order;
         this.colour = colour;

@@ -62,15 +62,6 @@ module powerbi.extensibility.visual {
             let table = dataView.table;
             let radar = new Radar();
 
-            //ringMap will hold all the rings, indexed by their name
-            //Maybe at a later date these will be defined in the data instead of hardcoded
-            let ringMap = {
-                Accelerate: new Ring("Accelerate", 1, "#C7C7C7"),
-                Progress: new Ring("Progress", 2, "#A3A3A3"),
-                Monitor: new Ring("Monitor", 3, "#7A7A7A"),
-                Pause: new Ring("Pause", 4, "#525252")
-            };
-
             //Because the order of the columns is not guaranteed to remain consistent, we need to determine the indices of all the fields before we can fetch their values
             let columnMap = table.columns.map(function (column) {
                 return Object.keys(column.roles)[0];
@@ -82,6 +73,8 @@ module powerbi.extensibility.visual {
             let isNewIndex = columnMap.indexOf("isNew");
 
             let sectors = {};
+            let ringMap = {};
+            let ringColour = tinycolor("lightgray");
             let colourGenerator = new ColourGenerator();
             table.rows.forEach(function (v, i) {
                 let name = v[nameIndex];
@@ -89,6 +82,11 @@ module powerbi.extensibility.visual {
                 let sectorName = v[sectorIndex];
                 let ringName = v[ringIndex];
                 let isNew = v[isNewIndex];
+
+                if (!ringMap[ringName]) {
+                    ringMap[ringName] = new Ring(ringName, Object.keys(ringMap).length + 1, tinycolor("#" + ringColour.toHex())); //We cannot just pass in ringColour because the subsequent call to ringColour.darken() modified the object rather than returning a new one
+                    ringColour.darken(15);
+                }
 
                 if (!sectors[sectorName]) {
                     sectors[sectorName] = new Sector(sectorName);
@@ -219,7 +217,7 @@ module powerbi.extensibility.visual {
 
                 sectorGroup.append("path")
                     .attr("d", <any>arc)
-                    .style("fill", ring.colour)
+                    .style("fill", ring.colour.toHex())
                     .attr("transform", "translate(" + self.calculateCenter().x + ", " + self.calculateCenter().y + ")");
             });
         }
