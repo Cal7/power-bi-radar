@@ -329,6 +329,7 @@ module powerbi.extensibility.visual {
             let blipGroup = this.svg.select("#blips").append("g")
                 .classed("blip", true)
                 .classed("blip-" + blip.id, true)
+                .attr("tabindex", 0)
                 .on("focus", function () {
                     self.collapseSidebarLists();
 
