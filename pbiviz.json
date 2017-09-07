@@ -5,8 +5,8 @@
     "guid": "radarCFE3A42CE23743BD8E313C30A2483BCA",
     "visualClassName": "Visual",
     "version": "1.0.0",
-    "description": "",
-    "supportUrl": "",
+    "description": "A radar visual inspired by https://www.thoughtworks.com/radar. Plot points on a radar, grouped by category and by status.",
+    "supportUrl": "https://github.com/Cal7/power-bi-radar/issues",
     "gitHubUrl": "https://github.com/Cal7/power-bi-radar"
   },
   "apiVersion": "1.7.0",
@@ -15,7 +15,7 @@
     "email": "application.support.team@eduserv.org.uk"
   },
   "assets": {
-    "icon": "assets/icon.png"
+    "icon": "assets/icon.jpg"
   },
   "externalJS": [
     "node_modules/powerbi-visuals-utils-dataviewutils/lib/index.js",
