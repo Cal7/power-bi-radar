@@ -556,7 +556,7 @@ module powerbi.extensibility.visual {
                 case "colourSelector":
                     this.radar.sectors.forEach(function (sector) {
                         objectEnumeration.push({
-                            objectName: options.objectName,
+                            objectName: "colourSelector",
                             displayName: sector.name,
                             properties: {
                                 fill: {
@@ -571,7 +571,7 @@ module powerbi.extensibility.visual {
                     break;
                 case "blips":
                     objectEnumeration.push({
-                        objectName: options.objectName,
+                        objectName: "blips",
                         displayName: "Size",
                         properties: {
                             "size": this.settings.blips.size
