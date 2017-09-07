@@ -76,6 +76,17 @@
           }
         }
       }
+    },
+    "blips": {
+      "displayName": "Blips",
+      "properties": {
+        "size": {
+          "displayName": "Size (%)",
+          "type": {
+            "numeric": true
+          }
+        }
+      }
     }
   },
   "sorting": {

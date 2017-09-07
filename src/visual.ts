@@ -94,6 +94,7 @@ module powerbi.extensibility.visual {
                     //Check if a colour for this sector has been defined via the "Format" pane
                     //If so, set the colour, else generate a random one
                     if ("objects" in dataView.metadata
+                        && "colourSelector" in dataView.metadata.objects
                         && sectors[sectorName].id in dataView.metadata.objects.colourSelector.$instances
                     ) {
                         sectors[sectorName].colour = tinycolor(dataView.metadata.objects.colourSelector.$instances[sectors[sectorName].id].fill.solid.color);
@@ -397,7 +398,7 @@ module powerbi.extensibility.visual {
          * Calculates the radius that each blip should have
          */
         private calculateBlipRadius() {
-            return this.getViewBoxSize() / 50;
+            return (this.settings.blips.size / 100) * this.getViewBoxSize() / 50;
         }
 
         /**
@@ -566,6 +567,16 @@ module powerbi.extensibility.visual {
                             },
                             selector: sector
                         });
+                    });
+                    break;
+                case "blips":
+                    objectEnumeration.push({
+                        objectName: options.objectName,
+                        displayName: "Size",
+                        properties: {
+                            "size": this.settings.blips.size
+                        },
+                        selector: null
                     });
                     break;
             }
