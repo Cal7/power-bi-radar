@@ -15,7 +15,7 @@
     "email": "application.support.team@eduserv.org.uk"
   },
   "assets": {
-    "icon": "assets/icon.jpg"
+    "icon": "assets/scaled-icon.png"
   },
   "externalJS": [
     "node_modules/powerbi-visuals-utils-dataviewutils/lib/index.js",
