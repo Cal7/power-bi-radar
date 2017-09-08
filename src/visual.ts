@@ -27,7 +27,7 @@
 module powerbi.extensibility.visual {
     "use strict";
 
-    //Hacky method needed because the way tinycolor exports itself does not play well with iframes...
+    // Hacky method needed because the way tinycolor exports itself does not play well with iframes...
     let tinycolor = (<any>window).tinycolor;
 
     export class Visual implements IVisual {
@@ -41,7 +41,7 @@ module powerbi.extensibility.visual {
 
         constructor(options: VisualConstructorOptions) {
             this.target = d3.select(options.element).append("div")
-                .attr("id", "target"); //We need to create our own target element as the provided one cannot be selected via CSS
+                .attr("id", "target"); // We need to create our own target element as the provided one cannot be selected via CSS
             this.leftSidebar = this.target.append("section")
                 .attr("id", "left-sidebar");
             this.svg = this.target.append("section")
@@ -61,7 +61,7 @@ module powerbi.extensibility.visual {
             let self = this;
             let radar = new Radar();
 
-            //Because the order of the columns is not guaranteed to remain consistent, we need to determine the indices of all the fields before we can fetch their values
+            // Because the order of the columns is not guaranteed to remain consistent, we need to determine the indices of all the fields before we can fetch their values
             let columnMap = dataView.table.columns.map(function (column) {
                 return Object.keys(column.roles)[0];
             });
@@ -72,7 +72,7 @@ module powerbi.extensibility.visual {
 
             let sectors = {};
             let rings = {};
-            let currentRingColour = tinycolor("lightgray"); //As each ring is added, this will get darker
+            let currentRingColour = tinycolor("lightgray"); // As each ring is added, this will get darker
             let colourGenerator = new ColourGenerator();
             dataView.table.rows.forEach(function (row) {
                 let name = row[nameIndex];
@@ -81,15 +81,15 @@ module powerbi.extensibility.visual {
                 let ringName = row[ringIndex];
 
                 if (!rings[ringName]) {
-                    rings[ringName] = new Ring(ringName, _.size(rings) + 1, tinycolor(currentRingColour.toHex())); //We cannot just pass in currentRingColour because the subsequent call to currentRingColour.darken() modifies the instance rather than returning a new one
+                    rings[ringName] = new Ring(ringName, _.size(rings) + 1, tinycolor(currentRingColour.toHex())); // We cannot just pass in currentRingColour because the subsequent call to currentRingColour.darken() modifies the instance rather than returning a new one
                     currentRingColour.darken(15);
                 }
 
                 if (!sectors[sectorName]) {
                     sectors[sectorName] = new Sector(sectorName);
 
-                    //Check if a colour for this sector has been defined via the "Format" pane
-                    //If so, set the colour, else generate a random one
+                    // Check if a colour for this sector has been defined via the "Format" pane
+                    // If so, set the colour, else generate a random one
                     if ("objects" in dataView.metadata
                         && "colourSelector" in dataView.metadata.objects
                         && sectors[sectorName].id in dataView.metadata.objects.colourSelector.$instances
@@ -145,7 +145,7 @@ module powerbi.extensibility.visual {
             let svgContainerPadding = parseInt(window.getComputedStyle(svgContainer).getPropertyValue("padding"));
 
             return Math.min(svgContainerDimensions.width, svgContainerDimensions.height) / 2
-                - (svgContainerPadding * 2); //Because the container has some padding, we need to slightly reduce the radius to make it fit within the container
+                - (svgContainerPadding * 2); // Because the container has some padding, we need to slightly reduce the radius to make it fit within the container
         }
 
         /**
@@ -157,9 +157,9 @@ module powerbi.extensibility.visual {
 
             return {
                 x: coordinates.x + center.x,
-                y: center.y - coordinates.y //Subtraction because SVG coordinates start at the top and go downwards
-            }
-        };
+                y: center.y - coordinates.y // Subtraction because SVG coordinates start at the top and go downwards
+            };
+        }
 
         /**
          * Converts an angle and distance to an x,y pair. Due to the way d3 plots arcs,
@@ -178,7 +178,7 @@ module powerbi.extensibility.visual {
          * @param ring
          */
         private calculateRingRadii(ring) {
-            let maxRadius = this.getViewBoxSize() / 2; //Represents the outer radius of the outer ring, i.e. half of the viewbox size. From this we can calculate other rings relatively
+            let maxRadius = this.getViewBoxSize() / 2; // Represents the outer radius of the outer ring, i.e. half of the viewbox size. From this we can calculate other rings relatively
             let ringCount = this.radar.rings.length;
 
             return {
@@ -214,7 +214,7 @@ module powerbi.extensibility.visual {
                 let arc = d3.svg.arc()
                     .innerRadius(radii.inner)
                     .outerRadius(radii.outer)
-                    .startAngle(sector.startAngle - 0.1) //By making the angle wider than necessary by 0.1 radians each direction, we fix the rendering issue where a thin line would sometimes occur at two sectors' intersection
+                    .startAngle(sector.startAngle - 0.1) // By making the angle wider than necessary by 0.1 radians each direction, we fix the rendering issue where a thin line would sometimes occur at two sectors' intersection
                     .endAngle(sector.endAngle + 0.1);
 
                 sectorGroup.append("path")
@@ -230,7 +230,7 @@ module powerbi.extensibility.visual {
         private setBlipCoordinates() {
             let self = this;
 
-            //We need to keep track of the coordinates of all blips so we can check whether a spot is available or not
+            // We need to keep track of the coordinates of all blips so we can check whether a spot is available or not
             let allCoordinates: { x: number, y: number }[] = [];
 
             this.radar.sectors.forEach(function (sector) {
@@ -248,26 +248,26 @@ module powerbi.extensibility.visual {
          * @param ring
          */
         private generateBlipCoordinates(sector: Sector, ring: Ring, allCoordinates: { x: number, y: number }[]) {
-            let minAngle = sector.startAngle + (Math.PI / 16); //The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
+            let minAngle = sector.startAngle + (Math.PI / 16); // The pi/16 ensures the point returned does not lay exactly on an axis where it would be covered up
             let maxAngle = sector.endAngle - (Math.PI / 16);
 
             let ringRadii = this.calculateRingRadii(ring);
-            let minDistance = ringRadii.inner * 1.1; //The multipliers ensure it cannot be plotted virtually on the ring boundaries
+            let minDistance = ringRadii.inner * 1.1; // The multipliers ensure it cannot be plotted virtually on the ring boundaries
             let maxDistance = ringRadii.outer * 0.9;
             if (minDistance === 0) {
-                minDistance = maxDistance / 2; //Ensure the point cannot be plotted at the very center, if it is in the central ring
+                minDistance = maxDistance / 2; // Ensure the point cannot be plotted at the very center, if it is in the central ring
             }
 
             let coordinates: { x: number, y: number };
-            let attemptCount = 0; //Keeps track of how many times we have generated coordinates and had to discard them for being too close to another blip
+            let attemptCount = 0; // Keeps track of how many times we have generated coordinates and had to discard them for being too close to another blip
             do {
-                let angle = Math.random() * (maxAngle - minAngle) + minAngle; //Random angle between minAngle and maxAngle
+                let angle = Math.random() * (maxAngle - minAngle) + minAngle; // Random angle between minAngle and maxAngle
                 let distance = Math.random() * (maxDistance - minDistance) + minDistance;
 
                 coordinates = this.polarToCartesian({ distance: distance, angle: angle });
 
                 attemptCount++;
-                if (attemptCount >= 10) { //If ten successive attempts fail, it is probable that there's simply nowhere to put it, so it should just be allowed to overlap another blip
+                if (attemptCount >= 10) { // If ten successive attempts fail, it is probable that there's simply nowhere to put it, so it should just be allowed to overlap another blip
                     break;
                 }
             } while (!this.coordinatesAreFree(coordinates, allCoordinates));
@@ -284,9 +284,9 @@ module powerbi.extensibility.visual {
 
             let blipRadius = this.calculateBlipRadius();
 
-            //Go through every existing blip's coordinates, and return whether they are all a sufficient distance away or not
+            // Go through every existing blip's coordinates, and return whether they are all a sufficient distance away or not
             return allCoordinates.every(function (currentCoordinates) {
-                return self.distanceBetweenPoints(coordinates, currentCoordinates) > blipRadius * 2.1; //2.1 rather than 2 so that two blips cannot be touching each other
+                return self.distanceBetweenPoints(coordinates, currentCoordinates) > blipRadius * 2.1; // 2.1 rather than 2 so that two blips cannot be touching each other
             });
         }
 
@@ -346,7 +346,7 @@ module powerbi.extensibility.visual {
                         .text(blip.name);
 
                     let bBox = (blipTextContainer.node() as any).getBBox();
-                    blipTextContainer.insert("rect", "#blip-text-container text") //The rectangle needs to appear before the text in the DOM, otherwise it will cover the text
+                    blipTextContainer.insert("rect", "#blip-text-container text") // The rectangle needs to appear before the text in the DOM, otherwise it will cover the text
                         .attr("width", bBox.width * 1.1)
                         .attr("height", bBox.height * 1.4)
                         .attr("x", bBox.x - (bBox.width * 0.05))
@@ -407,7 +407,7 @@ module powerbi.extensibility.visual {
          * @param sectors
          */
         private plotLeftSidebar() {
-            //Remove the existing sidebar
+            // Remove the existing sidebar
             this.leftSidebar.selectAll("*").remove();
 
             let self = this;
@@ -423,7 +423,7 @@ module powerbi.extensibility.visual {
                     })
                     .on("click", function () {
                         let ul = d3.select(this.parentNode).select("ul");
-                        //Determine whether the list should be shown (if currently hidden) or hidden (if currently visible)
+                        // Determine whether the list should be shown (if currently hidden) or hidden (if currently visible)
                         let newDisplay: "block" | "none";
                         if (ul.style("display") === "none") {
                             newDisplay = "block";
@@ -476,7 +476,7 @@ module powerbi.extensibility.visual {
             this.radar.rings.forEach(function (ring) {
                 ul.append("li")
                     .style("color", ring.colour)
-                    .append("span") //Actual text is inside a span so the li's bullet can be made larger independently
+                    .append("span") // Actual text is inside a span so the li's bullet can be made larger independently
                     .text(ring.name);
             });
         }
@@ -488,26 +488,26 @@ module powerbi.extensibility.visual {
 
             this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
 
-            //We only need to create the radar again if there has been a change in data, not if it's e.g. being resized.
-            //As VisualUpdateType is an enum containing powers of two, and options.type is a sum of all relevant enums,
-            //a non-zero bitwise AND indicates that the given VisualUpdateType is "present" in options.type's sum
+            /* We only need to create the radar again if there has been a change in data, not if it's e.g. being resized.
+               As VisualUpdateType is an enum containing powers of two, and options.type is a sum of all relevant enums,
+               a non-zero bitwise AND indicates that the given VisualUpdateType is "present" in options.type's sum */
             if ((VisualUpdateType.Data & options.type) !== 0) {
                 this.radar = this.transformData(options.dataViews[0]);
                 this.setBlipCoordinates();
             }
             console.log(this.radar);
 
-            //"Clear" the previously drawn SVG
+            // "Clear" the previously drawn SVG
             this.svg.selectAll("*").remove();
-            
+
             this.svg.attr({
                 width: this.calculateMaxRadius() * 2,
                 height: this.calculateMaxRadius() * 2
             });
 
-            //Define the shadow applied to blips and the blip titles
-            //The increased size and offset x and y is because the shadow would otherwise be "cropped"
-            //Offset should be a quarter of the dimensions
+            /* Define the shadow applied to blips and the blip titles
+               The increased size and offset x and y is because the shadow would otherwise be "cropped"
+               Offset should be a quarter of the dimensions */
             let filter = this.svg.append("filter")
                 .attr("id", "shadow")
                 .attr("x", "-50%")
@@ -532,7 +532,7 @@ module powerbi.extensibility.visual {
             this.svg.append("g").attr("id", "blips");
             this.svg.append("g").attr("id", "blip-text-container");
             this.plotBlips();
-            
+
             this.plotLeftSidebar();
             this.plotRightSidebar();
 
@@ -545,10 +545,10 @@ module powerbi.extensibility.visual {
             return VisualSettings.parse(dataView) as VisualSettings;
         }
 
-        /** 
-         * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the 
+        /**
+         * This function gets called for each of the objects defined in the capabilities files and allows you to select which of the
          * objects and properties you want to expose to the users in the property pane.
-         * 
+         *
          */
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
             let objectEnumeration = [];

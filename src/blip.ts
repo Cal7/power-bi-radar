@@ -10,7 +10,7 @@ class Blip {
     }
 
     get id() {
-        return this.name.replace(/\W/g, "").toLowerCase(); //Strip non-alphanumeric characters (then convert to lowercase)
+        return this.name.replace(/\W/g, "").toLowerCase(); // Strip non-alphanumeric characters (then convert to lowercase)
     }
 
     private _ring: Ring;

@@ -10,7 +10,7 @@ class Sector {
     }
 
     get id() {
-        return this.name.replace(/\W/g, "").toLowerCase(); //Strip non-alphanumeric characters (then convert to lowercase)
+        return this.name.replace(/\W/g, "").toLowerCase(); // Strip non-alphanumeric characters (then convert to lowercase)
     }
 
     private _startAngle: number;
@@ -44,7 +44,8 @@ class Sector {
     public addBlip(blip: Blip) {
         this.blips.push(blip);
     }
-    //Reorders this sector's blips by their ring, i.e. inner rings come first
+
+    // Reorders this sector's blips by their ring, i.e. inner rings come first
     public sortBlips() {
         this._blips = _.sortBy(this.blips, function (blip) {
             return blip.ring.order;
