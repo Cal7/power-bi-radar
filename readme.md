@@ -22,9 +22,14 @@ There are four main classes involved in representing a radar as a whole. The ove
 # Sharing the visual
 A report containing the visual may be shared by going to File>Publish to web.
 
-A common mistake when doing this is to still be using the "Developer visual", running from the local machine's server, rather than a packaged form of the visual. When this happens, users viewing the report will see an error about developer visuals not being enabled in their settings.
+A common mistake when doing this is to still be using the "Developer visual", running from the local machine's server, rather than a packaged form of the visual. When this happens, users viewing the report will see an error about developer visuals not being enabled in their settings. Instead, the visual should be packaged, embedded in a report in Power BI Desktop, and then the report uploaded to Power BI Service, where all users will be able to view it.
 
-Instead, the visual should be packaged, embedded in a report in Power BI Desktop, and then the report uploaded to Power BI Service, where all users will be able to view it.
+# Making a visual customisable
+This visual has two aspects that are able to be modified by the user; the colours of the sectors, and the size of each point on the radar. These are set via the report's "Format" pane when editing.
+
+Customisable features like this are controlled by what Power BI calls objects. Objects get initially defined in capabilities.json. Then the Format pane is populated by the enumerateObjectInstances method of the visual, which is a required, built-in method of any visual.
+
+In a given data view, objects are accessible via `dataView.metadata.objects`.
 
 # Miscellaneous info
 The tinycolor library seems to expose itself in an unusual way, different to most Node.js packages. Therefore, in order to have it accessible, the line `let tinycolor = (<any>window).tinycolor` is added to visual.ts. Instances must also be cast to `any` (e.g. `(<any>ring.color).toHex()`), else the TypeScript will fail to compile.
