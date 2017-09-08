@@ -136,13 +136,16 @@ module powerbi.extensibility.visual {
          */
         private calculateMaxRadius() {
             let svgContainer = this.target.select("#main").node() as HTMLElement;
+            let boundingClientRect = svgContainer.getBoundingClientRect();
+
             let svgContainerDimensions = {
-                width: svgContainer.getBoundingClientRect().width,
-                height: svgContainer.getBoundingClientRect().height
+                width: boundingClientRect.width,
+                height: boundingClientRect.height
             };
+            let svgContainerPadding = parseInt(window.getComputedStyle(svgContainer).getPropertyValue("padding"));
 
             return Math.min(svgContainerDimensions.width, svgContainerDimensions.height) / 2
-                - (parseInt(window.getComputedStyle(svgContainer).getPropertyValue("padding")) * 2); //We need to account for the container's padding by reducing the radar's radius
+                - (svgContainerPadding * 2); //Because the container has some padding, we need to slightly reduce the radius to make it fit within the container
         }
 
         /**
