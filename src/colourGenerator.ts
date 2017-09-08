@@ -19,6 +19,10 @@ class ColourGenerator {
 
         this.lastHue = h;
 
-        return "hsl(" + h + "," + s + "%," + l + "%)";
+        return (<any>window).tinycolor.fromRatio({
+            h: h,
+            s: s,
+            l: l
+        });
     }
 }

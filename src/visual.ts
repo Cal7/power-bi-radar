@@ -96,7 +96,7 @@ module powerbi.extensibility.visual {
                     ) {
                         sectors[sectorName].colour = tinycolor(dataView.metadata.objects.colourSelector.$instances[sectors[sectorName].id].fill.solid.color);
                     } else {
-                        sectors[sectorName].colour = tinycolor(colourGenerator.getColour());
+                        sectors[sectorName].colour = colourGenerator.getColour();
                     }
                 }
                 sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], sectors[sectorName], description));
