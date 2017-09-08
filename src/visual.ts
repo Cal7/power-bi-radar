@@ -157,7 +157,7 @@ module powerbi.extensibility.visual {
 
             return {
                 x: coordinates.x + center.x,
-                y: center.y - coordinates.y
+                y: center.y - coordinates.y //Subtraction because SVG coordinates start at the top and go downwards
             }
         };
 
