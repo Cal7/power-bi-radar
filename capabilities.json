@@ -19,11 +19,6 @@
       "displayName": "Ring",
       "name": "ring",
       "kind": "Grouping"
-    },
-    {
-      "displayName": "Is new?",
-      "name": "isNew",
-      "kind": "Grouping"
     }
   ],
   "dataViewMappings": [
@@ -49,11 +44,6 @@
             {
               "for": {
                 "in": "ring"
-              }
-            },
-            {
-              "for": {
-                "in": "isNew"
               }
             }
           ]

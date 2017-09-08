@@ -70,7 +70,6 @@ module powerbi.extensibility.visual {
             let descriptionIndex = columnMap.indexOf("description");
             let sectorIndex = columnMap.indexOf("sector");
             let ringIndex = columnMap.indexOf("ring");
-            let isNewIndex = columnMap.indexOf("isNew");
 
             let sectors = {};
             let ringMap = {};
@@ -81,7 +80,6 @@ module powerbi.extensibility.visual {
                 let description = v[descriptionIndex];
                 let sectorName = v[sectorIndex];
                 let ringName = v[ringIndex];
-                let isNew = v[isNewIndex];
 
                 if (!ringMap[ringName]) {
                     ringMap[ringName] = new Ring(ringName, Object.keys(ringMap).length + 1, tinycolor(ringColour.toHex())); //We cannot just pass in ringColour because the subsequent call to ringColour.darken() modified the object rather than returning a new one
@@ -102,7 +100,7 @@ module powerbi.extensibility.visual {
                         sectors[sectorName].colour = tinycolor(colourGenerator.getColour());
                     }
                 }
-                sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], sectors[sectorName], isNew, description));
+                sectors[sectorName].addBlip(new Blip(name, ringMap[ringName], sectors[sectorName], description));
             });
 
             for (let index in sectors) {
