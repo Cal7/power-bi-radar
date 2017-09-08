@@ -494,7 +494,8 @@ module powerbi.extensibility.visual {
 
             /* We only need to create the radar again if there has been a change in data, not if it's e.g. being resized.
                As VisualUpdateType is an enum containing powers of two, and options.type is a sum of all relevant enums,
-               a non-zero bitwise AND indicates that the given VisualUpdateType is "present" in options.type's sum */
+               a non-zero bitwise AND indicates that the given VisualUpdateType is "present" in options.type's sum.
+               e.g. 18 & 2 != 0, because 18 = 16 + 2, but 20 & 2 = 0, because 20 = 16 + 4 which does not contain a 2 */
             if ((VisualUpdateType.Data & options.type) !== 0) {
                 this.radar = this.transformData(options.dataViews[0]);
                 this.setBlipCoordinates();
