@@ -30,10 +30,15 @@ module powerbi.extensibility.visual {
 
     export class VisualSettings extends DataViewObjectsParser {
         public blips: blipSettings = new blipSettings();
+        public colours: colourSettings = new colourSettings();
       }
 
     export class blipSettings {
         public size: number = 100;
-     }
+    }
+
+    export class colourSettings {
+        public leftSidebarText: string = "#333333";
+    }
 
 }

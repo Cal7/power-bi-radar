@@ -438,6 +438,7 @@ module powerbi.extensibility.visual {
 
                 let ul = mainDiv.append("ul")
                     .style({
+                        color: self.settings.colours.leftSidebarText,
                         display: "none"
                     });
                 sector.blips.forEach(function (blip) {
@@ -454,7 +455,10 @@ module powerbi.extensibility.visual {
             });
 
             self.leftSidebar.append("div")
-                .attr("id", "blip-description");
+                .attr("id", "blip-description")
+                .style({
+                    color: this.settings.colours.leftSidebarText
+                });
         }
 
         /**
@@ -576,6 +580,20 @@ module powerbi.extensibility.visual {
                         displayName: "Size",
                         properties: {
                             "size": this.settings.blips.size
+                        },
+                        selector: null
+                    });
+                    break;
+                case "colours":
+                    objectEnumeration.push({
+                        objectName: "colours",
+                        displayName: "Left sidebar text",
+                        properties: {
+                            leftSidebarText: {
+                                solid: {
+                                    color: this.settings.colours.leftSidebarText
+                                }
+                            }
                         },
                         selector: null
                     });

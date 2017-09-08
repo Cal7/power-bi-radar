@@ -77,6 +77,21 @@
           }
         }
       }
+    },
+    "colours": {
+      "displayName": "Colours",
+      "properties": {
+        "leftSidebarText": {
+          "displayName": "Left sidebar text",
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
     }
   },
   "sorting": {
