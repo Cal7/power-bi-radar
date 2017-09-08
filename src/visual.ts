@@ -74,11 +74,11 @@ module powerbi.extensibility.visual {
             let ringMap = {};
             let ringColour = tinycolor("lightgray");
             let colourGenerator = new ColourGenerator();
-            dataView.table.rows.forEach(function (v, i) {
-                let name = v[nameIndex];
-                let description = v[descriptionIndex];
-                let sectorName = v[sectorIndex];
-                let ringName = v[ringIndex];
+            dataView.table.rows.forEach(function (row) {
+                let name = row[nameIndex];
+                let description = row[descriptionIndex];
+                let sectorName = row[sectorIndex];
+                let ringName = row[ringIndex];
 
                 if (!ringMap[ringName]) {
                     ringMap[ringName] = new Ring(ringName, Object.keys(ringMap).length + 1, tinycolor(ringColour.toHex())); //We cannot just pass in ringColour because the subsequent call to ringColour.darken() modified the object rather than returning a new one
