@@ -162,7 +162,8 @@ module powerbi.extensibility.visual {
         };
 
         /**
-         * Converts an angle and distance to an x,y pair. Due to the way d3 plots arcs, the angle is taken clockwise from the positive y axis rather than the standard convention
+         * Converts an angle and distance to an x,y pair. Due to the way d3 plots arcs,
+           the angle is taken clockwise from the positive y axis rather than the standard convention
          * @param polar
          */
         private polarToCartesian(polar: { distance: number, angle: number }) {
