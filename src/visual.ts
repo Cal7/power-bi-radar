@@ -59,11 +59,10 @@ module powerbi.extensibility.visual {
          */
         private transformData(dataView) {
             let self = this;
-            let table = dataView.table;
             let radar = new Radar();
 
             //Because the order of the columns is not guaranteed to remain consistent, we need to determine the indices of all the fields before we can fetch their values
-            let columnMap = table.columns.map(function (column) {
+            let columnMap = dataView.table.columns.map(function (column) {
                 return Object.keys(column.roles)[0];
             });
             let nameIndex = columnMap.indexOf("name");
@@ -75,7 +74,7 @@ module powerbi.extensibility.visual {
             let ringMap = {};
             let ringColour = tinycolor("lightgray");
             let colourGenerator = new ColourGenerator();
-            table.rows.forEach(function (v, i) {
+            dataView.table.rows.forEach(function (v, i) {
                 let name = v[nameIndex];
                 let description = v[descriptionIndex];
                 let sectorName = v[sectorIndex];
