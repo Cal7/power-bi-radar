@@ -25,3 +25,6 @@ A report containing the visual may be shared by going to File>Publish to web.
 A common mistake when doing this is to still be using the "Developer visual", running from the local machine's server, rather than a packaged form of the visual. When this happens, users viewing the report will see an error about developer visuals not being enabled in their settings.
 
 Instead, the visual should be packaged, embedded in a report in Power BI Desktop, and then the report uploaded to Power BI Service, where all users will be able to view it.
+
+# Miscellaneous info
+The tinycolor library seems to expose itself in an unusual way, different to most Node.js packages. Therefore, in order to have it accessible, the line `let tinycolor = (<any>window).tinycolor` is added to visual.ts. Instances must also be cast to `any` (e.g. `(<any>ring.color).toHex()`), else the TypeScript will fail to compile.
