@@ -25,11 +25,13 @@ External libraries get defined in tsconfig.json by adding their file locations t
 There are four main classes involved in representing a radar as a whole. The overall class is a Radar. This has a property called sectors, which is an array of Sector instances. In each Sector instance is an array of Blip instances. Each Blip then has a Ring.
 
 # Making a visual customisable
-This visual has two aspects that are able to be modified by the user; the colours of the sectors, and the size of each point on the radar. These are set via the report's "Format" pane when editing.
+This visual has many aspects that are able to be modified by the user; the colours of the sectors, the size of each point on the radar, the background, the colour of the text, etc. These are set via the report's "Format" pane when editing (with the exception of the background which is a built-in option).
 
 Customisable features like this are controlled by what Power BI calls objects. Objects get initially defined in capabilities.json. Then the Format pane is populated by the enumerateObjectInstances method of the visual, which is a required, built-in method of any visual.
 
 In a given data view, objects are accessible via `dataView.metadata.objects`.
+
+For "static" data (data not bound to anything particular, e.g. colours being bound to a sector), the visual uses Power BI's built-in settings parser, with a call to `Visual.parseSettings`. This makes it easy to define default settings in `settings.ts` and reduces the amount of custom code needed.
 
 # Miscellaneous info
 The tinycolor library seems to expose itself in an unusual way, different to most Node.js packages. Therefore, in order to have it accessible, the line `let tinycolor = (<any>window).tinycolor` is added to visual.ts. Instances must also be cast to `any` (e.g. `(<any>ring.color).toHex()`), else the TypeScript will fail to compile.
