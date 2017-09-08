@@ -11,6 +11,11 @@ Custom visuals in development can only be viewed via [Power BI Service](https://
 # Using the visual in Power BI Desktop
 When a visual is ready, it may be packaged for use in Power BI Desktop. Run `pbiviz package`, which produces a `radar.pbiviz` file within the `dist` directory. From here, one can import the visual into PBI Desktop by clicking on the three dots in the Visualizations pane, and choosing "Import from file". It can now be used in the report like any standard visual.
 
+# Sharing the visual
+A report containing the visual may be shared by going to File>Publish to web.
+
+A common mistake when doing this is to still be using the "Developer visual", running from the local machine's server, rather than a packaged form of the visual. When this happens, users viewing the report will see an error about developer visuals not being enabled in their settings. Instead, the visual should be packaged, embedded in a report in Power BI Desktop, and then the report uploaded to Power BI Service, where all users will be able to view it.
+
 # External libraries
 The visual uses three external JavaScript libraries; [d3](https://d3js.org/) to ease DOM manipulation, [lodash](https://lodash.com/) to provide common utilities like removing duplicates from an array, and [TinyColor](https://github.com/bgrins/TinyColor) for common colour manipulations (such as converting hex codes to HSL, darkening a colour, etc.)
 
@@ -18,11 +23,6 @@ External libraries get defined in tsconfig.json by adding their file locations t
 
 # The radar "hierarchy"
 There are four main classes involved in representing a radar as a whole. The overall class is a Radar. This has a property called sectors, which is an array of Sector instances. In each Sector instance is an array of Blip instances. Each Blip then has a Ring.
-
-# Sharing the visual
-A report containing the visual may be shared by going to File>Publish to web.
-
-A common mistake when doing this is to still be using the "Developer visual", running from the local machine's server, rather than a packaged form of the visual. When this happens, users viewing the report will see an error about developer visuals not being enabled in their settings. Instead, the visual should be packaged, embedded in a report in Power BI Desktop, and then the report uploaded to Power BI Service, where all users will be able to view it.
 
 # Making a visual customisable
 This visual has two aspects that are able to be modified by the user; the colours of the sectors, and the size of each point on the radar. These are set via the report's "Format" pane when editing.
